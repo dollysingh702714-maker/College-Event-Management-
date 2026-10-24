@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Module | College Event Management</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f2f5fb;
+    color: #26324b;
+}
+
+nav {
+    background: #202b46;
+    padding: 20px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #8db4ff;
+}
+
+header {
+    padding: 28px;
+}
+
+header p {
+    color: #687386;
+    margin-top: 8px;
+}
+
+main {
+    padding: 0 28px 30px;
+}
+
+.panel {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 12px #0000000b;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+h3 {
+    margin-bottom: 12px;
+}
+
+.auth-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.auth-card {
+    border: 1px solid #e0e6f0;
+    padding: 22px;
+    border-radius: 10px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #d4dce9;
+    border-radius: 6px;
+}
+
+button {
+    padding: 11px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #4169e1;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #304fba;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: #f7f9ff;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #5278e8;
+}
+
+.card p {
+    font-size: 27px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #4169e1;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.events {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.event-card {
+    border: 1px solid #e0e6f0;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.event-card p {
+    color: #626d80;
+    margin: 12px 0;
+    line-height: 1.5;
+}
+
+.category {
+    display: inline-block;
+    background: #e2ebff;
+    color: #2857bd;
+    padding: 6px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    margin-bottom: 13px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 550px;
+}
+
+th, td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #e8ebf1;
+}
+
+th {
+    background: #f1f4fa;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.registered {
+    background: #e2efff;
+    color: #1766c2;
+}
+
+.pending {
+    background: #fff0c9;
+    color: #946200;
+}
+
+.approved {
+    background: #dcf7e7;
+    color: #167444;
+}
+
+.completed {
+    background: #e9e9ed;
+    color: #555568;
+}
+
+footer {
+    text-align: center;
+    color: #687386;
+    padding: 20px;
+}
+
+@media (max-width: 800px) {
+    .cards, .events {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 550px) {
+    .auth-grid, .cards, .events, .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    main {
+        padding: 0 14px 20px;
+    }
+
+    header {
+        padding: 22px 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="admin-dashboard.html">Admin Dashboard</a>
+    <a href="event-management.html">Event Management</a>
+    <a href="student-management.html">Student Module</a>
+</nav>
+
+<header>
+    <h1>Student Dashboard</h1>
+    <p>College Event Management System</p>
+</header>
+
+<main>
+
+<!-- Student Registration and Login -->
+<section class="panel">
+    <h2>Student Registration & Login</h2>
+
+    <div class="auth-grid">
+
+        <div class="auth-card">
+            <h3>Create Student Account</h3>
+
+            <form>
+                <label for="regname">Full Name</label>
+                <input id="regname" type="text"
+                       placeholder="Enter your name" required>
+
+                <label for="regemail">Email Address</label>
+                <input id="regemail" type="email"
+                       placeholder="Enter email" required>
+
+                <label for="regroll">Roll Number</label>
+                <input id="regroll" type="text"
+                       placeholder="Enter roll number" required>
+
+                <label for="regpassword">Password</label>
+                <input id="regpassword" type="password"
+                       placeholder="Create password" required>
+
+                <button type="button">Register</button>
+            </form>
+        </div>
+
+        <div class="auth-card">
+            <h3>Student Login</h3>
+
+            <form>
+                <label for="loginemail">Email Address</label>
+                <input id="loginemail" type="email"
+                       placeholder="Enter email" required>
+
+                <label for="loginpassword">Password</label>
+                <input id="loginpassword" type="password"
+                       placeholder="Enter password" required>
+
+                <button type="button">Login</button>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<!-- Student Overview -->
+<section class="panel">
+    <h2>My Overview</h2>
+
+    <div class="cards">
+        <div class="card">
+            <h3>Available Events</h3>
+            <p>08</p>
+        </div>
+
+        <div class="card">
+            <h3>My Registrations</h3>
+            <p>03</p>
+        </div>
+
+        <div class="card">
+            <h3>Approved Registrations</h3>
+            <p>02</p>
+        </div>
+    </div>
+</section>
+
+<!-- Profile Management -->
+<section class="panel">
+    <h2>My Profile</h2>
+
+    <form>
+        <div class="profile-grid">
+            <div>
+                <label for="profileName">Full Name</label>
+                <input id="profileName" type="text"
+                       value="Rahul Sharma">
+            </div>
+
+            <div>
+                <label for="profileEmail">Email</label>
+                <input id="profileEmail" type="email"
+                       value="rahul@example.com">
+            </div>
+
+            <div>
+                <label for="profileRoll">Roll Number</label>
+                <input id="profileRoll" type="text"
+                       value="CS101">
+            </div>
+
+            <div>
+                <label for="profileCourse">Course</label>
+                <input id="profileCourse" type="text"
+                       value="BCA">
+            </div>
+
+            <div>
+                <label for="profilePhone">Phone Number</label>
+                <input id="profilePhone" type="tel"
+                       placeholder="Enter phone number">
+            </div>
+
+            <div>
+                <label for="profileYear">Year</label>
+                <select id="profileYear">
+                    <option>First Year</option>
+                    <option>Second Year</option>
+                    <option selected>Third Year</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="button">Update Profile</button>
+    </form>
+</section>
+
+<!-- Available Events -->
+<section class="panel">
+    <h2>Available Events</h2>
+
+    <div class="events">
+
+        <article class="event-card">
+            <span class="category">College Festival</span>
+            <h3>Diwali Mela</h3>
+            <p><b>Date:</b> 25 October 2026</p>
+            <p><b>Venue:</b> College Ground</p>
+            <p>Enjoy cultural performances, festive stalls and activities.</p>
+            <button type="button">Register Now</button>
+        </article>
+
+        <article class="event-card">
+            <span class="category">Technical</span>
+            <h3>Coding Competition</h3>
+            <p><b>Date:</b> 28 October 2026</p>
+            <p><b>Venue:</b> Computer Lab</p>
+            <p>Show your programming and problem-solving skills.</p>
+            <button type="button">Register Now</button>
+        </article>
+
+        <article class="event-card">
+            <span class="category">Cultural</span>
+            <h3>Cultural Fest</h3>
+            <p><b>Date:</b> 30 October 2026</p>
+            <p><b>Venue:</b> Main Auditorium</p>
+            <p>Participate in music, dance and cultural activities.</p>
+            <button type="button">Register Now</button>
+        </article>
+
+    </div>
+</section>
+
+<!-- My Registrations -->
+<section class="panel">
+    <h2>My Event Registrations</h2>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Registration ID</th>
+                    <th>Event Name</th>
+                    <th>Registration Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>R001</td>
+                    <td>Diwali Mela</td>
+                    <td>20 October 2026</td>
+                    <td><span class="status approved">Approved</span></td>
+                </tr>
+
+                <tr>
+                    <td>R002</td>
+                    <td>Coding Competition</td>
+                    <td>21 October 2026</td>
+                    <td><span class="status pending">Pending</span></td>
+                </tr>
+
+                <tr>
+                    <td>R003</td>
+                    <td>Cultural Fest</td>
+                    <td>22 October 2026</td>
+                    <td><span class="status registered">Registered</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    © 2026 College Event Management System
+</footer>
+
+</body>
+</html>

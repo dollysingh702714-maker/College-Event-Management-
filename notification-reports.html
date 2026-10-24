@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notification & Reports Module</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f4f8;
+    color: #252b42;
+}
+
+header {
+    background: #263b80;
+    color: white;
+    text-align: center;
+    padding: 22px;
+}
+
+nav {
+    background: #192957;
+    padding: 14px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 8px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 25px auto;
+    padding: 15px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    margin-bottom: 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0001;
+    overflow-x: auto;
+}
+
+h2 { color: #263b80; }
+
+label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 11px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background: #263b80;
+    color: white;
+    padding: 10px 16px;
+    margin-top: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover { background: #4059b2; }
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.stat-box {
+    background: #e6eaff;
+    padding: 22px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.stat-box h3 { margin-top: 0; }
+
+.stat-number {
+    font-size: 30px;
+    color: #263b80;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 550px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th { background: #e6eaff; }
+
+.notice {
+    background: #eef2ff;
+    border-left: 5px solid #263b80;
+    padding: 15px;
+    margin: 12px 0;
+    border-radius: 5px;
+}
+
+footer {
+    background: #192957;
+    color: white;
+    text-align: center;
+    padding: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Notification & Reports</h1>
+    <p>Event Announcements, Updates and Statistics</p>
+</header>
+
+<nav>
+    <a href="admin-dashboard.html">Admin</a>
+    <a href="event-management.html">Events</a>
+    <a href="student-management.html">Students</a>
+    <a href="organizer-module.html">Organizer</a>
+    <a href="competition-result.html">Results</a>
+    <a href="feedback-module.html">Feedback</a>
+</nav>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Event Statistics</h2>
+
+        <div class="stats">
+            <div class="stat-box">
+                <h3>Total Events</h3>
+                <div class="stat-number" id="totalEvents">12</div>
+            </div>
+
+            <div class="stat-box">
+                <h3>Total Registrations</h3>
+                <div class="stat-number" id="totalRegistrations">150</div>
+            </div>
+
+            <div class="stat-box">
+                <h3>Upcoming Events</h3>
+                <div class="stat-number" id="upcomingEvents">5</div>
+            </div>
+
+            <div class="stat-box">
+                <h3>Present Participants</h3>
+                <div class="stat-number" id="presentParticipants">85</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Publish Event Announcement</h2>
+
+        <form id="announcementForm">
+            <label>Announcement Title</label>
+            <input type="text" id="announcementTitle"
+                   placeholder="Enter announcement title" required>
+
+            <label>Event Name</label>
+            <input type="text" id="announcementEvent"
+                   placeholder="Enter event name" required>
+
+            <label>Announcement Details</label>
+            <textarea id="announcementDetails" rows="3"
+                      placeholder="Write announcement details"
+                      required></textarea>
+
+            <button type="submit">Publish Announcement</button>
+        </form>
+
+        <h3>Event Announcements</h3>
+        <div id="announcementList">
+            <div class="notice">
+                <strong>Diwali Cultural Night</strong>
+                <p>Join us for cultural performances on 5 November 2026.</p>
+            </div>
+
+            <div class="notice">
+                <strong>Technical Workshop</strong>
+                <p>Registrations are open for the technical workshop.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Registration Status Updates</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Event</th>
+                    <th>Registration Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="registrationTable">
+                <tr>
+                    <td>ST101</td>
+                    <td>Rahul Sharma</td>
+                    <td>Programming Quiz</td>
+                    <td>
+                        <select>
+                            <option>Confirmed</option>
+                            <option>Pending</option>
+                            <option>Rejected</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>ST102</td>
+                    <td>Priya Verma</td>
+                    <td>Technical Workshop</td>
+                    <td>
+                        <select>
+                            <option>Pending</option>
+                            <option>Confirmed</option>
+                            <option>Rejected</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button onclick="updateRegistrationReport()">
+            Update Registration Report
+        </button>
+        <p id="registrationMessage"></p>
+    </div>
+
+    <div class="card">
+        <h2>Participation & Attendance Report</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Registered Participants</th>
+                    <th>Present</th>
+                    <th>Absent</th>
+                </tr>
+            </thead>
+
+            <tbody id="attendanceTable">
+                <tr>
+                    <td>Diwali Cultural Night</td>
+                    <td>60</td>
+                    <td>45</td>
+                    <td>15</td>
+                </tr>
+
+                <tr>
+                    <td>Technical Workshop</td>
+                    <td>40</td>
+                    <td>25</td>
+                    <td>15</td>
+                </tr>
+
+                <tr>
+                    <td>Programming Quiz</td>
+                    <td>50</td>
+                    <td>15</td>
+                    <td>35</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button onclick="window.print()">Print Reports</button>
+    </div>
+
+</div>
+
+<footer>
+    <p>College Event Management System | Notification & Reports Module</p>
+</footer>
+
+<script>
+document.getElementById("announcementForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const title = document.getElementById("announcementTitle").value.trim();
+    const eventName = document.getElementById("announcementEvent").value.trim();
+    const details = document.getElementById("announcementDetails").value.trim();
+
+    const notice = document.createElement("div");
+    notice.className = "notice";
+
+    const heading = document.createElement("strong");
+    heading.textContent = title + " - " + eventName;
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = details;
+
+    notice.append(heading, paragraph);
+    document.getElementById("announcementList").prepend(notice);
+
+    this.reset();
+});
+
+function updateRegistrationReport() {
+    const rows = document.querySelectorAll("#registrationTable tr");
+    let confirmed = 0;
+    let pending = 0;
+    let rejected = 0;
+
+    rows.forEach(function(row) {
+        const status = row.querySelector("select").value;
+
+        if (status === "Confirmed") confirmed++;
+        else if (status === "Pending") pending++;
+        else if (status === "Rejected") rejected++;
+    });
+
+    document.getElementById("registrationMessage").textContent =
+        "Demo report: Confirmed: " + confirmed +
+        ", Pending: " + pending +
+        ", Rejected: " + rejected + ".";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organizer Module</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f4f8;
+    color: #252b42;
+}
+
+header {
+    background: #263b80;
+    color: white;
+    text-align: center;
+    padding: 22px;
+}
+
+nav {
+    background: #192957;
+    padding: 14px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 8px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 25px auto;
+    padding: 15px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0001;
+    overflow-x: auto;
+}
+
+h2 {
+    color: #263b80;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #e6eaff;
+}
+
+select, button {
+    padding: 9px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background: #263b80;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #4059b2;
+}
+
+footer {
+    background: #192957;
+    color: white;
+    text-align: center;
+    padding: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Organizer Dashboard</h1>
+<p>Manage Events, Participants and Attendance</p>   
+
+</header>
+
+<nav>
+    <a href="admin-dashboard.html">Admin</a>
+    <a href="event-management.html">Events</a>
+    <a href="student-management.html">Students</a>
+    <a href="stall-booking.html">Stalls</a>
+    <a href="competition-result.html">Competition & Results</a>
+</nav>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Assigned Events</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Event ID</th>
+                    <th>Event Name</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                    <th>Event Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="eventTable">
+                <tr>
+                    <td>EV101</td>
+                    <td>Diwali Cultural Night</td>
+                    <td>05-11-2026</td>
+                    <td>Main Auditorium</td>
+                    <td class="status">Upcoming</td>
+                    <td>
+                        <select class="eventStatus">
+                            <option>Upcoming</option>
+                            <option>Ongoing</option>
+                            <option>Completed</option>
+                            <option>Cancelled</option>
+                        </select>
+                        <button onclick="updateStatus(this)">Update</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>EV102</td>
+                    <td>Technical Workshop</td>
+                    <td>08-11-2026</td>
+                    <td>Computer Lab</td>
+                    <td class="status">Upcoming</td>
+                    <td>
+                        <select class="eventStatus">
+                            <option>Upcoming</option>
+                            <option>Ongoing</option>
+                            <option>Completed</option>
+                            <option>Cancelled</option>
+                        </select>
+                        <button onclick="updateStatus(this)">Update</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Participants List & Attendance</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Participant ID</th>
+                    <th>Participant Name</th>
+                    <th>Assigned Event</th>
+                    <th>Attendance</th>
+                </tr>
+            </thead>
+
+            <tbody id="participantTable">
+                <tr>
+                    <td>ST101</td>
+                    <td>Rahul Sharma</td>
+                    <td>Diwali Cultural Night</td>
+                    <td>
+                        <select class="attendance">
+                            <option>Not Marked</option>
+                            <option>Present</option>
+                            <option>Absent</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>ST102</td>
+                    <td>Priya Verma</td>
+                    <td>Technical Workshop</td>
+                    <td>
+                        <select class="attendance">
+                            <option>Not Marked</option>
+                            <option>Present</option>
+                            <option>Absent</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>ST103</td>
+                    <td>Aman Kumar</td>
+                    <td>Diwali Cultural Night</td>
+                    <td>
+                        <select class="attendance">
+                            <option>Not Marked</option>
+                            <option>Present</option>
+                            <option>Absent</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button onclick="saveAttendance()">Save Attendance</button>
+        <p id="attendanceMessage"></p>
+    </div>
+
+</div>
+
+<footer>
+    <p>College Event Management System | Organizer Module</p>
+</footer>
+
+<script>
+function updateStatus(button) {
+    const row = button.closest("tr");
+    const selectedStatus = row.querySelector(".eventStatus").value;
+
+    row.querySelector(".status").textContent = selectedStatus;
+
+    alert("Event status updated to: " + selectedStatus);
+}
+
+function saveAttendance() {
+    const attendanceList = document.querySelectorAll(".attendance");
+    let markedCount = 0;
+
+    attendanceList.forEach(function(item) {
+        if (item.value !== "Not Marked") {
+            markedCount++;
+        }
+    });
+
+    document.getElementById("attendanceMessage").textContent =
+        "Demo: Attendance marked for " + markedCount +
+        " participant(s).";
+}
+</script>
+
+</body>
+</html>

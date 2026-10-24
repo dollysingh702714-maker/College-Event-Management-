@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competition & Result Module</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f4f8;
+    color: #252b42;
+}
+
+header {
+    background: #263b80;
+    color: white;
+    text-align: center;
+    padding: 22px;
+}
+
+nav {
+    background: #192957;
+    padding: 14px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 8px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 25px auto;
+    padding: 15px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0001;
+    overflow-x: auto;
+}
+
+h2 {
+    color: #263b80;
+}
+
+.page-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.page-heading img {
+    width: 240px;
+    height: 175px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.heading-text {
+    flex: 1;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .page-heading img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .heading-text h1 {
+        font-size: 18px;
+    }
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background: #263b80;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    margin-top: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #4059b2;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #e6eaff;
+}
+
+footer {
+    background: #192957;
+    color: white;
+    text-align: center;
+    padding: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <header>
+    <div class="page-heading">
+        <img src="competition.jpg" alt="Competition">
+
+        <div class="heading-text">
+            <h1>Competition & Result Module</h1>
+            <p>Manage Competitions, Participants and Winners</p>
+        </div>
+
+        <img src="result.jpg" alt="Competition Results">
+    </div>
+</header>
+</header>
+
+<nav>
+    <a href="admin-dashboard.html">Admin</a>
+    <a href="event-management.html">Events</a>
+    <a href="student-management.html">Students</a>
+    <a href="stall-booking.html">Stalls</a>
+    <a href="organizer-module.html">Organizer</a>
+</nav>
+
+<div class="container">
+
+    <!-- Competition Details -->
+    <div class="card">
+        <h2>Add Competition</h2>
+
+        <form onsubmit="addCompetition(event)">
+            <label>Competition Name</label>
+            <input type="text" id="competitionName"
+                   placeholder="Enter competition name" required>
+
+            <label>Competition Category</label>
+            <select id="category" required>
+                <option value="">Select Category</option>
+                <option>Singing</option>
+                <option>Quiz</option>
+                <option>Technical</option>
+            </select>
+
+            <label>Competition Date</label>
+            <input type="date" id="competitionDate" required>
+
+            <label>Venue</label>
+            <input type="text" id="venue"
+                   placeholder="Enter venue" required>
+
+            <label>Description</label>
+            <textarea id="description"
+                      placeholder="Enter competition details"
+                      rows="3"></textarea>
+
+            <button type="submit">Add Competition</button>
+        </form>
+    </div>
+
+    <!-- Competition List -->
+    <div class="card">
+        <h2>Competition List</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Competition</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                </tr>
+            </thead>
+            <tbody id="competitionTable">
+                <tr>
+                    <td>CP101</td>
+                    <td>Singing Competition</td>
+                    <td>Singing</td>
+                    <td>05-11-2026</td>
+                    <td>Main Stage</td>
+                </tr>
+                <tr>
+                    <td>CP102</td>
+                    <td>Programming Quiz</td>
+                    <td>Quiz</td>
+                    <td>06-11-2026</td>
+                    <td>Computer Lab</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Participant Entries -->
+    <div class="card">
+        <h2>Participant Entries</h2>
+
+        <form onsubmit="addParticipant(event)">
+            <label>Participant Name</label>
+            <input type="text" id="participantName"
+                   placeholder="Enter participant name" required>
+
+            <label>Competition</label>
+            <select id="participantCompetition" required>
+                <option value="">Select Competition</option>
+                <option>Singing Competition</option>
+                <option>Programming Quiz</option>
+                <option>Technical Competition</option>
+            </select>
+
+            <label>College / Department</label>
+            <input type="text" id="department"
+                   placeholder="Enter department" required>
+
+            <button type="submit">Register Participant</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Participant ID</th>
+                    <th>Name</th>
+                    <th>Competition</th>
+                    <th>Department</th>
+                </tr>
+            </thead>
+            <tbody id="participantTable">
+                <tr>
+                    <td>PT101</td>
+                    <td>Rahul Sharma</td>
+                    <td>Programming Quiz</td>
+                    <td>Computer Science</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Results -->
+    <div class="card">
+        <h2>Winners & Results</h2>
+
+        <form onsubmit="addResult(event)">
+            <label>Competition Name</label>
+            <input type="text" id="resultCompetition"
+                   placeholder="Enter competition name" required>
+
+            <label>Winner Name</label>
+            <input type="text" id="winnerName"
+                   placeholder="Enter winner name" required>
+
+            <label>Position</label>
+            <select id="position" required>
+                <option value="">Select Position</option>
+                <option>1st Place</option>
+                <option>2nd Place</option>
+                <option>3rd Place</option>
+            </select>
+
+            <label>Marks / Score</label>
+            <input type="number" id="score"
+                   placeholder="Enter score" min="0" required>
+
+            <label>Award</label>
+            <input type="text" id="award"
+                   placeholder="e.g. Gold Medal" required>
+
+            <label>Certificate Record</label>
+            <select id="certificate" required>
+                <option value="">Select Status</option>
+                <option>Issued</option>
+                <option>Pending</option>
+            </select>
+
+            <button type="submit">Publish Result</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Competition</th>
+                    <th>Winner</th>
+                    <th>Position</th>
+                    <th>Score</th>
+                    <th>Award</th>
+                    <th>Certificate</th>
+                </tr>
+            </thead>
+            <tbody id="resultTable">
+                <tr>
+                    <td>Programming Quiz</td>
+                    <td>Rahul Sharma</td>
+                    <td>1st Place</td>
+                    <td>95</td>
+                    <td>Gold Medal</td>
+                    <td>Issued</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<footer>
+    <p>College Event Management System | Competition & Result Module</p>
+</footer>
+
+<script>
+let competitionCount = 103;
+let participantCount = 102;
+
+function addCompetition(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("competitionName").value;
+    const category = document.getElementById("category").value;
+    const date = document.getElementById("competitionDate").value;
+    const venue = document.getElementById("venue").value;
+
+    const row = document.getElementById("competitionTable").insertRow();
+
+    row.innerHTML = `
+        <td>CP${competitionCount++}</td>
+        <td>${escapeHTML(name)}</td>
+        <td>${escapeHTML(category)}</td>
+        <td>${escapeHTML(date)}</td>
+        <td>${escapeHTML(venue)}</td>
+    `;
+
+    event.target.reset();
+}
+
+function addParticipant(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("participantName").value;
+    const competition = document.getElementById("participantCompetition").value;
+    const department = document.getElementById("department").value;
+
+    const row = document.getElementById("participantTable").insertRow();
+
+    row.innerHTML = `
+        <td>PT${participantCount++}</td>
+        <td>${escapeHTML(name)}</td>
+        <td>${escapeHTML(competition)}</td>
+        <td>${escapeHTML(department)}</td>
+    `;
+
+    event.target.reset();
+}
+
+function addResult(event) {
+    event.preventDefault();
+
+    const competition = document.getElementById("resultCompetition").value;
+    const winner = document.getElementById("winnerName").value;
+    const position = document.getElementById("position").value;
+    const score = document.getElementById("score").value;
+    const award = document.getElementById("award").value;
+    const certificate = document.getElementById("certificate").value;
+
+    const row = document.getElementById("resultTable").insertRow();
+
+    row.innerHTML = `
+        <td>${escapeHTML(competition)}</td>
+        <td>${escapeHTML(winner)}</td>
+        <td>${escapeHTML(position)}</td>
+        <td>${escapeHTML(score)}</td>
+        <td>${escapeHTML(award)}</td>
+        <td>${escapeHTML(certificate)}</td>
+    `;
+
+    event.target.reset();
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, function(char) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[char];
+    });
+}
+</script>
+
+</body>
+</html>

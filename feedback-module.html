@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback Module</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f4f8;
+    color: #252b42;
+}
+
+header {
+    background: #263b80;
+    color: white;
+    text-align: center;
+    padding: 22px;
+}
+
+nav {
+    background: #192957;
+    padding: 14px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 8px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 25px auto;
+    padding: 15px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    margin-bottom: 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0001;
+    overflow-x: auto;
+}
+
+h2 { color: #263b80; }
+
+label {
+    display: block;
+    margin-top: 14px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 11px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background: #263b80;
+    color: white;
+    padding: 11px 18px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover { background: #4059b2; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 550px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th { background: #e6eaff; }
+
+.stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    width: fit-content;
+    margin-top: 8px;
+}
+
+.stars input { display: none; }
+
+.stars label {
+    margin: 0;
+    padding: 2px;
+    font-size: 32px;
+    color: #bbb;
+    cursor: pointer;
+}
+
+.stars label:hover,
+.stars label:hover ~ label,
+.stars input:checked ~ label {
+    color: #f5ad18;
+}
+
+footer {
+    background: #192957;
+    color: white;
+    text-align: center;
+    padding: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Student Feedback Module</h1>
+    <p>Share Your Experience and Help Us Improve</p>
+</header>
+
+<nav>
+    <a href="admin-dashboard.html">Admin</a>
+    <a href="event-management.html">Events</a>
+    <a href="student-management.html">Students</a>
+    <a href="organizer-module.html">Organizer</a>
+    <a href="competition-result.html">Results</a>
+    <a href="notification-reports.html">Notifications & Reports</a>
+</nav>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Submit Event Feedback</h2>
+
+        <form id="feedbackForm">
+            <label>Student Name</label>
+            <input type="text" id="studentName"
+                   placeholder="Enter your name" required>
+
+            <label>Select Event</label>
+            <select id="eventName" required>
+                <option value="">Select Event</option>
+                <option>Diwali Cultural Night</option>
+                <option>Technical Workshop</option>
+                <option>Singing Competition</option>
+                <option>Programming Quiz</option>
+            </select>
+
+            <label>Rate the Event (1 to 5 Stars)</label>
+            <div class="stars">
+                <input type="radio" id="star5" name="rating" value="5" required>
+                <label for="star5">&#9733;</label>
+
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4">&#9733;</label>
+
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3">&#9733;</label>
+
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2">&#9733;</label>
+
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1">&#9733;</label>
+            </div>
+
+            <label>Comments</label>
+            <textarea id="comments" rows="4"
+                      placeholder="Write your feedback..."
+                      required></textarea>
+
+            <button type="submit">Submit Feedback</button>
+        </form>
+
+        <p id="feedbackMessage"></p>
+    </div>
+
+    <div class="card">
+        <h2>Feedback Reports</h2>
+
+        <p>Total Feedback: <strong id="totalFeedback">2</strong></p>
+        <p>Average Rating: <strong id="averageRating">4.5 / 5</strong></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Event</th>
+                    <th>Rating</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+
+            <tbody id="feedbackTable">
+                <tr>
+                    <td>Rahul Sharma</td>
+                    <td>Programming Quiz</td>
+                    <td>5 / 5</td>
+                    <td>Very interesting event.</td>
+                </tr>
+                <tr>
+                    <td>Priya Verma</td>
+                    <td>Technical Workshop</td>
+                    <td>4 / 5</td>
+                    <td>Good learning experience.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<footer>
+    <p>College Event Management System | Feedback Module</p>
+</footer>
+
+<script>
+let feedbackCount = 2;
+let totalRating = 9;
+
+document.getElementById("feedbackForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("studentName").value.trim();
+    const event = document.getElementById("eventName").value;
+    const ratingInput = document.querySelector('input[name="rating"]:checked');
+    const comments = document.getElementById("comments").value.trim();
+
+    if (!ratingInput) {
+        alert("Please select a star rating.");
+        return;
+    }
+
+    const rating = Number(ratingInput.value);
+    const row = document.getElementById("feedbackTable").insertRow();
+
+    [name, event, rating + " / 5", comments].forEach(function(value) {
+        const cell = row.insertCell();
+        cell.textContent = value;
+    });
+
+    feedbackCount++;
+    totalRating += rating;
+
+    document.getElementById("totalFeedback").textContent = feedbackCount;
+    document.getElementById("averageRating").textContent =
+        (totalRating / feedbackCount).toFixed(1) + " / 5";
+
+    document.getElementById("feedbackMessage").textContent =
+        "Feedback submitted successfully!";
+
+    this.reset();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stall & Booking Module</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f3f5fb;
+    color: #26324b;
+}
+
+nav {
+    background: #202b46;
+    padding: 20px;
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #8db4ff;
+}
+
+header {
+    padding: 28px;
+}
+
+header p {
+    color: #687386;
+    margin-top: 8px;
+}
+
+main {
+    padding: 0 28px 30px;
+}
+
+.panel {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 12px #0000000b;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 10px;
+    border-left: 5px solid #5278e8;
+}
+
+.stat-card h3 {
+    color: #687386;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.stat-card p {
+    font-size: 28px;
+    font-weight: bold;
+    color: #4169e1;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d4dce9;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    background: white;
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+button {
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    margin: 2px;
+}
+
+.apply-btn {
+    background: #4169e1;
+}
+
+.approve-btn {
+    background: #198754;
+}
+
+.reject-btn {
+    background: #dc4444;
+}
+
+.allot-btn {
+    background: #7952c8;
+}
+
+.available {
+    color: #168348;
+    background: #dcf7e7;
+}
+
+.booked {
+    color: #b42318;
+    background: #fee4e2;
+}
+
+.pending {
+    color: #946200;
+    background: #fff0c9;
+}
+
+.approved {
+    color: #167444;
+    background: #dcf7e7;
+}
+
+.rejected {
+    color: #b42318;
+    background: #fee4e2;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.stall-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.stall-card {
+    border: 1px solid #e1e6ef;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.stall-card h3 {
+    margin-bottom: 12px;
+}
+
+.page-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.page-heading img {
+    width: 180px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.stall-card p {
+    margin: 10px 0;
+    color: #626d80;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
+}
+
+th, td {
+    text-align: left;
+    padding: 13px;
+    border-bottom: 1px solid #e7eaf0;
+}
+
+th {
+    background: #f1f4fa;
+}
+
+footer {
+    text-align: center;
+    color: #687386;
+    padding: 20px;
+}
+
+@media (max-width: 900px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stall-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .stats, .stall-grid, .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    main {
+        padding: 0 14px 20px;
+    }
+
+    header {
+        padding: 22px 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="admin-dashboard.html">Admin Dashboard</a>
+    <a href="event-management.html">Event Management</a>
+    <a href="student-management.html">Student Module</a>
+    <a href="stall-booking.html">Stall & Booking</a>
+</nav>
+
+<header>
+    <div class="page-heading">
+    <h1>Stall & Booking Management</h1>
+    <img src="stall.jpg" alt="Stall Booking Management">
+</div>
+    <p>College Fest Stall Applications, Availability and Allotment</p>
+</header>
+
+<main>
+
+<!-- Dashboard Statistics -->
+<section class="stats">
+    <div class="stat-card">
+        <h3>Total Stalls</h3>
+        <p>30</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Available Stalls</h3>
+        <p>12</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Applications</h3>
+        <p>24</p>
+    </div>
+
+    <div class="stat-card">
+        <h3>Approved Applications</h3>
+        <p>16</p>
+    </div>
+</section>
+
+<!-- Stall Application Form -->
+<section class="panel">
+    <h2>Apply for a Stall</h2>
+
+    <form>
+        <div class="form-grid">
+            <div>
+                <label for="applicant">Applicant Name</label>
+                <input type="text" id="applicant"
+                       placeholder="Enter your full name" required>
+            </div>
+
+            <div>
+                <label for="college">Department / Organization</label>
+                <input type="text" id="college"
+                       placeholder="Enter department or organization" required>
+            </div>
+
+            <div>
+                <label for="email">Email Address</label>
+                <input type="email" id="email"
+                       placeholder="Enter email" required>
+            </div>
+
+            <div>
+                <label for="phone">Contact Number</label>
+                <input type="tel" id="phone"
+                       placeholder="Enter contact number" required>
+            </div>
+
+            <div>
+                <label for="category">Stall Category</label>
+                <select id="category" required>
+                    <option value="">Select Category</option>
+                    <option>Food & Beverages</option>
+                    <option>Handmade Products</option>
+                    <option>Clothing & Accessories</option>
+                    <option>Games & Entertainment</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="stall">Preferred Stall</label>
+                <select id="stall" required>
+                    <option value="">Select Stall</option>
+                    <option>Stall S01</option>
+                    <option>Stall S02</option>
+                    <option>Stall S03</option>
+                    <option>Stall S04</option>
+                    <option>Any Available Stall</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="event">College Fest</label>
+                <select id="event" required>
+                    <option>Diwali Mela</option>
+                    <option>Annual College Fest</option>
+                    <option>Cultural Fest</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="size">Stall Size</label>
+                <select id="size">
+                    <option>Small</option>
+                    <option>Medium</option>
+                    <option>Large</option>
+                </select>
+            </div>
+        </div>
+
+        <label for="details">Products / Stall Details</label>
+        <textarea id="details"
+                  placeholder="Describe the products or services you want to offer"></textarea>
+
+        <button type="button" class="apply-btn">
+            Submit Application
+        </button>
+    </form>
+</section>
+
+<!-- Stall Availability -->
+<section class="panel">
+    <h2>Stall Availability</h2>
+
+    <div class="stall-grid">
+
+        <article class="stall-card">
+            <h3>Stall S01</h3>
+            <p><b>Category:</b> Food & Beverages</p>
+            <p><b>Location:</b> Ground Floor</p>
+            <p><b>Fee:</b> ₹1,500</p>
+            <span class="status available">Available</span>
+        </article>
+
+        <article class="stall-card">
+            <h3>Stall S02</h3>
+            <p><b>Category:</b> Handmade Products</p>
+            <p><b>Location:</b> Ground Floor</p>
+            <p><b>Fee:</b> ₹1,000</p>
+            <span class="status booked">Allotted</span>
+        </article>
+
+        <article class="stall-card">
+            <h3>Stall S03</h3>
+            <p><b>Category:</b> Games & Entertainment</p>
+            <p><b>Location:</b> Open Ground</p>
+            <p><b>Fee:</b> ₹1,200</p>
+            <span class="status available">Available</span>
+        </article>
+
+        <article class="stall-card">
+            <h3>Stall S04</h3>
+            <p><b>Category:</b> Clothing & Accessories</p>
+            <p><b>Location:</b> Main Corridor</p>
+            <p><b>Fee:</b> ₹1,300</p>
+            <span class="status available">Available</span>
+        </article>
+
+        <article class="stall-card">
+            <h3>Stall S05</h3>
+            <p><b>Category:</b> Food & Beverages</p>
+            <p><b>Location:</b> Open Ground</p>
+            <p><b>Fee:</b> ₹1,500</p>
+            <span class="status booked">Allotted</span>
+        </article>
+
+        <article class="stall-card">
+            <h3>Stall S06</h3>
+            <p><b>Category:</b> Other</p>
+            <p><b>Location:</b> Main Corridor</p>
+            <p><b>Fee:</b> ₹1,000</p>
+            <span class="status available">Available</span>
+        </article>
+
+    </div>
+</section>
+
+<!-- Application Approval Status -->
+<section class="panel">
+    <h2>Stall Applications & Approval Status</h2>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Application ID</th>
+                    <th>Applicant</th>
+                    <th>Category</th>
+                    <th>Stall</th>
+                    <th>Application Status</th>
+                    <th>Allotment</th>
+                    <th>Admin Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>A001</td>
+                    <td>Rahul Sharma</td>
+                    <td>Food</td>
+                    <td>S01</td>
+                    <td><span class="status approved">Approved</span></td>
+                    <td>Allotted</td>
+                    <td><button type="button" class="allot-btn">View</button></td>
+                </tr>
+
+                <tr>
+                    <td>A002</td>
+                    <td>Priya Verma</td>
+                    <td>Handmade Products</td>
+                    <td>S02</td>
+                    <td><span class="status pending">Pending</span></td>
+                    <td>Not Allotted</td>
+                    <td><button type="button" class="approve-btn">Approve</button>
+                    <button type="button" class="reject-btn">Reject</button></td>
+                </tr>
+
+                <tr>
+                    <td>A003</td>
+                    <td>Aman Singh</td>
+                    <td>Games</td>
+                    <td>S03</td>
+                    <td><span class="status approved">Approved</span></td>
+                    <td>Allotted</td>
+                    <td><button type="button" class="allot-btn">View</button></td>
+                </tr>
+
+                <tr>
+                    <td>A004</td>
+                    <td>Neha Gupta</td>
+                    <td>Clothing</td>
+                    <td>S04</td>
+                    <td><span class="status rejected">Rejected</span></td>
+                    <td>Not Allotted</td>
+                    <td><button type="button" class="allot-btn">View</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    © 2026 College Event Management System
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | College Events</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f3f5fb;
+            color: #222;
+        }
+
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: #202b46;
+            color: white;
+            position: fixed;
+            padding: 25px 15px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 35px;
+            color: #8db4ff;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 14px;
+            margin-bottom: 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #405580;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 27px;
+        }
+
+        .admin {
+            background: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0000000d;
+            border-left: 5px solid #5278e8;
+        }
+
+        .card h3 {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-size: 30px;
+            font-weight: bold;
+            color: #26385f;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+
+        .section h2 {
+            margin-bottom: 20px;
+            font-size: 21px;
+        }
+
+        .event-status {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .status {
+            flex: 1;
+            padding: 20px;
+            border-radius: 9px;
+            background: #e8efff;
+        }
+
+        .status.completed {
+            background: #e1f7e9;
+        }
+
+        .status h3 {
+            margin-bottom: 10px;
+        }
+
+        .status p {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .add-btn {
+            background: #4169e1;
+            color: white;
+            padding: 11px 17px;
+            border: none;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f1f4fa;
+        }
+
+        .upcoming {
+            color: #2365d8;
+            font-weight: bold;
+        }
+
+        .completed-text {
+            color: #168348;
+            font-weight: bold;
+        }
+
+        .edit, .delete {
+            border: none;
+            padding: 7px 10px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .edit {
+            background: #e7a526;
+        }
+
+        .delete {
+            background: #e34c4c;
+        }
+
+        footer {
+            text-align: center;
+            color: #777;
+            padding: 20px;
+        }
+
+        :root {
+            --ink: #20231f;
+            --muted: #6a7069;
+            --paper: #f5f4ee;
+            --surface: #fffefa;
+            --line: #dedfd4;
+            --leaf: #28543c;
+            --coral: #ef765d;
+            --gold: #f2c56b;
+            --vermilion: #a84432;
+            --saffron: #f0b34f;
+        }
+
+        [hidden] { display: none !important; }
+        body { background: var(--paper); color: var(--ink); font-family: "Trebuchet MS", "Segoe UI", sans-serif; }
+        .sidebar { width: 230px; background: #202d25; padding: 25px 16px; }
+        .sidebar h2 { color: var(--gold); text-align: left; padding: 0 12px; font: 700 24px Georgia, serif; }
+        .sidebar a { border-radius: 3px; color: #e5e9e0; font-size: 14px; }
+        .sidebar a:hover, .sidebar a.active { background: #394e3e; }
+        .main { margin-left: 230px; padding: 30px clamp(18px, 4vw, 56px); }
+        .header { border-bottom: 1px solid var(--line); padding-bottom: 22px; }
+        .header h1 { font: 700 32px Georgia, serif; color: var(--ink); }
+        .header p { color: var(--muted); margin-top: 7px; }
+        .admin { background: transparent; border: 1px solid var(--line); border-radius: 3px; display: flex; align-items: center; gap: 12px; }
+        .admin button { border: 0; padding: 8px 10px; color: var(--leaf); background: transparent; font-weight: 700; cursor: pointer; }
+        .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+        .card { border: 1px solid var(--line); border-left: 3px solid var(--saffron); border-radius: 3px; box-shadow: none; background: var(--surface); padding: 20px; animation: dashboardRise .55s both; transition: transform .2s ease, box-shadow .2s ease; }
+        .card:nth-child(2) { animation-delay: .09s; }
+        .card:nth-child(3) { animation-delay: .18s; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px #57362114; }
+        .card h3 { color: var(--muted); font-weight: 500; }
+        .card p { color: var(--ink); font: 700 34px Georgia, serif; }
+        .section { border: 0; border-top: 1px solid var(--line); border-radius: 0; background: transparent; box-shadow: none; padding: 25px 0; margin: 0; }
+        .section h2 { font: 700 24px Georgia, serif; color: var(--ink); }
+        .event-status { gap: 14px; }
+        .status { border-radius: 3px; background: #e6eee5; color: var(--leaf); }
+        .status.completed { background: #f5e9df; color: #994a35; }
+        .status p { font: 700 28px Georgia, serif; }
+        .add-btn { border-radius: 3px; margin-bottom: 14px; background: var(--vermilion); transition: background .2s ease, transform .2s ease; }
+        .add-btn:hover { background: #843225; transform: translateY(-2px); }
+        table { min-width: 680px; }
+        th, td { border-color: var(--line); padding: 13px 12px; }
+        th { background: #ebece4; color: #586158; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
+        .upcoming { color: var(--leaf); }
+        .completed-text { color: #a4513a; }
+        .edit { background: #b9782a; }
+        .delete { background: #b94d3b; }
+        .live-mark { display: inline-flex; align-items: center; gap: 7px; color: var(--leaf); font-size: 12px; font-weight: 700; }
+        .live-mark::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #4c9a61; box-shadow: 0 0 0 3px #d9eadc; animation: livePulse 2.4s ease-out infinite; }
+        .section-tools { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+        .section-tools h2 { margin: 0; }
+        .section-tools input, .section-tools select { min-height: 40px; border: 1px solid var(--line); border-radius: 3px; padding: 0 11px; background: white; }
+        .empty-row { text-align: center; color: var(--muted); padding: 24px; }
+        .auth-screen { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; background: var(--paper); }
+        .auth-art { min-height: 100vh; position: relative; display: flex; align-items: flex-end; padding: clamp(30px, 7vw, 90px); background: #24382c; color: white; overflow: hidden; }
+        .auth-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .64; }
+        .auth-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, #14231ddb, #14231d0a 85%); }
+        .auth-art-copy { position: relative; z-index: 1; max-width: 500px; }
+        .auth-art-copy h1 { font: 700 clamp(38px, 5vw, 68px)/1 Georgia, serif; margin: 14px 0; }
+        .auth-art-copy p { line-height: 1.7; color: #e2e5dc; }
+        .auth-panel { align-self: center; width: min(420px, 84%); margin: 40px auto; }
+        .auth-panel h2 { font: 700 34px Georgia, serif; margin: 0 0 8px; }
+        .auth-panel p { color: var(--muted); line-height: 1.6; }
+        .auth-panel form { display: grid; gap: 14px; margin-top: 24px; }
+        .auth-panel label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; }
+        .auth-panel input { min-height: 44px; border: 1px solid var(--line); padding: 0 12px; }
+        .auth-panel button { min-height: 46px; border: 0; color: white; background: var(--leaf); font-weight: 700; cursor: pointer; }
+        .auth-demo { background: #e9eee5; padding: 12px; margin-top: 18px; font-size: 12px; }
+        .auth-error { color: #b04432 !important; min-height: 18px; }
+        dialog { width: min(560px, calc(100% - 28px)); padding: 24px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+        dialog::backdrop { background: #171d19a8; }
+        dialog h2 { font: 700 28px Georgia, serif; margin-bottom: 18px; }
+        .event-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .event-form label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; }
+        .event-form input, .event-form select, .event-form textarea { width: 100%; min-height: 42px; border: 1px solid var(--line); padding: 9px; }
+        .event-form .wide { grid-column: 1 / -1; }
+        .dialog-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
+        .dialog-actions button { min-height: 40px; padding: 0 14px; border: 1px solid var(--line); background: white; cursor: pointer; }
+        .dialog-actions .save-event { color: white; background: var(--leaf); border-color: var(--leaf); font-weight: 700; }
+        @keyframes dashboardRise { from { opacity: 0; translate: 0 10px; } to { opacity: 1; translate: 0 0; } }
+        @keyframes livePulse { 0% { box-shadow: 0 0 0 0 #4c9a615c; } 70%, 100% { box-shadow: 0 0 0 6px #4c9a6100; } }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+        }
+
+        @media (max-width: 850px) {
+            .sidebar {
+                width: 180px;
+            }
+
+            .main {
+                margin-left: 180px;
+                padding: 18px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+
+            .sidebar a {
+                display: inline-block;
+                padding: 8px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .event-status {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="auth-screen" id="authScreen">
+        <div class="auth-art">
+            <img src="cultural.jpg" alt="A campus festival lit up for the evening">
+            <div class="auth-art-copy">
+                <span class="live-mark">Organizer access</span>
+                <h1>Keep every campus moment moving.</h1>
+                <p>One clear place to shape events, watch registrations and bring the campus together.</p>
+            </div>
+        </div>
+        <div class="auth-panel">
+            <h2>Admin sign in</h2>
+            <p>Access your college event workspace.</p>
+            <form id="adminSignInForm">
+                <label>Email address<input name="email" type="email" autocomplete="username" required></label>
+                <label>Passcode<input name="passcode" type="password" autocomplete="current-password" required></label>
+                <p class="auth-error" id="adminAuthError" role="alert"></p>
+                <button type="submit">Open dashboard</button>
+            </form>
+            <div class="auth-demo">Demo admin access: <strong>admin@campus.edu</strong> / <strong>campus2026</strong></div>
+            <p><a href="event-management.html">Back to student sign in</a></p>
+        </div>
+    </section>
+
+    <div id="application" hidden>
+    <aside class="sidebar">
+        <h2>EventPro</h2>
+        <a href="#" class="active">Dashboard</a>
+        <a href="#events">Manage Events</a>
+        <a href="#registrations">Registrations</a>
+        <a href="#reports">Reports</a>
+        <a href="#settings">Settings</a>
+    </aside>
+
+    <main class="main">
+
+        <header class="header">
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p>Plan events and follow registrations as they happen.</p>
+            </div>
+            <div class="admin"><span class="live-mark">Live updates</span><button id="adminSignOut" type="button">Sign out</button></div>
+        </header>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Total Events</h3>
+                <p id="totalEvents">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Total Students</h3>
+                <p id="totalStudents">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Total Registrations</h3>
+                <p id="totalRegistrations">0</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <h2>Event Overview</h2>
+
+            <div class="event-status">
+                <div class="status">
+                    <h3>Upcoming Events</h3>
+                    <p id="upcomingEvents">0</p>
+                </div>
+
+                <div class="status completed">
+                    <h3>Completed Events</h3>
+                    <p id="completedEvents">0</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="events">
+            <h2>Manage Events</h2>
+
+            <button class="add-btn" id="addEventButton" type="button">
+                + Add New Event
+            </button>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Event Name</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="eventTableBody"></tbody>
+            </table>
+        </section>
+
+        <section class="section" id="registrations">
+            <div class="section-tools">
+                <h2>Student Registrations</h2>
+                <input id="registrationSearch" type="search" placeholder="Search students or events" aria-label="Search registrations">
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Registration ID</th>
+                        <th>Student Name</th>
+                        <th>Event</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="registrationTableBody"></tbody>
+            </table>
+        </section>
+
+        <footer>
+            © 2026 College Event Management System
+        </footer>
+
+    </main>
+    </div>
+
+    <dialog id="eventDialog">
+        <h2 id="eventDialogTitle">Create an event</h2>
+        <form class="event-form" id="eventCreateForm">
+            <input type="hidden" name="eventId">
+            <label>Event name<input name="name" required></label>
+            <label>Category<select name="category" required><option value="">Choose category</option><option>Cultural</option><option>Technical</option><option>Sports</option><option>Workshop</option></select></label>
+            <label>Date<input name="date" type="date" required></label>
+            <label>Time<input name="time" type="time" required></label>
+            <label>Venue<input name="venue" required></label>
+            <label>Capacity<input name="capacity" type="number" min="1" value="100" required></label>
+            <label class="wide">Description<textarea name="description" required></textarea></label>
+            <div class="dialog-actions">
+                <button type="button" id="cancelEvent">Cancel</button>
+                <button type="submit" class="save-event">Save event</button>
+            </div>
+        </form>
+    </dialog>
+
+    <script src="campus-events.js"></script>
+    <script>
+    const eventTableBody = document.getElementById("eventTableBody");
+    const registrationTableBody = document.getElementById("registrationTableBody");
+    const eventDialog = document.getElementById("eventDialog");
+    const eventCreateForm = document.getElementById("eventCreateForm");
+    const registrationSearch = document.getElementById("registrationSearch");
+
+    function eventStatus(dateString) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return new Date(dateString + "T00:00:00") < today ? "Completed" : "Upcoming";
+    }
+
+    function displayDate(dateString) {
+        return new Date(dateString + "T00:00:00").toLocaleDateString("en-IN", {
+            day: "numeric", month: "short", year: "numeric"
+        });
+    }
+
+    function addCell(row, value, className) {
+        const cell = document.createElement("td");
+        cell.textContent = value || "—";
+        if (className) cell.className = className;
+        row.appendChild(cell);
+        return cell;
+    }
+
+    function renderEvents() {
+        const events = CampusEvents.getEvents();
+        const registrations = CampusEvents.getRegistrations();
+        const completed = events.filter(event => eventStatus(event.date) === "Completed").length;
+        document.getElementById("totalEvents").textContent = events.length;
+        document.getElementById("totalRegistrations").textContent = registrations.length;
+        document.getElementById("totalStudents").textContent = new Set(registrations.map(item => (item.email || "").toLowerCase()).filter(Boolean)).size;
+        document.getElementById("upcomingEvents").textContent = events.length - completed;
+        document.getElementById("completedEvents").textContent = completed;
+        eventTableBody.replaceChildren();
+
+        if (!events.length) {
+            const row = eventTableBody.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 5;
+            cell.className = "empty-row";
+            cell.textContent = "No events yet. Add the first one to get started.";
+            return;
+        }
+
+        events.forEach(event => {
+            const row = eventTableBody.insertRow();
+            addCell(row, event.id);
+            addCell(row, event.name);
+            addCell(row, displayDate(event.date));
+            addCell(row, eventStatus(event.date), eventStatus(event.date) === "Upcoming" ? "upcoming" : "completed-text");
+            const actions = row.insertCell();
+            const edit = document.createElement("button");
+            edit.className = "edit";
+            edit.type = "button";
+            edit.textContent = "Edit";
+            edit.dataset.action = "edit";
+            edit.dataset.id = event.id;
+            const remove = document.createElement("button");
+            remove.className = "delete";
+            remove.type = "button";
+            remove.textContent = "Delete";
+            remove.dataset.action = "delete";
+            remove.dataset.id = event.id;
+            actions.append(edit, document.createTextNode(" "), remove);
+        });
+    }
+
+    function renderRegistrations() {
+        const query = registrationSearch.value.trim().toLowerCase();
+        const registrations = CampusEvents.getRegistrations().filter(item =>
+            [item.name, item.studentId, item.eventName, item.email, item.department].join(" ").toLowerCase().includes(query)
+        );
+        registrationTableBody.replaceChildren();
+        if (!registrations.length) {
+            const row = registrationTableBody.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 6;
+            cell.className = "empty-row";
+            cell.textContent = query ? "No matching registrations." : "Student registrations will appear here as they come in.";
+            return;
+        }
+        registrations.forEach(item => {
+            const row = registrationTableBody.insertRow();
+            addCell(row, item.id);
+            addCell(row, item.name);
+            addCell(row, item.eventName);
+            addCell(row, item.email);
+            addCell(row, item.department);
+            addCell(row, item.status || "Registered", "upcoming");
+        });
+    }
+
+    function renderDashboard() {
+        renderEvents();
+        renderRegistrations();
+    }
+
+    function openEventEditor(event) {
+        eventCreateForm.reset();
+        eventCreateForm.elements.eventId.value = event ? event.id : "";
+        document.getElementById("eventDialogTitle").textContent = event ? "Edit event" : "Create an event";
+        if (event) {
+            ["name", "category", "date", "time", "venue", "capacity", "description"].forEach(key => {
+                eventCreateForm.elements[key].value = event[key] || "";
+            });
+        }
+        eventDialog.showModal();
+    }
+
+    document.getElementById("adminSignInForm").addEventListener("submit", event => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        if (form.elements.email.value.trim().toLowerCase() !== "admin@campus.edu" || form.elements.passcode.value !== "campus2026") {
+            document.getElementById("adminAuthError").textContent = "That admin email or passcode isn’t correct.";
+            return;
+        }
+        CampusEvents.setUser({ role: "admin", name: "Campus admin", email: "admin@campus.edu" });
+        document.getElementById("authScreen").hidden = true;
+        document.getElementById("application").hidden = false;
+        renderDashboard();
+    });
+
+    document.getElementById("adminSignOut").addEventListener("click", () => {
+        CampusEvents.clearUser();
+        window.location.reload();
+    });
+    document.getElementById("addEventButton").addEventListener("click", () => openEventEditor(null));
+    document.getElementById("cancelEvent").addEventListener("click", () => eventDialog.close());
+    document.getElementById("eventTableBody").addEventListener("click", event => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+        const events = CampusEvents.getEvents();
+        const selected = events.find(item => String(item.id) === button.dataset.id);
+        if (button.dataset.action === "edit" && selected) openEventEditor(selected);
+        if (button.dataset.action === "delete" && selected && window.confirm("Delete “" + selected.name + "”?")) {
+            CampusEvents.saveEvents(events.filter(item => String(item.id) !== button.dataset.id));
+        }
+    });
+
+    eventCreateForm.addEventListener("submit", event => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const events = CampusEvents.getEvents();
+        const eventId = form.elements.eventId.value;
+        const previous = events.find(item => String(item.id) === eventId);
+        const category = form.elements.category.value;
+        const imageByCategory = { Cultural: "cultural.jpg", Technical: "coding.jpg", Sports: "sports.jpg", Workshop: "workshop.jpg" };
+        const updated = {
+            id: previous ? previous.id : "event-" + Date.now(),
+            name: form.elements.name.value.trim(),
+            category: category,
+            date: form.elements.date.value,
+            time: form.elements.time.value,
+            venue: form.elements.venue.value.trim(),
+            capacity: Number(form.elements.capacity.value),
+            description: form.elements.description.value.trim(),
+            image: previous ? previous.image : imageByCategory[category]
+        };
+        const next = previous ? events.map(item => item.id === previous.id ? updated : item) : [updated, ...events];
+        CampusEvents.saveEvents(next);
+        eventDialog.close();
+    });
+
+    registrationSearch.addEventListener("input", renderRegistrations);
+    window.addEventListener("campus-events-change", renderDashboard);
+    const user = CampusEvents.getUser();
+    if (user && user.role === "admin") {
+        document.getElementById("authScreen").hidden = true;
+        document.getElementById("application").hidden = false;
+        renderDashboard();
+    }
+    </script>
+
+</body>
+</html>
