@@ -9,12 +9,12 @@ const submitButton = loginForm.querySelector('button[type="submit"]');
 
 const accountsByRole = {
     admin: {
-        email: "dollyshinh702714@gmail.com",
+        email: "dollysingh702714@gmail.com",
         password: "905088",
         dashboard: "admin-dashboard.html"
     },
     student: {
-        email: "Divyakaushik931@gmai.com",
+        email: "divyakaushik931@gmai.com",
         password: "922051",
         dashboard: "student-dashboard.html"
     },
