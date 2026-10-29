@@ -14,7 +14,7 @@ const accountsByRole = {
         dashboard: "admin-dashboard.html"
     },
     student: {
-        email: "divyakaushik931@gmai.com",
+        email: "divyakaushik931@gmail.com",
         password: "922051",
         dashboard: "student-dashboard.html"
     },
