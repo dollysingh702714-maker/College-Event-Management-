@@ -7,10 +7,22 @@ const passwordInput = document.getElementById("password");
 const message = document.getElementById("message");
 const submitButton = loginForm.querySelector('button[type="submit"]');
 
-const dashboardByRole = {
-    admin: "admin-dashboard.html",
-    student: "student-dashboard.html",
-    volunteer: "volunteer-dashboard.html"
+const demoAccounts = {
+    admin: {
+        email: "admin@example.com",
+        password: "Admin@123",
+        dashboard: "admin-dashboard.html"
+    },
+    student: {
+        email: "student@example.com",
+        password: "Student@123",
+        dashboard: "student-dashboard.html"
+    },
+    volunteer: {
+        email: "volunteer@example.com",
+        password: "Volunteer@123",
+        dashboard: "volunteer-dashboard.html"
+    }
 };
 
 function showMessage(text, color) {
@@ -34,11 +46,11 @@ loginForm.addEventListener("submit", function (event) {
     clearMessage();
 
     const role = roleInput.value;
-    const email = emailInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
     const password = passwordInput.value;
-    const dashboard = dashboardByRole[role];
+    const account = demoAccounts[role];
 
-    if (!dashboard) {
+    if (!account) {
         showMessage("Please select a valid role.", "#b42318");
         roleInput.focus();
         return;
@@ -56,7 +68,13 @@ loginForm.addEventListener("submit", function (event) {
         return;
     }
 
+    if (email !== account.email || password !== account.password) {
+        showMessage("Email or password is incorrect for the selected role.", "#b42318");
+        passwordInput.focus();
+        return;
+    }
+
     showMessage("Opening your dashboard...", "#247a46");
     submitButton.disabled = true;
-    window.location.assign(dashboard);
+    window.location.assign(account.dashboard);
 });
