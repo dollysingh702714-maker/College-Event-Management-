@@ -7,20 +7,20 @@ const passwordInput = document.getElementById("password");
 const message = document.getElementById("message");
 const submitButton = loginForm.querySelector('button[type="submit"]');
 
-const demoAccounts = {
+const accountsByRole = {
     admin: {
-        email: "admin@example.com",
-        password: "Admin@123",
+        email: "dollyshinh702714@gmail.com",
+        password: "905088",
         dashboard: "admin-dashboard.html"
     },
     student: {
-        email: "student@example.com",
-        password: "Student@123",
+        email: "Divyakaushik931@gmai.com",
+        password: "922051",
         dashboard: "student-dashboard.html"
     },
     volunteer: {
-        email: "volunteer@example.com",
-        password: "Volunteer@123",
+        email: "rajbala82220@gmail.com",
+        password: "822200",
         dashboard: "volunteer-dashboard.html"
     }
 };
@@ -46,11 +46,11 @@ loginForm.addEventListener("submit", function (event) {
     clearMessage();
 
     const role = roleInput.value;
-    const email = emailInput.value.trim().toLowerCase();
+    const email = emailInput.value.trim();
     const password = passwordInput.value;
-    const account = demoAccounts[role];
+    const hasRole = Object.prototype.hasOwnProperty.call(accountsByRole, role);
 
-    if (!account) {
+    if (!hasRole) {
         showMessage("Please select a valid role.", "#b42318");
         roleInput.focus();
         return;
@@ -68,7 +68,8 @@ loginForm.addEventListener("submit", function (event) {
         return;
     }
 
-    if (email !== account.email || password !== account.password) {
+    const account = accountsByRole[role];
+    if (email.toLowerCase() !== account.email.toLowerCase() || password !== account.password) {
         showMessage("Email or password is incorrect for the selected role.", "#b42318");
         passwordInput.focus();
         return;
