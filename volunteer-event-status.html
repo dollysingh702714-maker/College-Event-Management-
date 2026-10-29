@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volunteer - Event Status</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f3f5fb;
+    color: #263248;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: #172554;
+    color: white;
+    padding: 25px 15px;
+    flex-shrink: 0;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 35px;
+    font-size: 23px;
+}
+
+.sidebar a {
+    display: block;
+    text-decoration: none;
+    color: white;
+    padding: 13px 15px;
+    margin-bottom: 8px;
+    border-radius: 7px;
+    transition: 0.3s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #3b82f6;
+}
+
+/* Main content */
+.main {
+    flex: 1;
+    padding: 30px;
+    min-width: 0;
+}
+
+.header {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 12px #0000000d;
+}
+
+.header h1 {
+    color: #172554;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: #64748b;
+}
+
+/* Information cards */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    border-left: 5px solid #3b82f6;
+    box-shadow: 0 3px 12px #0000000d;
+}
+
+.stat-card h3 {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.stat-card p {
+    font-size: 30px;
+    font-weight: bold;
+    color: #172554;
+}
+
+/* Table */
+.content-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0000000d;
+}
+
+.content-card h2 {
+    margin-bottom: 18px;
+    color: #172554;
+}
+
+.filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+input,
+select {
+    padding: 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+input {
+    flex: 1;
+    min-width: 0;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th,
+td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background: #eff6ff;
+    color: #172554;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.upcoming {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.ongoing {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.completed {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.update-btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 12px;
+    cursor: pointer;
+}
+
+.update-btn:hover {
+    background: #1d4ed8;
+}
+
+.note {
+    margin-top: 18px;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Responsive design */
+@media (max-width: 850px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .sidebar h2 {
+        margin-bottom: 15px;
+    }
+
+    .main {
+        padding: 18px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>Volunteer Panel</h2>
+
+        <a href="volunteer-dashboard.html">Dashboard</a>
+
+        <a href="volunteer-assigned-events.html">
+            Assigned Events
+        </a>
+
+        <a href="volunteer-participants-attendance.html">
+            Participants & Attendance
+        </a>
+
+        <a href="volunteer-event-status.html" class="active">
+            Event Status
+        </a>
+
+        <a href="login.html">Logout</a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <div class="header">
+            <h1>Event Status Management</h1>
+            <p>View assigned events and update their progress.</p>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+
+            <div class="stat-card">
+                <h3>Total Events</h3>
+                <p id="totalEvents">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Ongoing Events</h3>
+                <p id="ongoingEvents">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Completed Events</h3>
+                <p id="completedEvents">0</p>
+            </div>
+
+        </div>
+
+        <!-- Event Table -->
+        <section class="content-card">
+
+            <h2>Manage Event Status</h2>
+
+            <div class="filters">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search event name or venue..."
+                >
+
+                <select id="statusFilter">
+                    <option value="all">All Statuses</option>
+                    <option value="Upcoming">Upcoming</option>
+                    <option value="Ongoing">Ongoing</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Date</th>
+                            <th>Venue</th>
+                            <th>Current Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="eventTable"></tbody>
+                </table>
+            </div>
+
+            <p class="note">
+                Note: This is currently a frontend demonstration.
+                Changes are saved in your browser's localStorage.
+                Java/JDBC and MySQL integration can be added later.
+            </p>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+const STORAGE_KEY = "collegeEventManagementVolunteerEvents";
+
+/* Demo events are created only when no saved events exist. */
+function loadEvents() {
+    let events = localStorage.getItem(STORAGE_KEY);
+
+    if (events === null) {
+        const sampleEvents = [
+            {
+                id: 1,
+                name: "VGI Diwali Mela 2026",
+                date: "2026-11-02",
+                venue: "Sports Ground, VGI",
+                status: "Upcoming"
+            },
+            {
+                id: 2,
+                name: "Coding Competition",
+                date: "2026-11-15",
+                venue: "Computer Lab",
+                status: "Upcoming"
+            },
+            {
+                id: 3,
+                name: "Singing Competition",
+                date: "2026-10-20",
+                venue: "College Auditorium",
+                status: "Completed"
+            }
+        ];
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(sampleEvents)
+        );
+
+        return sampleEvents;
+    }
+
+    try {
+        const parsedEvents = JSON.parse(events);
+        return Array.isArray(parsedEvents) ? parsedEvents : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+let events = loadEvents();
+
+function getStatus(event) {
+    const status = String(event.status || "Upcoming").toLowerCase();
+
+    if (status === "ongoing") return "Ongoing";
+    if (status === "completed") return "Completed";
+
+    return "Upcoming";
+}
+
+function getEventName(event) {
+    return event.name || event.event_name || "Untitled Event";
+}
+
+function getEventDate(event) {
+    return event.date || event.event_date || "Not specified";
+}
+
+function getEventVenue(event) {
+    return event.venue || "Not specified";
+}
+
+function saveEvents() {
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(events)
+    );
+}
+
+function updateStatistics() {
+    document.getElementById("totalEvents").textContent =
+        events.length;
+
+    document.getElementById("ongoingEvents").textContent =
+        events.filter(event => getStatus(event) === "Ongoing").length;
+
+    document.getElementById("completedEvents").textContent =
+        events.filter(event => getStatus(event) === "Completed").length;
+}
+
+function renderEvents() {
+    const table = document.getElementById("eventTable");
+    const search = document
+        .getElementById("searchInput")
+        .value.trim()
+        .toLowerCase();
+
+    const filter = document.getElementById("statusFilter").value;
+
+    table.innerHTML = "";
+
+    const filteredEvents = events.filter(event => {
+        const name = getEventName(event).toLowerCase();
+        const venue = getEventVenue(event).toLowerCase();
+        const status = getStatus(event);
+
+        const matchesSearch =
+            name.includes(search) || venue.includes(search);
+
+        const matchesStatus =
+            filter === "all" || status === filter;
+
+        return matchesSearch && matchesStatus;
+    });
+
+    if (filteredEvents.length === 0) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="5">No events found.</td>
+            </tr>
+        `;
+
+        updateStatistics();
+        return;
+    }
+
+    filteredEvents.forEach(event => {
+        const status = getStatus(event);
+        const row = document.createElement("tr");
+
+        const nameCell = document.createElement("td");
+        nameCell.textContent = getEventName(event);
+
+        const dateCell = document.createElement("td");
+        dateCell.textContent = getEventDate(event);
+
+        const venueCell = document.createElement("td");
+        venueCell.textContent = getEventVenue(event);
+
+        const statusCell = document.createElement("td");
+        const badge = document.createElement("span");
+
+        badge.className = "status " + status.toLowerCase();
+        badge.textContent = status;
+        statusCell.appendChild(badge);
+
+        const actionCell = document.createElement("td");
+        const button = document.createElement("button");
+
+        button.className = "update-btn";
+        button.textContent = "Update Status";
+
+        button.addEventListener("click", function() {
+            updateStatus(event.id);
+        });
+
+        actionCell.appendChild(button);
+
+        row.append(
+            nameCell,
+            dateCell,
+            venueCell,
+            statusCell,
+            actionCell
+        );
+
+        table.appendChild(row);
+    });
+
+    updateStatistics();
+}
+
+function updateStatus(eventId) {
+    const event = events.find(item => item.id === eventId);
+
+    if (!event) {
+        alert("Event not found.");
+        return;
+    }
+
+    const currentStatus = getStatus(event);
+
+    let nextStatus;
+
+    if (currentStatus === "Upcoming") {
+        nextStatus = "Ongoing";
+    } else if (currentStatus === "Ongoing") {
+        nextStatus = "Completed";
+    } else {
+        nextStatus = "Upcoming";
+    }
+
+    const confirmed = confirm(
+        "Change status of " +
+        getEventName(event) +
+        " from " +
+        currentStatus +
+        " to " +
+        nextStatus +
+        "?"
+    );
+
+    if (!confirmed) return;
+
+    event.status = nextStatus;
+
+    saveEvents();
+    renderEvents();
+
+    alert("Event status updated to " + nextStatus + ".");
+}
+
+document.getElementById("searchInput")
+    .addEventListener("input", renderEvents);
+
+document.getElementById("statusFilter")
+    .addEventListener("change", renderEvents);
+
+renderEvents();
+</script>
+
+</body>
+</html>

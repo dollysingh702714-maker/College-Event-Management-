@@ -3,425 +3,555 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Competition & Result Module</title>
+<title>Competition & Result | College Event Management</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f3f6fc;color:#263247}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:250px;background:#172554;color:white;padding:25px 15px;flex-shrink:0}
+.sidebar h2{text-align:center;margin-bottom:8px}
+.sidebar p{text-align:center;color:#cbd5e1;font-size:13px;margin-bottom:25px}
+.sidebar a{display:block;color:#e2e8f0;text-decoration:none;padding:12px;margin:5px 0;border-radius:7px;font-size:14px}
+.sidebar a:hover,.sidebar a.active{background:#2563eb;color:white}
+.main{flex:1;min-width:0;padding:30px}
+.header{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:25px}
+.header h1{font-size:28px}
+.header p{color:#64748b;margin-top:7px}
+.badge{background:#dbeafe;color:#1d4ed8;padding:10px 15px;border-radius:20px;font-weight:bold}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:25px}
+.stat-card,.panel{background:white;padding:22px;border-radius:12px;box-shadow:0 3px 12px #0000000a}
+.stat-card h3{font-size:14px;color:#64748b;margin-bottom:12px}
+.stat-card h2{font-size:30px;color:#1d4ed8}
+.panel{margin-bottom:25px}
+.panel h2{margin-bottom:20px;font-size:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.form-group label{display:block;font-weight:bold;font-size:14px;margin-bottom:7px}
+input,select{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:7px;font-size:14px;background:white}
+.full{grid-column:1/-1}
+button{border:none;border-radius:7px;padding:11px 15px;cursor:pointer;font-weight:bold}
+.primary{background:#2563eb;color:white}
+.primary:hover{background:#1d4ed8}
+.red{background:#fee2e2;color:#991b1b}
+.blue{background:#dbeafe;color:#1d4ed8}
+.green{background:#dcfce7;color:#166534}
+.gray{background:#e2e8f0;color:#334155}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th,td{padding:13px;border-bottom:1px solid #e2e8f0;text-align:left;font-size:14px;vertical-align:top}
+th{background:#f8fafc;color:#475569}
+.status{display:inline-block;padding:6px 9px;border-radius:15px;font-size:12px;font-weight:bold;white-space:nowrap}
+.status.pending{background:#fef3c7;color:#92400e}
+.status.published{background:#dcfce7;color:#166534}
+.status.unpublished{background:#e2e8f0;color:#475569}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.actions button{padding:8px 10px;font-size:12px}
+.filters{display:grid;grid-template-columns:2fr 1fr;gap:15px;margin-bottom:20px}
+.empty{text-align:center;color:#64748b;padding:25px}
+#message{margin-top:12px;line-height:1.5}
+footer{text-align:center;color:#64748b;font-size:13px;padding:10px}
+@media(max-width:1000px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){
+.layout{flex-direction:column}
+.sidebar{width:100%}
+.sidebar a{display:inline-block}
+.main{padding:18px}
 }
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f3f4f8;
-    color: #252b42;
-}
-
-header {
-    background: #263b80;
-    color: white;
-    text-align: center;
-    padding: 22px;
-}
-
-nav {
-    background: #192957;
-    padding: 14px;
-    text-align: center;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin: 8px;
-}
-
-.container {
-    max-width: 1100px;
-    margin: 25px auto;
-    padding: 15px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    margin-bottom: 22px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px #0001;
-    overflow-x: auto;
-}
-
-h2 {
-    color: #263b80;
-}
-
-.page-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-}
-
-.page-heading img {
-    width: 240px;
-    height: 175px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.heading-text {
-    flex: 1;
-    text-align: center;
-}
-
-@media (max-width: 600px) {
-    .page-heading img {
-        width: 80px;
-        height: 80px;
-    }
-
-    .heading-text h1 {
-        font-size: 18px;
-    }
-}
-
-label {
-    display: block;
-    margin-top: 12px;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    background: #263b80;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    margin-top: 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #4059b2;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 650px;
-}
-
-th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-th {
-    background: #e6eaff;
-}
-
-footer {
-    background: #192957;
-    color: white;
-    text-align: center;
-    padding: 14px;
+@media(max-width:600px){
+.stats,.form-grid,.filters{grid-template-columns:1fr}
+.full{grid-column:auto}
+.header h1{font-size:23px}
 }
 </style>
 </head>
 
 <body>
+<div class="layout">
 
-<header>
- <header>
-    <div class="page-heading">
-        <img src="competition.jpg" alt="Competition">
+<aside class="sidebar">
+<h2>VGI Events</h2>
+<p>Admin Control Panel</p>
 
-        <div class="heading-text">
-            <h1>Competition & Result Module</h1>
-            <p>Manage Competitions, Participants and Winners</p>
-        </div>
+<a href="admin-dashboard.html">Admin Dashboard</a>
+<a href="event-management.html">Event Management</a>
+<a href="student-management.html">Student Management</a>
+<a href="stall-booking.html">Stall &amp; Booking</a>
+<a href="organizer-module.html">Organizer Module</a>
+<a class="active" href="competition-result.html">Competition &amp; Result</a>
+<a href="feedback-module.html">Feedback Module</a>
+<a href="notification-reports.html">Notification &amp; Reports</a>
+<a href="login.html">Logout</a>
+</aside>
 
-        <img src="result.jpg" alt="Competition Results">
-    </div>
-</header>
-</header>
+<main class="main">
 
-<nav>
-    <a href="admin-dashboard.html">Admin</a>
-    <a href="event-management.html">Events</a>
-    <a href="student-management.html">Students</a>
-    <a href="stall-booking.html">Stalls</a>
-    <a href="organizer-module.html">Organizer</a>
-</nav>
-
-<div class="container">
-
-    <!-- Competition Details -->
-    <div class="card">
-        <h2>Add Competition</h2>
-
-        <form onsubmit="addCompetition(event)">
-            <label>Competition Name</label>
-            <input type="text" id="competitionName"
-                   placeholder="Enter competition name" required>
-
-            <label>Competition Category</label>
-            <select id="category" required>
-                <option value="">Select Category</option>
-                <option>Singing</option>
-                <option>Quiz</option>
-                <option>Technical</option>
-            </select>
-
-            <label>Competition Date</label>
-            <input type="date" id="competitionDate" required>
-
-            <label>Venue</label>
-            <input type="text" id="venue"
-                   placeholder="Enter venue" required>
-
-            <label>Description</label>
-            <textarea id="description"
-                      placeholder="Enter competition details"
-                      rows="3"></textarea>
-
-            <button type="submit">Add Competition</button>
-        </form>
-    </div>
-
-    <!-- Competition List -->
-    <div class="card">
-        <h2>Competition List</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Competition</th>
-                    <th>Category</th>
-                    <th>Date</th>
-                    <th>Venue</th>
-                </tr>
-            </thead>
-            <tbody id="competitionTable">
-                <tr>
-                    <td>CP101</td>
-                    <td>Singing Competition</td>
-                    <td>Singing</td>
-                    <td>05-11-2026</td>
-                    <td>Main Stage</td>
-                </tr>
-                <tr>
-                    <td>CP102</td>
-                    <td>Programming Quiz</td>
-                    <td>Quiz</td>
-                    <td>06-11-2026</td>
-                    <td>Computer Lab</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Participant Entries -->
-    <div class="card">
-        <h2>Participant Entries</h2>
-
-        <form onsubmit="addParticipant(event)">
-            <label>Participant Name</label>
-            <input type="text" id="participantName"
-                   placeholder="Enter participant name" required>
-
-            <label>Competition</label>
-            <select id="participantCompetition" required>
-                <option value="">Select Competition</option>
-                <option>Singing Competition</option>
-                <option>Programming Quiz</option>
-                <option>Technical Competition</option>
-            </select>
-
-            <label>College / Department</label>
-            <input type="text" id="department"
-                   placeholder="Enter department" required>
-
-            <button type="submit">Register Participant</button>
-        </form>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Participant ID</th>
-                    <th>Name</th>
-                    <th>Competition</th>
-                    <th>Department</th>
-                </tr>
-            </thead>
-            <tbody id="participantTable">
-                <tr>
-                    <td>PT101</td>
-                    <td>Rahul Sharma</td>
-                    <td>Programming Quiz</td>
-                    <td>Computer Science</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Results -->
-    <div class="card">
-        <h2>Winners & Results</h2>
-
-        <form onsubmit="addResult(event)">
-            <label>Competition Name</label>
-            <input type="text" id="resultCompetition"
-                   placeholder="Enter competition name" required>
-
-            <label>Winner Name</label>
-            <input type="text" id="winnerName"
-                   placeholder="Enter winner name" required>
-
-            <label>Position</label>
-            <select id="position" required>
-                <option value="">Select Position</option>
-                <option>1st Place</option>
-                <option>2nd Place</option>
-                <option>3rd Place</option>
-            </select>
-
-            <label>Marks / Score</label>
-            <input type="number" id="score"
-                   placeholder="Enter score" min="0" required>
-
-            <label>Award</label>
-            <input type="text" id="award"
-                   placeholder="e.g. Gold Medal" required>
-
-            <label>Certificate Record</label>
-            <select id="certificate" required>
-                <option value="">Select Status</option>
-                <option>Issued</option>
-                <option>Pending</option>
-            </select>
-
-            <button type="submit">Publish Result</button>
-        </form>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Competition</th>
-                    <th>Winner</th>
-                    <th>Position</th>
-                    <th>Score</th>
-                    <th>Award</th>
-                    <th>Certificate</th>
-                </tr>
-            </thead>
-            <tbody id="resultTable">
-                <tr>
-                    <td>Programming Quiz</td>
-                    <td>Rahul Sharma</td>
-                    <td>1st Place</td>
-                    <td>95</td>
-                    <td>Gold Medal</td>
-                    <td>Issued</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
+<div class="header">
+<div>
+<h1>Competition &amp; Result</h1>
+<p>Manage competition entries, winners and awards.</p>
+</div>
+<span class="badge">Competition Panel</span>
 </div>
 
-<footer>
-    <p>College Event Management System | Competition & Result Module</p>
-</footer>
+<section class="stats">
+<div class="stat-card">
+<h3>Total Competitions</h3>
+<h2 id="totalCompetitions">0</h2>
+</div>
+<div class="stat-card">
+<h3>Total Entries</h3>
+<h2 id="totalEntries">0</h2>
+</div>
+<div class="stat-card">
+<h3>Results Published</h3>
+<h2 id="publishedResults">0</h2>
+</div>
+</section>
+
+<section class="panel" id="formPanel">
+<h2 id="formTitle">Add Competition</h2>
+
+<form id="competitionForm" class="form-grid">
+
+<div class="form-group">
+<label for="competitionName">Competition Name</label>
+<input type="text" id="competitionName" maxlength="150"
+placeholder="e.g. Coding Competition" required>
+</div>
+
+<div class="form-group">
+<label for="category">Category</label>
+<select id="category" required>
+<option value="">Select Category</option>
+<option>Technical</option>
+<option>Cultural</option>
+<option>Sports</option>
+<option>Quiz</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="form-group">
+<label for="eventDate">Competition Date</label>
+<input type="date" id="eventDate" required>
+</div>
+
+<div class="form-group">
+<label for="entries">Number of Entries</label>
+<input type="number" id="entries" min="0" step="1" value="0" required>
+</div>
+
+<div class="form-group full">
+<label for="winner">Winner Name (Optional)</label>
+<input type="text" id="winner" maxlength="100"
+placeholder="Enter winner's name when available">
+</div>
+
+<div class="form-group full">
+<div class="actions">
+<button class="primary" type="submit" id="submitBtn">Add Competition</button>
+<button class="gray" type="button" id="cancelBtn" hidden>Cancel Edit</button>
+</div>
+<p id="message" role="status" aria-live="polite"></p>
+</div>
+
+</form>
+</section>
+
+<section class="panel">
+<h2>Competition Records &amp; Results</h2>
+
+<div class="filters">
+<div>
+<label for="searchCompetition">Search Competitions</label>
+<input type="search" id="searchCompetition"
+placeholder="Search by competition or winner...">
+</div>
+
+<div>
+<label for="categoryFilter">Filter by Category</label>
+<select id="categoryFilter">
+<option value="All">All Categories</option>
+<option>Technical</option>
+<option>Cultural</option>
+<option>Sports</option>
+<option>Quiz</option>
+<option>Other</option>
+</select>
+</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Competition</th>
+<th>Category</th>
+<th>Date</th>
+<th>Entries</th>
+<th>Winner</th>
+<th>Result Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="competitionTable"></tbody>
+</table>
+</div>
+
+<p id="emptyMessage" class="empty" hidden>No competitions found.</p>
+</section>
+
+<footer>College Event Management System | Competition &amp; Result</footer>
+
+</main>
+</div>
 
 <script>
-let competitionCount = 103;
-let participantCount = 102;
+const STORAGE_KEY = "collegeEventManagementCompetitions";
 
-function addCompetition(event) {
-    event.preventDefault();
+const demoCompetitions = [
+{
+id:1,
+name:"Coding Competition",
+category:"Technical",
+date:"2026-11-15",
+entries:45,
+winner:"",
+published:false
+},
+{
+id:2,
+name:"Singing Competition",
+category:"Cultural",
+date:"2026-10-20",
+entries:25,
+winner:"Aarav Sharma",
+published:true
+},
+{
+id:3,
+name:"Quiz Competition",
+category:"Quiz",
+date:"2026-11-20",
+entries:30,
+winner:"",
+published:false
+}
+];
 
-    const name = document.getElementById("competitionName").value;
-    const category = document.getElementById("category").value;
-    const date = document.getElementById("competitionDate").value;
-    const venue = document.getElementById("venue").value;
+function loadCompetitions(){
+    try{
+        const saved = localStorage.getItem(STORAGE_KEY);
 
-    const row = document.getElementById("competitionTable").insertRow();
+        if(saved===null){
+            localStorage.setItem(STORAGE_KEY,JSON.stringify(demoCompetitions));
+            return demoCompetitions.map(item=>({...item}));
+        }
 
-    row.innerHTML = `
-        <td>CP${competitionCount++}</td>
-        <td>${escapeHTML(name)}</td>
-        <td>${escapeHTML(category)}</td>
-        <td>${escapeHTML(date)}</td>
-        <td>${escapeHTML(venue)}</td>
-    `;
+        const data = JSON.parse(saved);
+        if(Array.isArray(data)) return data;
 
-    event.target.reset();
+    }catch(error){
+        console.error("Unable to load competitions:",error);
+    }
+
+    return demoCompetitions.map(item=>({...item}));
 }
 
-function addParticipant(event) {
-    event.preventDefault();
+let competitions = loadCompetitions();
+let editingId = null;
+let nextId = Math.max(0,...competitions.map(item=>Number(item.id)||0))+1;
 
-    const name = document.getElementById("participantName").value;
-    const competition = document.getElementById("participantCompetition").value;
-    const department = document.getElementById("department").value;
+const form = document.getElementById("competitionForm");
+const table = document.getElementById("competitionTable");
+const message = document.getElementById("message");
 
-    const row = document.getElementById("participantTable").insertRow();
-
-    row.innerHTML = `
-        <td>PT${participantCount++}</td>
-        <td>${escapeHTML(name)}</td>
-        <td>${escapeHTML(competition)}</td>
-        <td>${escapeHTML(department)}</td>
-    `;
-
-    event.target.reset();
+function saveCompetitions(){
+    try{
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(competitions));
+        return true;
+    }catch(error){
+        alert("Unable to save competition records in this browser.");
+        console.error(error);
+        return false;
+    }
 }
 
-function addResult(event) {
-    event.preventDefault();
+function renderCompetitions(){
+    const query = document.getElementById("searchCompetition")
+        .value.trim().toLowerCase();
 
-    const competition = document.getElementById("resultCompetition").value;
-    const winner = document.getElementById("winnerName").value;
-    const position = document.getElementById("position").value;
-    const score = document.getElementById("score").value;
-    const award = document.getElementById("award").value;
-    const certificate = document.getElementById("certificate").value;
+    const categoryFilter = document.getElementById("categoryFilter").value;
 
-    const row = document.getElementById("resultTable").insertRow();
+    const filtered = competitions.filter(item=>{
+        const matchesSearch =
+            [item.name,item.category,item.date,item.winner]
+            .some(value=>String(value).toLowerCase().includes(query));
 
-    row.innerHTML = `
-        <td>${escapeHTML(competition)}</td>
-        <td>${escapeHTML(winner)}</td>
-        <td>${escapeHTML(position)}</td>
-        <td>${escapeHTML(score)}</td>
-        <td>${escapeHTML(award)}</td>
-        <td>${escapeHTML(certificate)}</td>
-    `;
+        const matchesCategory =
+            categoryFilter==="All" || item.category===categoryFilter;
 
-    event.target.reset();
-}
-
-function escapeHTML(value) {
-    return String(value).replace(/[&<>"']/g, function(char) {
-        return {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;"
-        }[char];
+        return matchesSearch && matchesCategory;
     });
+
+    table.innerHTML = "";
+
+    filtered.forEach(item=>{
+        const row = document.createElement("tr");
+
+        function addCell(value){
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+            return cell;
+        }
+
+        addCell(item.name);
+        addCell(item.category);
+        addCell(item.date);
+        addCell(item.entries);
+        addCell(item.winner || "Not declared");
+
+        const statusCell = addCell("");
+        const status = document.createElement("span");
+        status.className = "status "+(item.published?"published":"pending");
+        status.textContent = item.published?"Published":"Pending";
+        statusCell.appendChild(status);
+
+        const actionCell = addCell("");
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const winnerButton = document.createElement("button");
+        winnerButton.type = "button";
+        winnerButton.className = "blue";
+        winnerButton.textContent = item.winner?"Edit Winner":"Declare Winner";
+        winnerButton.addEventListener("click",()=>declareWinner(item.id));
+        actions.appendChild(winnerButton);
+
+        const publishButton = document.createElement("button");
+        publishButton.type = "button";
+        publishButton.className = "green";
+        publishButton.textContent = item.published?"Unpublish":"Publish";
+        publishButton.addEventListener("click",()=>togglePublish(item.id));
+        actions.appendChild(publishButton);
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "gray";
+        editButton.textContent = "Edit";
+        editButton.addEventListener("click",()=>editCompetition(item.id));
+        actions.appendChild(editButton);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "red";
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click",()=>deleteCompetition(item.id));
+        actions.appendChild(deleteButton);
+
+        actionCell.appendChild(actions);
+        table.appendChild(row);
+    });
+
+    document.getElementById("emptyMessage").hidden = filtered.length!==0;
+
+    document.getElementById("totalCompetitions").textContent =
+        competitions.length;
+
+    document.getElementById("totalEntries").textContent =
+        competitions.reduce((sum,item)=>sum+Number(item.entries),0);
+
+    document.getElementById("publishedResults").textContent =
+        competitions.filter(item=>item.published).length;
 }
+
+function resetForm(){
+    form.reset();
+    editingId = null;
+
+    document.getElementById("formTitle").textContent = "Add Competition";
+    document.getElementById("submitBtn").textContent = "Add Competition";
+    document.getElementById("cancelBtn").hidden = true;
+    document.getElementById("entries").value = 0;
+}
+
+function editCompetition(id){
+    const item = competitions.find(c=>c.id===id);
+    if(!item) return;
+
+    editingId = id;
+
+    document.getElementById("competitionName").value = item.name;
+    document.getElementById("category").value = item.category;
+    document.getElementById("eventDate").value = item.date;
+    document.getElementById("entries").value = item.entries;
+    document.getElementById("winner").value = item.winner;
+
+    document.getElementById("formTitle").textContent = "Edit Competition";
+    document.getElementById("submitBtn").textContent = "Update Competition";
+    document.getElementById("cancelBtn").hidden = false;
+
+    message.textContent = "Update the competition details and save.";
+
+    document.getElementById("formPanel").scrollIntoView({behavior:"smooth"});
+}
+
+function declareWinner(id){
+    const item = competitions.find(c=>c.id===id);
+    if(!item) return;
+
+    const winner = prompt("Enter the winner's name:",item.winner||"");
+
+    if(winner===null) return;
+
+    if(!winner.trim()){
+        alert("Please enter a winner's name.");
+        return;
+    }
+
+    const oldWinner = item.winner;
+    const oldPublished = item.published;
+
+    item.winner = winner.trim();
+    item.published = false;
+
+    if(!saveCompetitions()){
+        item.winner = oldWinner;
+        item.published = oldPublished;
+        return;
+    }
+
+    message.textContent = "Winner saved. Publish the result when ready.";
+    renderCompetitions();
+}
+
+function togglePublish(id){
+    const item = competitions.find(c=>c.id===id);
+    if(!item) return;
+
+    if(!item.published && !item.winner){
+        alert("Declare the winner before publishing the result.");
+        return;
+    }
+
+    const oldStatus = item.published;
+    item.published = !item.published;
+
+    if(!saveCompetitions()){
+        item.published = oldStatus;
+        return;
+    }
+
+    message.textContent = item.published
+        ? "Result published successfully."
+        : "Result unpublished.";
+
+    renderCompetitions();
+}
+
+function deleteCompetition(id){
+    const item = competitions.find(c=>c.id===id);
+    if(!item) return;
+
+    if(!confirm("Delete the competition '"+item.name+"'?")) return;
+
+    const oldList = competitions;
+    competitions = competitions.filter(c=>c.id!==id);
+
+    if(!saveCompetitions()){
+        competitions = oldList;
+        return;
+    }
+
+    if(editingId===id) resetForm();
+
+    message.textContent = "Competition deleted successfully.";
+    renderCompetitions();
+}
+
+document.getElementById("cancelBtn").addEventListener("click",()=>{
+    resetForm();
+    message.textContent = "Edit cancelled.";
+});
+
+form.addEventListener("submit",function(e){
+    e.preventDefault();
+
+    const data = {
+        name:document.getElementById("competitionName").value.trim(),
+        category:document.getElementById("category").value,
+        date:document.getElementById("eventDate").value,
+        entries:Number(document.getElementById("entries").value),
+        winner:document.getElementById("winner").value.trim()
+    };
+
+    if(!data.name || !data.category || !data.date){
+        message.textContent = "Please fill in all required fields.";
+        return;
+    }
+
+    if(!Number.isInteger(data.entries)||data.entries<0){
+        message.textContent = "Entries must be a whole number greater than or equal to zero.";
+        return;
+    }
+
+    if(editingId!==null){
+        const index = competitions.findIndex(c=>c.id===editingId);
+
+        if(index===-1){
+            resetForm();
+            message.textContent = "Competition record not found.";
+            return;
+        }
+
+        const oldItem = competitions[index];
+
+        competitions[index] = {
+            ...oldItem,
+            ...data,
+            published:data.winner===oldItem.winner
+                ? oldItem.published
+                : false
+        };
+
+        if(!saveCompetitions()){
+            competitions[index] = oldItem;
+            return;
+        }
+
+        resetForm();
+        message.textContent = "Competition updated successfully.";
+
+    }else{
+        const newItem = {
+            id:nextId++,
+            ...data,
+            published:false
+        };
+
+        competitions.push(newItem);
+
+        if(!saveCompetitions()){
+            competitions = competitions.filter(c=>c.id!==newItem.id);
+            nextId--;
+            return;
+        }
+
+        resetForm();
+        message.textContent = "Competition added successfully.";
+    }
+
+    renderCompetitions();
+});
+
+document.getElementById("searchCompetition")
+    .addEventListener("input",renderCompetitions);
+
+document.getElementById("categoryFilter")
+    .addEventListener("change",renderCompetitions);
+
+renderCompetitions();
 </script>
 
 </body>

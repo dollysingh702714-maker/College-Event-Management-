@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Stall Registration</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 25px 30px;
+        }
+
+        header h1 {
+            margin-bottom: 12px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: white;
+            color: #172554;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+
+        .back-btn:hover {
+            background: #dbeafe;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        .intro, .form-section, .status-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px #0000000d;
+        }
+
+        h2 {
+            color: #172554;
+            margin-bottom: 18px;
+        }
+
+        .intro p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .status-section {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 550px;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .empty-message {
+            color: #64748b;
+            padding: 15px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }
+
+        @media (max-width: 650px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🏪 Stall Registration</h1>
+    <p>Apply for a stall at college events and festivals.</p>
+
+    <a href="student-dashboard.html" class="back-btn">
+        ← Back to Student Dashboard
+    </a>
+</header>
+
+<main class="container">
+
+    <section class="intro">
+        <h2>Welcome to Stall Booking</h2>
+
+        <p>
+            Students can apply for food stalls, handmade products,
+            herbal products and other stalls during college events.
+            Submit your application and check its approval status below.
+        </p>
+    </section>
+
+    <section class="form-section">
+        <h2>Stall Application Form</h2>
+
+        <form id="stallForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="studentName">Student Name</label>
+                    <input
+                        type="text"
+                        id="studentName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="studentId">Student ID</label>
+                    <input
+                        type="text"
+                        id="studentId"
+                        placeholder="Enter your student ID"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Contact Number</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="Enter 10-digit mobile number"
+                        pattern="[0-9]{10}"
+                        maxlength="10"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="eventName">Select Event</label>
+
+                    <select id="eventName" required>
+                        <option value="">Choose an event</option>
+                        <option value="VGI Diwali Mela 2026">
+                            VGI Diwali Mela 2026
+                        </option>
+                        <option value="College Stall Festival">
+                            College Stall Festival
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="stallType">Stall Category</label>
+
+                    <select id="stallType" required>
+                        <option value="">Choose category</option>
+                        <option value="Food">Food Stall</option>
+                        <option value="Handmade Products">
+                            Handmade Products
+                        </option>
+                        <option value="Herbal Products">
+                            Herbal Products
+                        </option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="stallDescription">
+                        Stall Description
+                    </label>
+
+                    <textarea
+                        id="stallDescription"
+                        placeholder="Describe the products you want to sell..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="requirements">
+                        Special Requirements (Optional)
+                    </label>
+
+                    <textarea
+                        id="requirements"
+                        placeholder="Mention table, electricity or space requirements..."
+                    ></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <button type="submit">
+                        Submit Stall Application
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+    </section>
+
+    <section class="status-section">
+        <h2>📋 My Stall Applications</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Stall Category</th>
+                    <th>Application Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="applicationTable"></tbody>
+        </table>
+    </section>
+
+</main>
+
+<footer>
+    College Event Management System | Student Panel
+</footer>
+
+<script>
+    const form = document.getElementById("stallForm");
+    const applicationTable = document.getElementById("applicationTable");
+
+    let applications = JSON.parse(
+        localStorage.getItem("studentStallApplications") || "[]"
+    );
+
+    function displayApplications() {
+        applicationTable.innerHTML = "";
+
+        if (applications.length === 0) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+
+            cell.colSpan = 4;
+            cell.className = "empty-message";
+            cell.textContent = "You have not submitted any stall applications.";
+
+            row.appendChild(cell);
+            applicationTable.appendChild(row);
+            return;
+        }
+
+        applications.forEach(function(application) {
+            const row = document.createElement("tr");
+
+            const eventCell = document.createElement("td");
+            eventCell.textContent = application.event;
+
+            const categoryCell = document.createElement("td");
+            categoryCell.textContent = application.category;
+
+            const dateCell = document.createElement("td");
+            dateCell.textContent = application.date;
+
+            const statusCell = document.createElement("td");
+            const badge = document.createElement("span");
+
+            badge.className = "badge";
+            badge.textContent = application.status;
+
+            statusCell.appendChild(badge);
+
+            row.appendChild(eventCell);
+            row.appendChild(categoryCell);
+            row.appendChild(dateCell);
+            row.appendChild(statusCell);
+
+            applicationTable.appendChild(row);
+        });
+    }
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const studentName =
+            document.getElementById("studentName").value.trim();
+
+        const studentId =
+            document.getElementById("studentId").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const phone =
+            document.getElementById("phone").value.trim();
+
+        const eventName =
+            document.getElementById("eventName").value;
+
+        const category =
+            document.getElementById("stallType").value;
+
+        const description =
+            document.getElementById("stallDescription").value.trim();
+
+        const requirements =
+            document.getElementById("requirements").value.trim();
+
+        if (
+            !studentName || !studentId || !email || !phone ||
+            !eventName || !category || !description
+        ) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        const duplicate = applications.some(function(application) {
+            return application.studentId === studentId &&
+                   application.event === eventName;
+        });
+
+        if (duplicate) {
+            alert("You have already applied for a stall at this event.");
+            return;
+        }
+
+        const newApplication = {
+            studentName: studentName,
+            studentId: studentId,
+            email: email,
+            phone: phone,
+            event: eventName,
+            category: category,
+            description: description,
+            requirements: requirements,
+            date: new Date().toLocaleDateString("en-IN"),
+            status: "Pending"
+        };
+
+        applications.push(newApplication);
+
+        localStorage.setItem(
+            "studentStallApplications",
+            JSON.stringify(applications)
+        );
+
+        displayApplications();
+        form.reset();
+
+        alert("Stall application submitted successfully!");
+    });
+
+    displayApplications();
+</script>
+
+</body>
+</html>

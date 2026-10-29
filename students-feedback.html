@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Feedback | College Event Management</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 25px 30px;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: white;
+            color: #172554;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #dbeafe;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #0000000d;
+        }
+
+        h2 {
+            color: #172554;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .rating-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .rating-options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .rating-options input {
+            width: auto;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 14px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+
+        th {
+            background: #eff6ff;
+            color: #1e3a8a;
+        }
+
+        .stars {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .empty-message {
+            color: #64748b;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 20px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>⭐ Student Feedback Module</h1>
+
+    <p>Share your experience and help us improve college events.</p>
+
+    <a href="student-dashboard.html" class="back-btn">
+        ← Back to Student Dashboard
+    </a>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <h2>Welcome to Feedback</h2>
+
+        <p class="description">
+            Your feedback helps us improve event planning and
+            organization. Select an event, give a rating, and share
+            your suggestions.
+        </p>
+    </section>
+
+    <section class="card">
+        <h2>Submit Your Feedback</h2>
+
+        <form id="feedbackForm">
+
+            <div class="form-group">
+                <label for="studentName">Student Name</label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter your name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="studentId">Student ID</label>
+
+                <input
+                    type="text"
+                    id="studentId"
+                    placeholder="Enter your student ID"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="eventName">Select Event</label>
+
+                <select id="eventName" required>
+                    <option value="">-- Choose an Event --</option>
+                    <option value="VGI Diwali Mela 2026">
+                        VGI Diwali Mela 2026
+                    </option>
+                    <option value="Coding Competition">
+                        Coding Competition
+                    </option>
+                    <option value="Annual Sports Meet">
+                        Annual Sports Meet
+                    </option>
+                    <option value="Web Development Workshop">
+                        Web Development Workshop
+                    </option>
+                    <option value="Inter-College Competition">
+                        Inter-College Competition
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Rate Your Experience</label>
+
+                <div class="rating-options">
+
+                    <label>
+                        <input type="radio" name="rating" value="1" required>
+                        1 ⭐
+                    </label>
+
+                    <label>
+                        <input type="radio" name="rating" value="2">
+                        2 ⭐
+                    </label>
+
+                    <label>
+                        <input type="radio" name="rating" value="3">
+                        3 ⭐
+                    </label>
+
+                    <label>
+                        <input type="radio" name="rating" value="4">
+                        4 ⭐
+                    </label>
+
+                    <label>
+                        <input type="radio" name="rating" value="5">
+                        5 ⭐
+                    </label>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="comments">Comments and Suggestions</label>
+
+                <textarea
+                    id="comments"
+                    placeholder="Tell us what you liked or what we can improve..."
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit">Submit Feedback</button>
+
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>📋 My Submitted Feedback</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Rating</th>
+                        <th>Comments</th>
+                        <th>Submission Date</th>
+                    </tr>
+                </thead>
+
+                <tbody id="feedbackTable"></tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    College Event Management System | Student Panel
+</footer>
+
+<script>
+    const feedbackForm = document.getElementById("feedbackForm");
+    const feedbackTable = document.getElementById("feedbackTable");
+
+    let feedbackList = JSON.parse(
+        localStorage.getItem("studentFeedbackList") || "[]"
+    );
+
+    function displayFeedback() {
+        feedbackTable.innerHTML = "";
+
+        if (feedbackList.length === 0) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+
+            cell.colSpan = 4;
+            cell.className = "empty-message";
+            cell.textContent = "You have not submitted any feedback yet.";
+
+            row.appendChild(cell);
+            feedbackTable.appendChild(row);
+
+            return;
+        }
+
+        feedbackList.forEach(function(feedback) {
+            const row = document.createElement("tr");
+
+            const eventCell = document.createElement("td");
+            eventCell.textContent = feedback.eventName;
+
+            const ratingCell = document.createElement("td");
+            ratingCell.className = "stars";
+            ratingCell.textContent =
+                "⭐".repeat(Number(feedback.rating));
+
+            const commentsCell = document.createElement("td");
+            commentsCell.textContent = feedback.comments;
+
+            const dateCell = document.createElement("td");
+            dateCell.textContent = feedback.date;
+
+            row.appendChild(eventCell);
+            row.appendChild(ratingCell);
+            row.appendChild(commentsCell);
+            row.appendChild(dateCell);
+
+            feedbackTable.appendChild(row);
+        });
+    }
+
+    feedbackForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const studentName =
+            document.getElementById("studentName").value.trim();
+
+        const studentId =
+            document.getElementById("studentId").value.trim();
+
+        const eventName =
+            document.getElementById("eventName").value;
+
+        const comments =
+            document.getElementById("comments").value.trim();
+
+        const selectedRating =
+            document.querySelector('input[name="rating"]:checked');
+
+        if (!selectedRating) {
+            alert("Please select a rating.");
+            return;
+        }
+
+        if (!studentName || !studentId || !eventName || !comments) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        const rating = selectedRating.value;
+
+        const alreadySubmitted = feedbackList.some(function(feedback) {
+            return feedback.studentId === studentId &&
+                   feedback.eventName === eventName;
+        });
+
+        if (alreadySubmitted) {
+            alert("You have already submitted feedback for this event.");
+            return;
+        }
+
+        const newFeedback = {
+            studentName: studentName,
+            studentId: studentId,
+            eventName: eventName,
+            rating: rating,
+            comments: comments,
+            date: new Date().toLocaleDateString("en-IN")
+        };
+
+        feedbackList.push(newFeedback);
+
+        localStorage.setItem(
+            "studentFeedbackList",
+            JSON.stringify(feedbackList)
+        );
+
+        displayFeedback();
+        feedbackForm.reset();
+
+        alert("Your feedback has been submitted successfully!");
+    });
+
+    displayFeedback();
+</script>
+
+</body>
+</html>

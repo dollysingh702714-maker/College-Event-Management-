@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Notifications | College Event Management</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 25px 30px;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: white;
+            color: #172554;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #dbeafe;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px #0000000d;
+        }
+
+        h2 {
+            color: #172554;
+            margin-bottom: 20px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            border-left: 5px solid #2563eb;
+            box-shadow: 0 4px 12px #0000000d;
+        }
+
+        .summary-card h3 {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .summary-card p {
+            font-size: 28px;
+            font-weight: bold;
+            color: #172554;
+        }
+
+        .notification {
+            display: flex;
+            gap: 15px;
+            padding: 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background: #ffffff;
+        }
+
+        .notification-icon {
+            font-size: 28px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h3 {
+            color: #1e3a8a;
+            margin-bottom: 8px;
+        }
+
+        .notification-content p {
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .notification-date {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 8px;
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .announcement {
+            border-left: 4px solid #2563eb;
+        }
+
+        .registration {
+            border-left: 4px solid #16a34a;
+        }
+
+        .event-details {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .event-box {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .event-box h3 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .event-box p {
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .empty-message {
+            color: #64748b;
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }
+
+        @media (max-width: 700px) {
+            .summary,
+            .event-details {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 20px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .notification {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🔔 Student Notifications</h1>
+
+    <p>Stay updated with college events and registration information.</p>
+
+    <a href="student-dashboard.html" class="back-btn">
+        ← Back to Student Dashboard
+    </a>
+</header>
+
+<main class="container">
+
+    <!-- Summary Cards -->
+    <section class="summary">
+
+        <div class="summary-card">
+            <h3>Total Announcements</h3>
+            <p id="announcementCount">0</p>
+        </div>
+
+        <div class="summary-card">
+            <h3>Upcoming Events</h3>
+            <p id="upcomingCount">0</p>
+        </div>
+
+        <div class="summary-card">
+            <h3>My Registrations</h3>
+            <p id="registrationCount">0</p>
+        </div>
+
+    </section>
+
+    <!-- Announcements -->
+    <section class="card">
+        <h2>📢 Latest Announcements</h2>
+
+        <div id="announcementList"></div>
+    </section>
+
+    <!-- Registration Notifications -->
+    <section class="card">
+        <h2>📝 My Registration Updates</h2>
+
+        <div id="registrationList"></div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section class="card">
+        <h2>📅 Upcoming Events</h2>
+
+        <div class="event-details" id="upcomingEvents"></div>
+    </section>
+
+</main>
+
+<footer>
+    College Event Management System | Student Panel
+</footer>
+
+<script>
+    // Demo announcements
+    const announcements = [
+        {
+            title: "VGI Diwali Mela 2026",
+            message: "Students can participate in the Diwali Mela. Enjoy cultural activities, food stalls and shopping.",
+            date: "28 October 2026",
+            category: "Cultural Event"
+        },
+        {
+            title: "Coding Competition Registration",
+            message: "Students interested in programming can prepare for the upcoming Coding Competition.",
+            date: "28 October 2026",
+            category: "Technical Event"
+        },
+        {
+            title: "Web Development Workshop",
+            message: "A web development workshop is scheduled for students interested in HTML, CSS and JavaScript.",
+            date: "28 October 2026",
+            category: "Workshop"
+        }
+    ];
+
+    // Demo event information
+    const events = [
+        {
+            name: "VGI Diwali Mela 2026",
+            date: "2026-11-02",
+            time: "11:00 AM - 4:00 PM",
+            venue: "Sports Ground, VGI"
+        },
+        {
+            name: "Coding Competition",
+            date: "2026-11-15",
+            time: "10:00 AM",
+            venue: "Computer Lab"
+        },
+        {
+            name: "Inter-College Competition",
+            date: "2026-11-20",
+            time: "10:00 AM",
+            venue: "Main Auditorium"
+        },
+        {
+            name: "Web Development Workshop",
+            date: "2026-12-05",
+            time: "11:00 AM",
+            venue: "Seminar Hall"
+        }
+    ];
+
+    const announcementList =
+        document.getElementById("announcementList");
+
+    const registrationList =
+        document.getElementById("registrationList");
+
+    const upcomingEvents =
+        document.getElementById("upcomingEvents");
+
+    function createElement(tag, className, text) {
+        const element = document.createElement(tag);
+
+        if (className) {
+            element.className = className;
+        }
+
+        if (text !== undefined) {
+            element.textContent = text;
+        }
+
+        return element;
+    }
+
+    function formatDate(dateString) {
+        return new Date(dateString + "T00:00:00")
+            .toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            });
+    }
+
+    function displayAnnouncements() {
+        announcementList.innerHTML = "";
+
+        document.getElementById("announcementCount").textContent =
+            announcements.length;
+
+        announcements.forEach(function(item) {
+            const card = createElement(
+                "div",
+                "notification announcement"
+            );
+
+            card.appendChild(
+                createElement("div", "notification-icon", "📢")
+            );
+
+            const content = createElement(
+                "div",
+                "notification-content"
+            );
+
+            content.appendChild(
+                createElement("span", "tag", item.category)
+            );
+
+            content.appendChild(
+                createElement("h3", "", item.title)
+            );
+
+            content.appendChild(
+                createElement("p", "", item.message)
+            );
+
+            content.appendChild(
+                createElement(
+                    "div",
+                    "notification-date",
+                    "Announcement date: " + item.date
+                )
+            );
+
+            card.appendChild(content);
+            announcementList.appendChild(card);
+        });
+    }
+
+    function displayRegistrationUpdates() {
+        registrationList.innerHTML = "";
+
+        // Read demo registrations from the Student Events page.
+        const registrations = JSON.parse(
+            localStorage.getItem("studentEventRegistrations") || "[]"
+        );
+
+        document.getElementById("registrationCount").textContent =
+            registrations.length;
+
+        if (registrations.length === 0) {
+            registrationList.appendChild(
+                createElement(
+                    "p",
+                    "empty-message",
+                    "You have no event registrations yet. Visit Event Management to register."
+                )
+            );
+            return;
+        }
+
+        registrations.forEach(function(item) {
+            const card = createElement(
+                "div",
+                "notification registration"
+            );
+
+            card.appendChild(
+                createElement("div", "notification-icon", "✅")
+            );
+
+            const content = createElement(
+                "div",
+                "notification-content"
+            );
+
+            const eventName =
+                item.eventName || item.name || "College Event";
+
+            content.appendChild(
+                createElement("h3", "", "Event Registration")
+            );
+
+            content.appendChild(
+                createElement(
+                    "p",
+                    "",
+                    "Your registration for " + eventName +
+                    " is saved in this browser demo."
+                )
+            );
+
+            content.appendChild(
+                createElement("span", "tag", "Registered")
+            );
+
+            card.appendChild(content);
+            registrationList.appendChild(card);
+        });
+    }
+
+    function displayUpcomingEvents() {
+        upcomingEvents.innerHTML = "";
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const upcoming = events.filter(function(item) {
+            return new Date(item.date + "T00:00:00") >= today;
+        });
+
+        document.getElementById("upcomingCount").textContent =
+            upcoming.length;
+
+        if (upcoming.length === 0) {
+            upcomingEvents.appendChild(
+                createElement(
+                    "p",
+                    "empty-message",
+                    "No upcoming events are currently listed."
+                )
+            );
+            return;
+        }
+
+        upcoming.forEach(function(item) {
+            const box = createElement("div", "event-box");
+
+            box.appendChild(
+                createElement("h3", "", item.name)
+            );
+
+            box.appendChild(
+                createElement("p", "", "📅 Date: " + formatDate(item.date))
+            );
+
+            box.appendChild(
+                createElement("p", "", "🕒 Time: " + item.time)
+            );
+
+            box.appendChild(
+                createElement("p", "", "📍 Venue: " + item.venue)
+            );
+
+            upcomingEvents.appendChild(box);
+        });
+    }
+
+    displayAnnouncements();
+    displayRegistrationUpdates();
+    displayUpcomingEvents();
+</script>
+
+</body>
+</html>

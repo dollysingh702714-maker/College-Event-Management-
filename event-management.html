@@ -3,343 +3,238 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>College Event Management System</title>
+<title>Event Management | College Event Management</title>
 
 <style>
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6fb;
-    color: #222;
+    background: #f1f4f9;
+    color: #26334d;
 }
 
-header {
-    background: #25265e;
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background: #202b46;
+    padding: 25px 15px;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    text-align: center;
+    color: #91b8ff;
+    margin-bottom: 30px;
+}
+
+.sidebar a {
+    display: block;
     color: white;
-    padding: 25px 8%;
-}
-
-header h1 {
-    margin-bottom: 8px;
-}
-
-nav {
-    background: white;
-    padding: 15px 8%;
-    box-shadow: 0 2px 8px #ddd;
-}
-
-nav a {
     text-decoration: none;
-    color: #25265e;
-    font-weight: bold;
-    margin-right: 22px;
-}
-
-.container {
-    width: 84%;
-    margin: 30px auto;
-}
-
-.section-title {
-    margin-bottom: 20px;
-    color: #25265e;
-}
-
-.filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 25px;
-}
-
-input, select, textarea {
-    padding: 12px;
-    border: 1px solid #ccc;
+    padding: 13px 12px;
+    margin-bottom: 7px;
     border-radius: 6px;
     font-size: 14px;
 }
 
-.filters input {
-    flex: 2;
-    min-width: 180px;
+.sidebar a:hover,
+.sidebar a.active {
+    background: #405580;
 }
 
-.filters select {
-    flex: 1;
-    min-width: 150px;
+.main {
+    margin-left: 250px;
+    padding: 28px;
+}
+
+header {
+    margin-bottom: 25px;
+}
+
+header p {
+    color: #718096;
+    margin-top: 7px;
+}
+
+.panel {
     background: white;
+    padding: 22px;
+    border-radius: 10px;
+    margin-bottom: 24px;
+    box-shadow: 0 3px 12px #00000009;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d7dfeb;
+    border-radius: 6px;
+    margin-top: 7px;
+    margin-bottom: 12px;
+    background: white;
+}
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+button {
+    background: #4169e1;
+    color: white;
+    border: 0;
+    border-radius: 6px;
+    padding: 11px 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2e50ba;
+}
+
+.cancel-btn {
+    background: #64748b;
+}
+
+.cancel-btn:hover {
+    background: #475569;
 }
 
 .event-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 22px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
 }
 
 .event-card {
     background: white;
-    border-radius: 12px;
-    padding: 22px;
-    box-shadow: 0 4px 12px #00000010;
-    border-top: 5px solid #6257d9;
+    border: 1px solid #e1e7f0;
+    border-radius: 10px;
+    overflow: hidden;
+    min-width: 0;
 }
 
-.event-card h3 {
-    color: #25265e;
-    margin: 12px 0;
-}
-
-.event-card img {
+.event-image {
     width: 100%;
-    height: auto;
-    aspect-ratio: 4/3;
-    object-fit: contain;
-    object-position: center;
-    border-radius: 8px;
-    margin-top: 12px;
-    display:block;
+    height: 190px;
+    background: #e4eaf4;
 }
 
-.event-card p {
+.event-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-info {
+    padding: 17px;
+}
+
+.event-info h3 {
     margin: 10px 0;
-    line-height: 1.5;
-    color: #555;
+    overflow-wrap: anywhere;
 }
 
-.category {
+.event-info p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #68758b;
+    margin: 6px 0;
+    overflow-wrap: anywhere;
+}
+
+.tag {
     display: inline-block;
-    background: #ecebff;
-    color: #4338a8;
     padding: 6px 10px;
     border-radius: 20px;
+    background: #e5edff;
+    color: #3158b5;
     font-size: 12px;
 }
 
-.status {
-    display: inline-block;
-    padding: 5px 9px;
-    border-radius: 5px;
+.event-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+.event-actions button {
     font-size: 12px;
-    background: #d9f8e4;
-    color: #176638;
-}
-
-.status.completed {
-    background: #eee;
-    color: #555;
-}
-
-.delete-btn, .add-btn {
-    border: none;
-    padding: 11px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
+    padding: 9px 11px;
 }
 
 .delete-btn {
-    background: #ffe4e4;
-    color: #b42323;
-    margin-top: 10px;
+    background: #c94444;
 }
 
-.add-btn {
-    background: #6257d9;
-    color: white;
+.delete-btn:hover {
+    background: #a52f2f;
 }
 
-.add-btn:hover {
-    background: #4940ac;
-}
-
-.form-section {
-    background: white;
-    margin-top: 40px;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px #00000010;
-}
-
-#eventForm {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 15px;
-}
-
-#eventForm textarea,
-#eventForm button {
-    grid-column: 1 / -1;
-}
-
-#eventForm textarea {
-    min-height: 90px;
-}
-
-#eventForm button {
-    justify-self: start;
+.status-select {
+    margin-top: 8px;
 }
 
 #message {
-    margin: 15px 0;
-    color: #176638;
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
+.empty {
+    display: none;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    margin-top: 15px;
+    color: #64748b;
 }
 
 footer {
-    background: #25265e;
-    color: white;
     text-align: center;
+    color: #778198;
     padding: 20px;
-    margin-top: 45px;
 }
 
-:root {
-    --ink: #20231f;
-    --muted: #6a7069;
-    --paper: #f5f4ee;
-    --surface: #fffefa;
-    --line: #dedfd4;
-    --leaf: #28543c;
-    --coral: #ef765d;
-    --gold: #f2c56b;
-    --vermilion: #a84432;
-    --saffron: #f0b34f;
+@media(max-width: 1100px) {
+    .event-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
-[hidden] { display: none !important; }
-body { background: var(--paper); background-image: repeating-linear-gradient(135deg, #c4933b08 0 1px, transparent 1px 21px); color: var(--ink); font-family: "Trebuchet MS", "Segoe UI", sans-serif; }
-header { background: var(--surface); color: var(--ink); padding: 18px max(5%, calc((100% - 1240px) / 2)); border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-header h1 { font: 700 22px Georgia, serif; margin: 0 0 4px; }
-header p { color: var(--muted); font-size: 13px; }
-nav { display: flex; align-items: center; gap: 22px; padding: 12px max(5%, calc((100% - 1240px) / 2)); box-shadow: none; border-bottom: 1px solid var(--line); }
-nav a { color: var(--ink); margin: 0; font-size: 13px; }
-.container { width: min(1240px, 90%); margin: 36px auto 70px; }
-.section-title { color: var(--ink); font: 700 30px Georgia, serif; margin-bottom: 20px; }
-.festival-hero { min-height: 430px; position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: flex-end; padding: clamp(24px, 5vw, 56px); margin-bottom: 46px; color: white; background: #3b1c1b; box-shadow: 0 18px 44px #4d241a24; }
-.festival-hero img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; opacity: .77; animation: festivalImageDrift 24s ease-in-out infinite alternate; }
-.festival-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, #2a1515f2 0%, #3c1a19b8 48%, #3c1a191c 100%); }
-.festival-hero::before { content: ""; position: absolute; z-index: 0; width: 360px; aspect-ratio: 1; right: 7%; top: 50%; border-radius: 50%; background: repeating-conic-gradient(from 8deg, transparent 0deg 17deg, #ffd47b33 18deg 19deg, transparent 20deg 36deg); mask-image: radial-gradient(circle, transparent 0 10%, #000 11% 12%, transparent 13% 22%, #000 23% 24%, transparent 25% 34%, #000 35% 36%, transparent 37% 46%, #000 47% 48%, transparent 49%); transform: translateY(-50%); opacity: .65; animation: rangoliTurn 90s linear infinite; }
-.hero-copy { position: relative; z-index: 1; max-width: 610px; }
-.hero-kicker { color: var(--gold); text-transform: uppercase; font-size: 11px; letter-spacing: 0; font-weight: 700; }
-.festival-hero h2 { font: 700 clamp(36px, 5vw, 64px)/.98 Georgia, serif; max-width: 580px; margin: 13px 0; }
-.festival-hero p { max-width: 480px; color: #f3f1e8; line-height: 1.6; }
-.hero-link { display: inline-block; margin-top: 20px; padding: 12px 17px; background: var(--saffron); color: #321b15; font-weight: 700; text-decoration: none; transition: transform .2s ease, background .2s ease; }
-.hero-link:hover { background: #ffd176; transform: translateY(-2px); }
-.filters { padding: 14px 0; border-block: 1px solid var(--line); gap: 10px; margin-bottom: 26px; }
-input, select, textarea { border: 1px solid #d2d4c9; border-radius: 3px; background: var(--surface); color: var(--ink); font: inherit; min-height: 44px; }
-.filters input, .filters select { padding: 0 14px; }
-.event-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
-.event-card { padding: 0 0 20px; border: 1px solid var(--line); border-top: 0; border-radius: 4px; box-shadow: 0 8px 20px #5736210a; overflow: hidden; position: relative; animation: cardReveal .65s both; transition: transform .25s ease, box-shadow .25s ease; }
-.event-card:hover { transform: translateY(-5px); box-shadow: 0 16px 28px #5736211c; }
-.event-card:nth-child(2) { animation-delay: .08s; }
-.event-card:nth-child(3) { animation-delay: .16s; }
-.event-card:nth-child(4) { animation-delay: .24s; }
-.event-card:nth-child(5) { animation-delay: .32s; }
-.event-card img { margin: 0 0 18px; height: 190px; aspect-ratio: auto; object-fit: cover; border-radius: 0; transition: transform .55s ease; }
-.event-card:hover img { transform: scale(1.035); }
-.event-card > :not(img) { margin-left: 20px; margin-right: 20px; }
-.event-card h3 { color: var(--ink); font: 700 23px Georgia, serif; margin-top: 12px; margin-bottom: 10px; }
-.event-card p { font-size: 14px; }
-.category { border-radius: 2px; background: #fae8c9; color: #8b4927; padding: 6px 8px; font-weight: 700; }
-.status { border-radius: 2px; background: #e2eadf; color: var(--leaf); }
-.event-card .register-event { margin-top: 12px; width: calc(100% - 40px); min-height: 43px; border: 0; background: var(--vermilion); color: white; font: 700 14px "Trebuchet MS", sans-serif; cursor: pointer; transition: background .2s ease, transform .2s ease; }
-.event-card .register-event:hover:not(:disabled) { background: #843225; transform: translateY(-2px); }
-.event-card .register-event:disabled { opacity: .58; cursor: not-allowed; }
-.form-section { display: none; }
-footer { background: #20231f; margin-top: 0; color: #e7e8df; }
-.user-tools { display: flex; align-items: center; gap: 12px; font-size: 13px; }
-.quiet-button { border: 1px solid var(--line); background: transparent; padding: 8px 11px; cursor: pointer; color: var(--ink); }
-.auth-screen { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; background: var(--paper); }
-.auth-art { min-height: 100vh; position: relative; background: #24382c; color: white; display: flex; align-items: flex-end; padding: clamp(30px, 7vw, 90px); overflow: hidden; }
-.auth-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .64; }
-.auth-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, #14231ddb, #14231d0a 85%); }
-.auth-art-copy { position: relative; z-index: 1; max-width: 520px; }
-.auth-art-copy h1 { font: 700 clamp(38px, 5vw, 68px)/1 Georgia, serif; margin: 14px 0; }
-.auth-art-copy p { line-height: 1.7; color: #e2e5dc; }
-.auth-panel { align-self: center; width: min(460px, 84%); margin: 40px auto; }
-.auth-panel h2 { font: 700 34px Georgia, serif; margin: 0 0 8px; }
-.auth-panel > p { color: var(--muted); margin: 0 0 24px; line-height: 1.6; }
-.role-switch { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); margin-bottom: 22px; }
-.role-switch button { background: transparent; border: 0; border-bottom: 3px solid transparent; padding: 13px 8px; font-weight: 700; color: var(--muted); cursor: pointer; }
-.role-switch button[aria-pressed="true"] { color: var(--leaf); border-color: var(--coral); }
-.auth-form { display: grid; gap: 13px; }
-.auth-form label, .register-form label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; }
-.auth-form input, .register-form input, .register-form select { width: 100%; padding: 0 12px; }
-.auth-submit { min-height: 46px; margin-top: 6px; color: white; background: var(--leaf); border: 0; font-weight: 700; cursor: pointer; }
-.demo-note { margin-top: 18px; padding: 12px 14px; background: #e9eee5; color: #415445; font-size: 12px; line-height: 1.6; }
-.auth-error { min-height: 18px; color: #b04432; font-size: 13px; }
-.event-meta { display: flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: 13px; }
-.event-meta span { margin: 0 !important; }
-.capacity-note { color: var(--leaf) !important; font-weight: 700; }
-.registration-strip { margin: 48px 0; padding: 28px 0; border-block: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-.registration-strip h2 { font: 700 26px Georgia, serif; }
-.registration-list { display: grid; gap: 10px; }
-.registration-row { display: flex; justify-content: space-between; gap: 12px; padding: 15px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
-.registration-row strong { display: block; margin-bottom: 5px; }
-.registration-row small { color: var(--muted); }
-.festival-lights { position: absolute; z-index: 1; right: 9%; top: 17%; display: flex; align-items: flex-start; gap: 30px; height: 190px; pointer-events: none; }
-.lantern { position: relative; display: block; width: 26px; height: 43px; margin-top: 25px; border: 1px solid #f5c56c; border-radius: 44% 44% 7px 7px; background: linear-gradient(180deg, #f9bd5c99, #be473f9c); box-shadow: 0 0 25px #ffbb5d80, inset 0 0 11px #ffe4a244; transform-origin: 50% -35px; animation: lanternSway 4s ease-in-out infinite; }
-.lantern::before { content: ""; position: absolute; width: 1px; height: 28px; left: 50%; bottom: 100%; background: #f4d08c; }
-.lantern::after { content: ""; position: absolute; left: 50%; top: 10px; width: 9px; height: 15px; border-radius: 60% 40% 60% 40%; background: #ffe59c; filter: drop-shadow(0 0 7px #ffd86a); transform: translateX(-50%) rotate(45deg); animation: flameFlicker 1.6s ease-in-out infinite alternate; }
-.lantern:nth-child(2) { margin-top: 0; animation-delay: -.9s; transform: scale(.82); }
-.lantern:nth-child(3) { margin-top: 42px; animation-delay: -1.7s; transform: scale(.68); }
-.auth-art img { animation: festivalImageDrift 26s ease-in-out infinite alternate; }
-@keyframes lanternSway { 0%, 100% { rotate: -4deg; } 50% { rotate: 5deg; } }
-@keyframes flameFlicker { from { opacity: .72; scale: .88; } to { opacity: 1; scale: 1.12; } }
-@keyframes rangoliTurn { to { rotate: 360deg; } }
-@keyframes festivalImageDrift { from { scale: 1.02; } to { scale: 1.09; } }
-@keyframes cardReveal { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
-}
-dialog { width: min(520px, calc(100% - 28px)); padding: 0; border: 1px solid var(--line); border-radius: 4px; color: var(--ink); background: var(--surface); }
-dialog::backdrop { background: #171d19a8; }
-.dialog-inner { padding: 25px; }
-.dialog-inner h2 { font: 700 28px Georgia, serif; margin-bottom: 7px; }
-.dialog-inner p { color: var(--muted); margin-bottom: 20px; }
-.register-form { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
-.register-form .wide { grid-column: 1 / -1; }
-.register-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
-.register-actions button { min-height: 42px; padding: 0 15px; border: 1px solid var(--line); background: white; cursor: pointer; }
-.register-actions .submit-registration { color: white; background: var(--leaf); border-color: var(--leaf); font-weight: 700; }
-@media (max-width: 700px) {
-    .auth-screen { grid-template-columns: 1fr; }
-    .auth-art { min-height: 30vh; padding: 30px 7%; }
-    .auth-art-copy h1 { font-size: 40px; }
-    .auth-panel { width: 86%; margin: 32px auto 48px; }
-    header { align-items: flex-start; flex-direction: column; }
-    nav { flex-wrap: wrap; gap: 14px; }
-    .festival-hero { min-height: 420px; }
-    .festival-hero::before { width: 240px; right: -35px; top: 25%; }
-    .festival-lights { right: 9%; top: 5%; transform: scale(.75); transform-origin: top right; }
-    .festival-hero h2 { max-width: 400px; }
-    .registration-strip { align-items: flex-start; flex-direction: column; }
-    .register-form { grid-template-columns: 1fr; }
-    .register-form .wide, .register-actions { grid-column: auto; }
-}
-
-@media (max-width: 600px) {
-    .container {
-        width: 92%;
+@media(max-width: 700px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
     }
 
-    header, nav {
-        padding-left: 4%;
-        padding-right: 4%;
+    .main {
+        margin-left: 0;
+        padding: 16px;
     }
 
-    #eventForm {
+    .filters,
+    .event-grid {
         grid-template-columns: 1fr;
-    }
-
-    #eventForm textarea,
-    #eventForm button {
-        grid-column: auto;
     }
 }
 </style>
@@ -347,178 +242,124 @@ dialog::backdrop { background: #171d19a8; }
 
 <body>
 
-<section class="auth-screen" id="authScreen">
-    <div class="auth-art">
-        <img src="cultural.jpg" alt="A colorful campus festival at night">
-        <div class="auth-art-copy">
-            <span class="hero-kicker">Campus, in full color</span>
-            <h1>Make room for the moments that matter.</h1>
-            <p>Find your next favorite night, new skill, or team to cheer for.</p>
+<aside class="sidebar">
+    <h2>EventPro Admin</h2>
+
+    <a href="admin-dashboard.html">Admin Dashboard</a>
+    <a class="active" href="event-management.html">Event Management</a>
+    <a href="student-management.html">Student Management</a>
+    <a href="stall-booking.html">Stall &amp; Booking</a>
+    <a href="organizer-module.html">Organizer Module</a>
+    <a href="competition-result.html">Competition &amp; Result</a>
+    <a href="feedback-module.html">Feedback Module</a>
+    <a href="notification-reports.html">Notification &amp; Reports</a>
+    <a href="login.html">Logout</a>
+</aside>
+
+<main class="main">
+
+<header>
+    <h1>Event Management</h1>
+    <p>Add, edit, delete, search and manage college events.</p>
+</header>
+
+<section class="panel">
+    <h2>Search &amp; Filter Events</h2>
+
+    <div class="filters">
+        <div>
+            <label for="search">Search Event</label>
+            <input id="search" type="search"
+                   placeholder="Search event name or venue...">
         </div>
-    </div>
-    <div class="auth-panel">
-        <span class="hero-kicker">Campus events</span>
-        <h2>Sign in to your space</h2>
-        <p>Continue as a student or open the organizer dashboard.</p>
-        <div class="role-switch" role="group" aria-label="Choose account type">
-            <button type="button" data-role="student" aria-pressed="true">Student</button>
-            <button type="button" data-role="admin" aria-pressed="false">Admin</button>
+
+        <div>
+            <label for="categoryFilter">Category</label>
+            <select id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="Cultural">Cultural</option>
+                <option value="Technical">Technical</option>
+                <option value="Sports">Sports</option>
+                <option value="Workshop">Workshop</option>
+                <option value="Competition">Competition</option>
+            </select>
         </div>
-        <form class="auth-form" id="signInForm">
-            <div id="studentFields">
-                <label>Full name<input name="name" autocomplete="name" required></label>
-                <label>Email address<input name="email" type="email" autocomplete="email" required></label>
-                <label>Student / roll number<input name="studentId" autocomplete="username" required></label>
-            </div>
-            <div id="adminFields" hidden>
-                <label>Admin email<input name="adminEmail" type="email" autocomplete="username"></label>
-                <label>Passcode<input name="passcode" type="password" autocomplete="current-password"></label>
-            </div>
-            <p class="auth-error" id="authError" role="alert"></p>
-            <button class="auth-submit" type="submit">Continue as student</button>
-        </form>
-        <div class="demo-note" id="adminDemoNote" hidden>Demo admin access: <strong>admin@campus.edu</strong> / <strong>campus2026</strong></div>
+
+        <div>
+            <label for="statusFilter">Status</label>
+            <select id="statusFilter">
+                <option value="all">All Statuses</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Ongoing">Ongoing</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
     </div>
 </section>
 
-<div id="application" hidden>
-<header>
-    <div>
-        <h1>Campus / After Hours</h1>
-        <p>College events, made easy to find.</p>
-    </div>
-    <div class="user-tools"><span id="signedInAs"></span><button class="quiet-button" id="signOut" type="button">Sign out</button></div>
-</header>
+<section class="panel" id="eventFormPanel">
+    <h2 id="formHeading">Add New Event</h2>
 
-<nav>
-    <a href="#events">Discover</a>
-    <a href="#my-registrations">My registrations</a>
-    <a href="admin-dashboard.html" id="adminLink" hidden>Admin dashboard</a>
-</nav>
+    <form id="eventForm">
+        <label for="eventName">Event Name</label>
+        <input id="eventName" required maxlength="100"
+               placeholder="Enter event name">
 
-<main class="container">
-
-    <section class="festival-hero" aria-label="Featured campus festival">
-        <img src="cultural.jpg" alt="Lanterns and colors at a campus celebration">
-        <div class="festival-lights" aria-hidden="true">
-            <span class="lantern"></span>
-            <span class="lantern"></span>
-            <span class="lantern"></span>
-        </div>
-        <div class="hero-copy">
-            <span class="hero-kicker">Diwali on campus · 02 November</span>
-            <h2>A thousand lights. One campus.</h2>
-            <p>Meet under the lights for music, festive food, rangoli and the people who make campus feel like yours.</p>
-            <a class="hero-link" href="#events">Find your celebration</a>
-        </div>
-    </section>
-
-    <h2 class="section-title" id="events">Explore College Events</h2>
-
-    <div class="filters">
-        <input
-            type="text"
-            id="search"
-            placeholder="Search event name or venue..."
-            aria-label="Search events"
-        >
-
-        <select id="categoryFilter" aria-label="Filter by category">
-            <option value="All">All Categories</option>
-            <option value="Technical">Technical</option>
-            <option value="Cultural">Cultural</option>
-            <option value="Sports">Sports</option>
-            <option value="Workshop">Workshop</option>
+        <label for="eventCategory">Category</label>
+        <select id="eventCategory" required>
+            <option value="">Select category</option>
+            <option>Cultural</option>
+            <option>Technical</option>
+            <option>Sports</option>
+            <option>Workshop</option>
+            <option>Competition</option>
         </select>
 
-        <select id="statusFilter" aria-label="Filter by status">
-            <option value="All">All Events</option>
+        <label for="eventDate">Event Date</label>
+        <input id="eventDate" type="date" required>
+
+        <label for="eventTime">Start Time</label>
+        <input id="eventTime" type="time" required>
+
+        <label for="eventVenue">Venue</label>
+        <input id="eventVenue" required maxlength="150"
+               placeholder="Enter venue">
+
+        <label for="eventDescription">Description</label>
+        <textarea id="eventDescription" rows="3" maxlength="1000"
+                  placeholder="Describe the event"></textarea>
+
+        <label for="eventStatus">Event Status</label>
+        <select id="eventStatus" required>
             <option value="Upcoming">Upcoming</option>
+            <option value="Ongoing">Ongoing</option>
             <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
         </select>
-    </div>
 
-    <div class="event-grid" id="eventList"></div>
+        <button type="submit" id="submitBtn">Add Event</button>
+        <button type="button" id="cancelEditBtn"
+                class="cancel-btn" hidden>Cancel Edit</button>
 
-    <section class="form-section" id="add-event">
-        <h2 class="section-title">Add New Event</h2>
+        <p id="message" role="status" aria-live="polite"></p>
+    </form>
+</section>
 
-        <form id="eventForm">
-            <input
-                type="text"
-                id="eventName"
-                placeholder="Event Name"
-                required
-            >
+<section>
+    <h2 style="margin-bottom:18px">All Events</h2>
+    <div class="event-grid" id="eventGrid"></div>
+    <p class="empty" id="emptyMessage">No events match your search.</p>
+</section>
 
-            <select id="eventCategory" required>
-                <option value="">Select Category</option>
-                <option value="Technical">Technical</option>
-                <option value="Cultural">Cultural</option>
-                <option value="Sports">Sports</option>
-                <option value="Workshop">Workshop</option>
-            </select>
-
-            <input type="date" id="eventDate" required>
-            <input type="time" id="eventTime" required>
-
-            <input
-                type="text"
-                id="eventVenue"
-                placeholder="Event Venue"
-                required
-            >
-
-            <textarea
-                id="eventDescription"
-                placeholder="Event Description"
-                required
-            ></textarea>
-
-            <button type="submit" class="add-btn">Add Event</button>
-        </form>
-
-        <p id="message" role="status"></p>
-    </section>
-
-    <section class="registration-strip" id="my-registrations">
-        <div>
-            <span class="hero-kicker">Your plans</span>
-            <h2>My registrations</h2>
-        </div>
-        <p id="registrationSummary">Your event passes will appear here.</p>
-    </section>
-    <div class="registration-list" id="myRegistrationList"></div>
+<footer>© 2026 College Event Management System</footer>
 
 </main>
 
-<dialog id="registrationDialog">
-    <div class="dialog-inner">
-        <h2>Save your spot</h2>
-        <p id="registrationEventName"></p>
-        <form class="register-form" id="registrationForm">
-            <input type="hidden" name="eventId">
-            <label>Full name<input name="name" autocomplete="name" required></label>
-            <label>Student / roll number<input name="studentId" required></label>
-            <label>Email address<input name="email" type="email" autocomplete="email" required></label>
-            <label>Department<input name="department" placeholder="e.g. Computer Science" required></label>
-            <label class="wide">Phone number<input name="phone" type="tel" autocomplete="tel" required></label>
-            <div class="register-actions">
-                <button type="button" id="cancelRegistration">Cancel</button>
-                <button class="submit-registration" type="submit">Confirm registration</button>
-            </div>
-        </form>
-    </div>
-</dialog>
+<script>
+const STORAGE_KEY = "collegeEventManagementEvents";
 
-<footer>
-    <p>Campus / After Hours · College events, shared together</p>
-</footer>
-</div>
-
-<script src="campus-events.js"></script>
-<script type="text/plain" id="legacyEventScript">
-const events = [
+const defaultEvents = [
     {
         id: 1,
         name: "VGI Diwali Mela 2026",
@@ -526,7 +367,9 @@ const events = [
         date: "2026-11-02",
         time: "11:00",
         venue: "Sports Ground, VGI",
-        description: "Enjoy festive stalls, music, singing competitions and fun activities."
+        description: "Enjoy festive stalls, cultural activities and college celebrations.",
+        image: "cultural.jpg",
+        status: "Upcoming"
     },
     {
         id: 2,
@@ -535,7 +378,9 @@ const events = [
         date: "2026-11-15",
         time: "10:00",
         venue: "Computer Lab",
-        description: "Show your programming and problem-solving skills."
+        description: "Test programming, logic and problem-solving skills.",
+        image: "coding.jpg",
+        status: "Upcoming"
     },
     {
         id: 3,
@@ -544,7 +389,9 @@ const events = [
         date: "2026-10-17",
         time: "09:00",
         venue: "College Playground",
-        description: "A college sports event featuring games and team activities."
+        description: "Participate in exciting college sports activities.",
+        image: "sports.jpg",
+        status: "Completed"
     },
     {
         id: 4,
@@ -553,32 +400,95 @@ const events = [
         date: "2026-12-05",
         time: "11:00",
         venue: "Seminar Hall",
-        description: "Learn the basics of building modern websites."
+        description: "Learn the basics of modern web development.",
+        image: "workshop.jpg",
+        status: "Upcoming"
+    },
+    {
+        id: 5,
+        name: "Inter-College Competition",
+        category: "Competition",
+        date: "2026-11-20",
+        time: "10:00",
+        venue: "Main Auditorium",
+        description: "Participate and showcase your skills.",
+        image: "competition.jpg",
+        status: "Upcoming"
+    },
+    {
+        id: 6,
+        name: "College Stall Festival",
+        category: "Cultural",
+        date: "2026-11-02",
+        time: "11:00",
+        venue: "College Ground",
+        description: "Explore food stalls and handmade products.",
+        image: "stall.jpg",
+        status: "Upcoming"
     }
 ];
 
-const eventList = document.getElementById("eventList");
+function loadEvents() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (saved === null) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultEvents));
+            return defaultEvents.map(event => ({...event}));
+        }
+
+        const parsed = JSON.parse(saved);
+
+        if (Array.isArray(parsed)) {
+            return parsed;
+        }
+    } catch (error) {
+        console.error("Could not load saved events:", error);
+    }
+
+    return defaultEvents.map(event => ({...event}));
+}
+
+let events = loadEvents();
+let editingId = null;
+let nextId = Math.max(0, ...events.map(event => Number(event.id) || 0)) + 1;
+
+const grid = document.getElementById("eventGrid");
 const search = document.getElementById("search");
 const categoryFilter = document.getElementById("categoryFilter");
 const statusFilter = document.getElementById("statusFilter");
+const emptyMessage = document.getElementById("emptyMessage");
+const form = document.getElementById("eventForm");
+const message = document.getElementById("message");
 
-function getStatus(eventDate) {
-    // Compare calendar dates, not the current time.
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+const imageByCategory = {
+    Cultural: "cultural.jpg",
+    Technical: "coding.jpg",
+    Sports: "sports.jpg",
+    Workshop: "workshop.jpg",
+    Competition: "competition.jpg"
+};
 
-    const date = new Date(eventDate + "T00:00:00");
-
-    return date < today ? "Completed" : "Upcoming";
+function saveEvents() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+        return true;
+    } catch (error) {
+        alert("Events could not be saved in this browser.");
+        console.error(error);
+        return false;
+    }
 }
 
-function formatDate(dateString) {
-    const date = new Date(dateString + "T00:00:00");
-
-    return date.toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, function(char) {
+        return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        }[char];
     });
 }
 
@@ -587,340 +497,215 @@ function renderEvents() {
     const category = categoryFilter.value;
     const status = statusFilter.value;
 
-    const filteredEvents = events.filter(event => {
-        const matchesSearch =
-            event.name.toLowerCase().includes(query) ||
-            event.venue.toLowerCase().includes(query);
+    const filtered = events.filter(event => {
+        const matchesText =
+            (event.name + " " + event.venue).toLowerCase().includes(query);
 
         const matchesCategory =
-            category === "All" || event.category === category;
+            category === "all" || event.category === category;
 
-        let events = CampusEvents.getEvents();
-        const venue = document.createElement("p");
-        venue.textContent = "Venue: " + event.venue;
+        const matchesStatus =
+            status === "all" || event.status === status;
 
-        const description = document.createElement("p");
-        description.textContent = event.description;
+        return matchesText && matchesCategory && matchesStatus;
+    });
 
-        const img = document.createElement("img");
+    grid.innerHTML = filtered.map(event => `
+        <article class="event-card">
+            <div class="event-image">
+                <img src="${escapeHTML(event.image)}"
+                     alt="${escapeHTML(event.name)}"
+                     onerror="this.style.visibility='hidden'">
+            </div>
 
-if (event.category === "Cultural") {
-    img.src = "cultural.jpg";
-    img.alt = "Cultural Event";
-} else if (event.category === "Technical") {
-    img.src = "coding.jpg";
-    img.alt = "Coding Competition";
-} else if (event.category === "Sports") {
-    img.src = "sports.jpg";
-    img.alt = "Sports Event";
-} else {
-    img.src = "workshop.jpg";
-    img.alt = "Workshop";
+            <div class="event-info">
+                <span class="tag">${escapeHTML(event.category)}</span>
+                <h3>${escapeHTML(event.name)}</h3>
+                <p><b>Date:</b> ${escapeHTML(event.date)}</p>
+                <p><b>Time:</b> ${escapeHTML(event.time)}</p>
+                <p><b>Venue:</b> ${escapeHTML(event.venue)}</p>
+                <p>${escapeHTML(event.description)}</p>
+
+                <label for="status-${event.id}">Event Status</label>
+                <select class="status-select"
+                        id="status-${event.id}"
+                        onchange="changeStatus(${event.id}, this.value)">
+                    ${["Upcoming", "Ongoing", "Completed", "Cancelled"]
+                        .map(statusOption => `
+                            <option value="${statusOption}"
+                                ${event.status === statusOption ? "selected" : ""}>
+                                ${statusOption}
+                            </option>
+                        `).join("")}
+                </select>
+
+                <div class="event-actions">
+                    <button type="button"
+                            onclick="editEvent(${event.id})">Edit</button>
+
+                    <button type="button" class="delete-btn"
+                            onclick="deleteEvent(${event.id})">Delete</button>
+                </div>
+            </div>
+        </article>
+    `).join("");
+
+    emptyMessage.style.display = filtered.length ? "none" : "block";
 }
 
-        card.append(
-            categoryTag,
-            title,
-            img,
-            statusTag,
+function changeStatus(id, newStatus) {
+    const event = events.find(item => item.id === id);
+    if (!event) return;
+
+    const oldStatus = event.status;
+    event.status = newStatus;
+
+    if (!saveEvents()) {
+        event.status = oldStatus;
+    }
+
+    renderEvents();
+}
+
+function deleteEvent(id) {
+    const event = events.find(item => item.id === id);
+    if (!event) return;
+
+    if (!confirm("Delete the event: " + event.name + "?")) {
+        return;
+    }
+
+    const oldEvents = events;
+    events = events.filter(item => item.id !== id);
+
+    if (!saveEvents()) {
+        events = oldEvents;
+        return;
+    }
+
+    if (editingId === id) {
+        resetForm();
+    }
+
+    message.textContent = "Event deleted successfully.";
+    renderEvents();
+}
+
+function editEvent(id) {
+    const event = events.find(item => item.id === id);
+    if (!event) return;
+
+    editingId = id;
+
+    document.getElementById("eventName").value = event.name;
+    document.getElementById("eventCategory").value = event.category;
+    document.getElementById("eventDate").value = event.date;
+    document.getElementById("eventTime").value = event.time;
+    document.getElementById("eventVenue").value = event.venue;
+    document.getElementById("eventDescription").value = event.description;
+    document.getElementById("eventStatus").value = event.status;
+
+    document.getElementById("formHeading").textContent = "Edit Event";
+    document.getElementById("submitBtn").textContent = "Save Changes";
+    document.getElementById("cancelEditBtn").hidden = false;
+
+    message.textContent = "Update the details and click Save Changes.";
+
+    document.getElementById("eventFormPanel").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function resetForm() {
+    form.reset();
+    editingId = null;
+
+    document.getElementById("formHeading").textContent = "Add New Event";
+    document.getElementById("submitBtn").textContent = "Add Event";
+    document.getElementById("cancelEditBtn").hidden = true;
+    message.textContent = "";
+}
+
+document.getElementById("cancelEditBtn").addEventListener("click", resetForm);
+
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("eventName").value.trim();
+    const category = document.getElementById("eventCategory").value;
+    const date = document.getElementById("eventDate").value;
+    const time = document.getElementById("eventTime").value;
+    const venue = document.getElementById("eventVenue").value.trim();
+    const description = document.getElementById("eventDescription").value.trim();
+    const status = document.getElementById("eventStatus").value;
+
+    if (!name || !category || !date || !time || !venue) {
+        message.textContent = "Please fill in all required fields.";
+        return;
+    }
+
+    if (editingId !== null) {
+        const index = events.findIndex(event => event.id === editingId);
+        if (index === -1) {
+            message.textContent = "Event could not be found. Please try again.";
+            resetForm();
+            return;
+        }
+
+        const oldEvent = events[index];
+
+        events[index] = {
+            ...oldEvent,
+            name,
+            category,
             date,
             time,
             venue,
-            description
-        );
+            description,
+            status,
+            image: imageByCategory[category]
+        };
 
-        if (event.custom) {
-            const deleteButton = document.createElement("button");
-            deleteButton.className = "delete-btn";
-            deleteButton.textContent = "Delete Event";
-
-            deleteButton.addEventListener("click", () => {
-                const index = events.findIndex(item => item.id === event.id);
-
-                if (index !== -1) {
-                    events.splice(index, 1);
-                    renderEvents();
-                }
-            });
-
-            card.appendChild(deleteButton);
-        }
-
-        eventList.appendChild(card);
-    });
-}
-
-search.addEventListener("input", renderEvents);
-categoryFilter.addEventListener("change", renderEvents);
-statusFilter.addEventListener("change", renderEvents);
-
-document.getElementById("eventForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    const newEvent = {
-        id: Date.now(),
-        name: document.getElementById("eventName").value.trim(),
-        category: document.getElementById("eventCategory").value,
-        date: document.getElementById("eventDate").value,
-        time: document.getElementById("eventTime").value,
-        venue: document.getElementById("eventVenue").value.trim(),
-        description: document.getElementById("eventDescription").value.trim(),
-        custom: true
-    };
-
-    if (
-        !newEvent.name ||
-        !newEvent.category ||
-        !newEvent.date ||
-        !newEvent.time ||
-        !newEvent.venue ||
-        !newEvent.description
-    ) {
-        return;
-    }
-
-    events.push(newEvent);
-    renderEvents();
-
-    document.getElementById("eventForm").reset();
-    document.getElementById("message").textContent =
-        "Event added successfully to this demo!";
-
-    document.getElementById("events").scrollIntoView({
-        behavior: "smooth"
-    });
-});
-
-renderEvents();
-</script>
-
-<script>
-const eventList = document.getElementById("eventList");
-const search = document.getElementById("search");
-const categoryFilter = document.getElementById("categoryFilter");
-const statusFilter = document.getElementById("statusFilter");
-const registrationDialog = document.getElementById("registrationDialog");
-const registrationForm = document.getElementById("registrationForm");
-const authScreen = document.getElementById("authScreen");
-const application = document.getElementById("application");
-let activeRole = "student";
-
-function getStatus(dateString) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return new Date(dateString + "T00:00:00") < today ? "Completed" : "Upcoming";
-}
-
-function formatDate(dateString) {
-    return new Date(dateString + "T00:00:00").toLocaleDateString("en-IN", {
-        day: "numeric", month: "short", year: "numeric"
-    });
-}
-
-function renderEvents() {
-    const events = CampusEvents.getEvents();
-    const registrations = CampusEvents.getRegistrations();
-    const query = search.value.trim().toLowerCase();
-    const category = categoryFilter.value;
-    const status = statusFilter.value;
-    const filtered = events.filter(event =>
-        (event.name + " " + event.venue + " " + event.description).toLowerCase().includes(query) &&
-        (category === "All" || event.category === category) &&
-        (status === "All" || getStatus(event.date) === status)
-    );
-
-    eventList.replaceChildren();
-    if (!filtered.length) {
-        const empty = document.createElement("p");
-        empty.textContent = "No events match those filters.";
-        eventList.appendChild(empty);
-        return;
-    }
-
-    filtered.forEach(event => {
-        const card = document.createElement("article");
-        card.className = "event-card";
-        const image = document.createElement("img");
-        image.src = event.image || "cultural.jpg";
-        image.alt = event.name;
-        const tag = document.createElement("span");
-        tag.className = "category";
-        tag.textContent = event.category;
-        const title = document.createElement("h3");
-        title.textContent = event.name;
-        const meta = document.createElement("div");
-        meta.className = "event-meta";
-        [formatDate(event.date), event.time, event.venue].forEach(value => {
-            const item = document.createElement("span");
-            item.textContent = value;
-            meta.appendChild(item);
-        });
-        const description = document.createElement("p");
-        description.textContent = event.description;
-        const count = registrations.filter(item => item.eventId === event.id).length;
-        const capacity = Number(event.capacity) || 100;
-        const availability = document.createElement("p");
-        availability.className = "capacity-note";
-        availability.textContent = Math.max(0, capacity - count) + " spots remaining";
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "register-event";
-        const user = CampusEvents.getUser();
-        const alreadyRegistered = registrations.some(item => item.eventId === event.id &&
-            ((item.studentId || "").toLowerCase() === ((user && user.studentId) || "").toLowerCase() ||
-             (item.email || "").toLowerCase() === ((user && user.email) || "").toLowerCase()));
-        button.textContent = alreadyRegistered ? "You’re registered" : "Register for this event";
-        button.disabled = alreadyRegistered || count >= capacity || getStatus(event.date) === "Completed";
-        button.addEventListener("click", () => openRegistration(event, user));
-        card.append(image, tag, title, meta, description, availability, button);
-        eventList.appendChild(card);
-    });
-}
-
-function renderMyRegistrations() {
-    const user = CampusEvents.getUser();
-    const list = document.getElementById("myRegistrationList");
-    const mine = CampusEvents.getRegistrations().filter(item =>
-        user && ((item.studentId || "").toLowerCase() === (user.studentId || "").toLowerCase() ||
-        (item.email || "").toLowerCase() === (user.email || "").toLowerCase())
-    );
-    document.getElementById("registrationSummary").textContent =
-        mine.length ? mine.length + (mine.length === 1 ? " event on your calendar" : " events on your calendar") : "Your event passes will appear here.";
-    list.replaceChildren();
-    mine.forEach(item => {
-        const row = document.createElement("div");
-        row.className = "registration-row";
-        const details = document.createElement("div");
-        const name = document.createElement("strong");
-        name.textContent = item.eventName;
-        const meta = document.createElement("small");
-        meta.textContent = item.eventDate ? formatDate(item.eventDate) + " · " + item.venue : "Registration confirmed";
-        details.append(name, meta);
-        const state = document.createElement("span");
-        state.textContent = item.status || "Registered";
-        row.append(details, state);
-        list.appendChild(row);
-    });
-}
-
-function openRegistration(event, user) {
-    registrationForm.elements.eventId.value = event.id;
-    registrationForm.elements.name.value = user.name;
-    registrationForm.elements.studentId.value = user.studentId;
-    registrationForm.elements.email.value = user.email;
-    document.getElementById("registrationEventName").textContent = event.name + " · " + formatDate(event.date);
-    registrationDialog.showModal();
-}
-
-function showStudentApp(user) {
-    authScreen.hidden = true;
-    application.hidden = false;
-    document.getElementById("signedInAs").textContent = user.name;
-    document.getElementById("adminLink").hidden = user.role !== "admin";
-    renderEvents();
-    renderMyRegistrations();
-}
-
-document.querySelectorAll(".role-switch button").forEach(button => {
-    button.addEventListener("click", () => {
-        activeRole = button.dataset.role;
-        document.querySelectorAll(".role-switch button").forEach(option => {
-            option.setAttribute("aria-pressed", String(option === button));
-        });
-        document.getElementById("studentFields").hidden = activeRole !== "student";
-        document.getElementById("adminFields").hidden = activeRole !== "admin";
-        document.getElementById("adminDemoNote").hidden = activeRole !== "admin";
-        document.querySelectorAll("#studentFields input").forEach(input => input.required = activeRole === "student");
-        document.querySelectorAll("#adminFields input").forEach(input => input.required = activeRole === "admin");
-        document.querySelector(".auth-submit").textContent = activeRole === "student" ? "Continue as student" : "Sign in as admin";
-        document.getElementById("authError").textContent = "";
-    });
-});
-
-document.getElementById("signInForm").addEventListener("submit", event => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    let user;
-    if (activeRole === "admin") {
-        if (form.elements.adminEmail.value.trim().toLowerCase() !== "admin@campus.edu" || form.elements.passcode.value !== "campus2026") {
-            document.getElementById("authError").textContent = "That admin email or passcode isn’t correct.";
+        if (!saveEvents()) {
+            events[index] = oldEvent;
             return;
         }
-        user = { role: "admin", name: "Campus admin", email: "admin@campus.edu" };
-        CampusEvents.setUser(user);
-        window.location.href = "admin-dashboard.html";
-        return;
-    }
-    user = {
-        role: "student",
-        name: form.elements.name.value.trim(),
-        email: form.elements.email.value.trim(),
-        studentId: form.elements.studentId.value.trim()
-    };
-    CampusEvents.setUser(user);
-    showStudentApp(user);
-});
 
-document.getElementById("signOut").addEventListener("click", () => {
-    CampusEvents.clearUser();
-    window.location.reload();
-});
-document.getElementById("cancelRegistration").addEventListener("click", () => registrationDialog.close());
-registrationDialog.addEventListener("click", event => {
-    if (event.target === registrationDialog) registrationDialog.close();
-});
-registrationForm.addEventListener("submit", event => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const selectedEvent = CampusEvents.getEvents().find(item => item.id === form.elements.eventId.value);
-    if (!selectedEvent) return;
-    const registrations = CampusEvents.getRegistrations();
-    const studentId = form.elements.studentId.value.trim();
-    const email = form.elements.email.value.trim();
-    if (registrations.some(item => item.eventId === selectedEvent.id &&
-        ((item.studentId || "").toLowerCase() === studentId.toLowerCase() || (item.email || "").toLowerCase() === email.toLowerCase()))) {
-        registrationDialog.close();
-        renderEvents();
-        return;
+        resetForm();
+        message.textContent = "Event updated successfully.";
+    } else {
+        const newEvent = {
+            id: nextId++,
+            name,
+            category,
+            date,
+            time,
+            venue,
+            description,
+            image: imageByCategory[category],
+            status
+        };
+
+        events.push(newEvent);
+
+        if (!saveEvents()) {
+            events = events.filter(event => event.id !== newEvent.id);
+            nextId--;
+            return;
+        }
+
+        resetForm();
+        message.textContent = "New event added successfully.";
     }
-    if (registrations.filter(item => item.eventId === selectedEvent.id).length >= (Number(selectedEvent.capacity) || 100)) {
-        document.getElementById("registrationEventName").textContent = "This event has reached capacity.";
-        return;
-    }
-    registrations.unshift({
-        id: "REG-" + Date.now(),
-        eventId: selectedEvent.id,
-        eventName: selectedEvent.name,
-        eventDate: selectedEvent.date,
-        venue: selectedEvent.venue,
-        name: form.elements.name.value.trim(),
-        studentId: studentId,
-        email: email,
-        department: form.elements.department.value.trim(),
-        phone: form.elements.phone.value.trim(),
-        status: "Registered",
-        createdAt: new Date().toISOString()
-    });
-    CampusEvents.saveRegistrations(registrations);
-    registrationDialog.close();
+
     renderEvents();
-    renderMyRegistrations();
 });
 
 search.addEventListener("input", renderEvents);
 categoryFilter.addEventListener("change", renderEvents);
 statusFilter.addEventListener("change", renderEvents);
-window.addEventListener("campus-events-change", () => {
-    renderEvents();
-    renderMyRegistrations();
-});
 
-const currentUser = CampusEvents.getUser();
-if (currentUser && currentUser.role === "admin") {
-    window.location.href = "admin-dashboard.html";
-} else if (currentUser && currentUser.role === "student") {
-    showStudentApp(currentUser);
-}
+renderEvents();
 </script>
 
 </body>

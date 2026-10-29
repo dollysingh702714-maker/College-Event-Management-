@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Volunteer Dashboard | College Event Management</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    background: #172554;
+    color: white;
+    padding: 25px 15px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.sidebar p {
+    text-align: center;
+    color: #cbd5e1;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 12px;
+    margin: 5px 0;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #2563eb;
+}
+
+.main {
+    flex: 1;
+    min-width: 0;
+    padding: 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 28px;
+    color: #172554;
+}
+
+.header p {
+    color: #64748b;
+    margin-top: 8px;
+}
+
+.badge {
+    background: #dbeafe;
+    color: #1d4ed8;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card,
+.panel {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0000000a;
+}
+
+.stat-card h3 {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.stat-card h2 {
+    color: #2563eb;
+    font-size: 30px;
+}
+
+.panel {
+    margin-bottom: 25px;
+}
+
+.panel h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #172554;
+}
+
+.toolbar {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 14px;
+    background: white;
+}
+
+button {
+    border: none;
+    border-radius: 7px;
+    padding: 9px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.primary {
+    background: #2563eb;
+    color: white;
+}
+
+.primary:hover {
+    background: #1d4ed8;
+}
+
+.green {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.red {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.gray {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+th,
+td {
+    padding: 13px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+}
+
+th {
+    background: #eff6ff;
+    color: #1e3a8a;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 9px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.upcoming {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.ongoing {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.completed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.empty {
+    text-align: center;
+    padding: 25px;
+    color: #64748b;
+}
+
+footer {
+    text-align: center;
+    color: #64748b;
+    font-size: 13px;
+    padding: 15px;
+}
+
+@media (max-width: 1100px) {
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .sidebar a {
+        display: inline-block;
+    }
+
+    .main {
+        padding: 18px;
+    }
+}
+
+@media (max-width: 600px) {
+    .stats,
+    .toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .header h1 {
+        font-size: 23px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+        <h2>VGI Events</h2>
+        <p>Volunteer Control Panel</p>
+
+        <a href="volunteer-dashboard.html" class="active">
+            Volunteer Dashboard
+        </a>
+
+        <a href="#assignedEvents">
+            Assigned Events
+        </a>
+
+        <a href="#participants">
+            Participants & Attendance
+        </a>
+
+        <a href="login.html">
+            Logout
+        </a>
+    </aside>
+
+    <main class="main">
+
+        <header class="header">
+            <div>
+                <h1>Volunteer Dashboard</h1>
+                <p>Manage assigned events and participant attendance.</p>
+            </div>
+
+            <span class="badge">Volunteer Panel</span>
+        </header>
+
+        <!-- Statistics -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <h3>Assigned Events</h3>
+                <h2 id="totalEvents">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <h3>Upcoming Events</h3>
+                <h2 id="upcomingEvents">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <h3>Ongoing Events</h3>
+                <h2 id="ongoingEvents">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <h3>Total Participants</h3>
+                <h2 id="totalParticipants">0</h2>
+            </div>
+
+        </section>
+
+        <!-- Assigned Events -->
+
+        <section class="panel" id="assignedEvents">
+
+            <h2>My Assigned Events</h2>
+
+            <div class="toolbar">
+
+                <div class="form-group">
+                    <label for="searchEvent">Search Events</label>
+                    <input
+                        type="search"
+                        id="searchEvent"
+                        placeholder="Search event or venue..."
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="statusFilter">Filter by Status</label>
+                    <select id="statusFilter">
+                        <option value="All">All Statuses</option>
+                        <option value="Upcoming">Upcoming</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="table-wrap">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Date</th>
+                            <th>Venue</th>
+                            <th>Participants</th>
+                            <th>Attendance</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="eventTable"></tbody>
+                </table>
+
+            </div>
+
+            <p id="emptyEvents" class="empty" hidden>
+                No assigned events found.
+            </p>
+
+        </section>
+
+        <!-- Participants and Attendance -->
+
+        <section class="panel" id="participants">
+
+            <h2>Participants & Attendance</h2>
+
+            <div class="form-group" style="margin-bottom:20px;">
+                <label for="participantEvent">Select Event</label>
+                <select id="participantEvent">
+                    <option value="">Select an assigned event</option>
+                </select>
+            </div>
+
+            <div class="table-wrap">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Event</th>
+                            <th>Attendance</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="participantTable"></tbody>
+                </table>
+
+            </div>
+
+            <p id="emptyParticipants" class="empty">
+                Select an event to view its participants.
+            </p>
+
+        </section>
+
+        <footer>
+            College Event Management System | Volunteer Dashboard
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+const EVENT_KEY = "collegeEventManagementVolunteerEvents";
+const PARTICIPANT_KEY = "collegeEventManagementVolunteerParticipants";
+
+const demoEvents = [
+    {
+        id: 1,
+        name: "VGI Diwali Mela 2026",
+        date: "2026-11-02",
+        venue: "Sports Ground, VGI",
+        participants: 50,
+        attendance: 0,
+        status: "Upcoming"
+    },
+    {
+        id: 2,
+        name: "Coding Competition",
+        date: "2026-11-15",
+        venue: "Computer Lab",
+        participants: 30,
+        attendance: 0,
+        status: "Upcoming"
+    },
+    {
+        id: 3,
+        name: "Singing Competition",
+        date: "2026-10-20",
+        venue: "College Auditorium",
+        participants: 25,
+        attendance: 20,
+        status: "Completed"
+    }
+];
+
+const demoParticipants = [
+    {
+        id: 1,
+        name: "Aarav Sharma",
+        eventId: 1,
+        attendance: "Not Marked"
+    },
+    {
+        id: 2,
+        name: "Priya Verma",
+        eventId: 1,
+        attendance: "Not Marked"
+    },
+    {
+        id: 3,
+        name: "Rahul Singh",
+        eventId: 2,
+        attendance: "Not Marked"
+    },
+    {
+        id: 4,
+        name: "Ananya Gupta",
+        eventId: 2,
+        attendance: "Not Marked"
+    },
+    {
+        id: 5,
+        name: "Rohan Kumar",
+        eventId: 3,
+        attendance: "Present"
+    }
+];
+
+function loadData(key, demoData) {
+    try {
+        const saved = localStorage.getItem(key);
+
+        if (saved === null) {
+            localStorage.setItem(key, JSON.stringify(demoData));
+            return demoData.map(item => ({ ...item }));
+        }
+
+        const parsed = JSON.parse(saved);
+
+        if (Array.isArray(parsed)) {
+            return parsed;
+        }
+    } catch (error) {
+        console.error("Could not load data:", error);
+    }
+
+    return demoData.map(item => ({ ...item }));
+}
+
+let events = loadData(EVENT_KEY, demoEvents);
+let participants = loadData(PARTICIPANT_KEY, demoParticipants);
+
+function saveData(key, data) {
+    try {
+        localStorage.setItem(key, JSON.stringify(data));
+        return true;
+    } catch (error) {
+        alert("Data could not be saved in this browser.");
+        console.error(error);
+        return false;
+    }
+}
+
+function renderStatistics() {
+    document.getElementById("totalEvents").textContent = events.length;
+
+    document.getElementById("upcomingEvents").textContent =
+        events.filter(event => event.status === "Upcoming").length;
+
+    document.getElementById("ongoingEvents").textContent =
+        events.filter(event => event.status === "Ongoing").length;
+
+    document.getElementById("totalParticipants").textContent =
+        events.reduce((sum, event) => sum + Number(event.participants || 0), 0);
+}
+
+function renderEvents() {
+    const query = document.getElementById("searchEvent")
+        .value.trim().toLowerCase();
+
+    const filter = document.getElementById("statusFilter").value;
+
+    const filtered = events.filter(event => {
+        const matchesSearch =
+            event.name.toLowerCase().includes(query) ||
+            event.venue.toLowerCase().includes(query);
+
+        const matchesStatus =
+            filter === "All" || event.status === filter;
+
+        return matchesSearch && matchesStatus;
+    });
+
+    const table = document.getElementById("eventTable");
+    table.innerHTML = "";
+
+    filtered.forEach(event => {
+        const row = document.createElement("tr");
+
+        function addCell(value) {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+            return cell;
+        }
+
+        addCell(event.name);
+        addCell(event.date);
+        addCell(event.venue);
+        addCell(event.participants);
+
+        addCell(event.attendance + " marked present");
+
+        const statusCell = addCell("");
+        const badge = document.createElement("span");
+
+        badge.className = "status " + event.status.toLowerCase();
+        badge.textContent = event.status;
+
+        statusCell.appendChild(badge);
+
+        const actionCell = addCell("");
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const statusButton = document.createElement("button");
+        statusButton.className = "primary";
+        statusButton.textContent = "Next Status";
+
+        statusButton.addEventListener("click", () => {
+            updateEventStatus(event.id);
+        });
+
+        actions.appendChild(statusButton);
+
+        const attendanceButton = document.createElement("button");
+        attendanceButton.className = "green";
+        attendanceButton.textContent = "Attendance";
+
+        attendanceButton.addEventListener("click", () => {
+            document.getElementById("participantEvent").value =
+                String(event.id);
+
+            renderParticipants();
+
+            document.getElementById("participants")
+                .scrollIntoView({ behavior: "smooth" });
+        });
+
+        actions.appendChild(attendanceButton);
+        actionCell.appendChild(actions);
+        table.appendChild(row);
+    });
+
+    document.getElementById("emptyEvents").hidden = filtered.length > 0;
+
+    renderStatistics();
+    renderParticipantEventOptions();
+}
+
+function updateEventStatus(id) {
+    const event = events.find(item => item.id === id);
+    if (!event) return;
+
+    const statuses = ["Upcoming", "Ongoing", "Completed"];
+    const oldStatus = event.status;
+
+    event.status = statuses[
+        (statuses.indexOf(event.status) + 1) % statuses.length
+    ];
+
+    if (!saveData(EVENT_KEY, events)) {
+        event.status = oldStatus;
+        return;
+    }
+
+    renderEvents();
+}
+
+function renderParticipantEventOptions() {
+    const select = document.getElementById("participantEvent");
+    const previousValue = select.value;
+
+    select.innerHTML = "";
+
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Select an assigned event";
+    select.appendChild(defaultOption);
+
+    events.forEach(event => {
+        const option = document.createElement("option");
+        option.value = String(event.id);
+        option.textContent = event.name;
+        select.appendChild(option);
+    });
+
+    if (events.some(event => String(event.id) === previousValue)) {
+        select.value = previousValue;
+    }
+}
+
+function renderParticipants() {
+    const selectedId = Number(
+        document.getElementById("participantEvent").value
+    );
+
+    const table = document.getElementById("participantTable");
+    const emptyMessage = document.getElementById("emptyParticipants");
+
+    table.innerHTML = "";
+
+    if (!selectedId) {
+        emptyMessage.textContent = "Select an event to view its participants.";
+        emptyMessage.hidden = false;
+        return;
+    }
+
+    const event = events.find(item => item.id === selectedId);
+
+    const filtered = participants.filter(
+        participant => participant.eventId === selectedId
+    );
+
+    if (filtered.length === 0) {
+        emptyMessage.textContent = "No demo participant records for this event.";
+        emptyMessage.hidden = false;
+        return;
+    }
+
+    emptyMessage.hidden = true;
+
+    filtered.forEach(participant => {
+        const row = document.createElement("tr");
+
+        function addCell(value) {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+            return cell;
+        }
+
+        addCell(participant.name);
+        addCell(event ? event.name : "Unknown event");
+        addCell(participant.attendance);
+
+        const actionCell = addCell("");
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        ["Present", "Absent"].forEach(value => {
+            const button = document.createElement("button");
+
+            button.className = value === "Present" ? "green" : "red";
+            button.textContent = value;
+
+            button.addEventListener("click", () => {
+                markAttendance(participant.id, value);
+            });
+
+            actions.appendChild(button);
+        });
+
+        actionCell.appendChild(actions);
+        table.appendChild(row);
+    });
+}
+
+function markAttendance(id, value) {
+    const participant = participants.find(item => item.id === id);
+    if (!participant) return;
+
+    const oldAttendance = participant.attendance;
+    participant.attendance = value;
+
+    if (!saveData(PARTICIPANT_KEY, participants)) {
+        participant.attendance = oldAttendance;
+        return;
+    }
+
+    const selectedId = Number(
+        document.getElementById("participantEvent").value
+    );
+
+    const event = events.find(item => item.id === selectedId);
+
+    if (event) {
+        event.attendance = participants.filter(
+            item => item.eventId === selectedId &&
+                    item.attendance === "Present"
+        ).length;
+
+        saveData(EVENT_KEY, events);
+    }
+
+    renderParticipants();
+    renderEvents();
+}
+
+document.getElementById("searchEvent")
+    .addEventListener("input", renderEvents);
+
+document.getElementById("statusFilter")
+    .addEventListener("change", renderEvents);
+
+document.getElementById("participantEvent")
+    .addEventListener("change", renderParticipants);
+
+renderEvents();
+renderParticipants();
+</script>
+
+</body>
+</html>

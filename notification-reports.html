@@ -3,346 +3,461 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notification & Reports Module</title>
+<title>Notification & Reports | College Event Management</title>
 
 <style>
-* { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f3f4f8;
-    color: #252b42;
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f1f5f9;color:#1e293b}
+.sidebar{width:250px;height:100vh;position:fixed;top:0;left:0;background:#172554;color:white;padding:25px 15px;overflow-y:auto}
+.sidebar h2{text-align:center;margin-bottom:30px;font-size:21px}
+.sidebar p{text-align:center;color:#cbd5e1;font-size:13px;margin-bottom:20px}
+.sidebar a{display:block;color:white;text-decoration:none;padding:13px 12px;margin-bottom:7px;border-radius:7px;font-size:14px}
+.sidebar a:hover,.sidebar a.active{background:#2563eb}
+.main{margin-left:250px;padding:30px;min-width:0}
+.header{margin-bottom:25px}
+.header h1{color:#172554;font-size:28px}
+.header p{color:#64748b;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-bottom:25px}
+.stat-card{background:white;padding:22px;border-radius:12px;box-shadow:0 3px 12px #0000000d}
+.stat-card h3{font-size:15px;color:#64748b;margin-bottom:12px}
+.stat-card h2{color:#2563eb;font-size:28px}
+.panel{background:white;padding:25px;border-radius:12px;margin-bottom:25px;box-shadow:0 3px 12px #0000000d}
+.panel h2{color:#172554;font-size:20px;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.full{grid-column:1/-1}
+label{font-size:14px;font-weight:bold}
+input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;font-size:14px;background:white}
+textarea{min-height:100px;resize:vertical}
+button{border:none;padding:11px 16px;border-radius:7px;cursor:pointer;font-size:14px;font-weight:bold}
+.primary-btn{background:#2563eb;color:white}
+.primary-btn:hover{background:#1d4ed8}
+.delete-btn{background:#fee2e2;color:#b91c1c}
+.download-btn{background:#dcfce7;color:#166534}
+.table-wrapper{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:700px}
+th,td{text-align:left;padding:14px 12px;border-bottom:1px solid #e2e8f0;font-size:14px;vertical-align:top}
+th{background:#eff6ff;color:#1e3a8a}
+.badge{display:inline-block;background:#dbeafe;color:#1d4ed8;padding:5px 9px;border-radius:20px;font-size:12px}
+.empty-message{text-align:center;padding:25px;color:#64748b}
+.report-note{color:#64748b;font-size:13px;margin-top:15px;line-height:1.6}
+.toolbar{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:18px}
+.report-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+#formMessage{font-size:14px;color:#166534}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){
+.sidebar{position:relative;width:100%;height:auto}
+.sidebar a{display:inline-block}
+.main{margin-left:0;padding:18px}
+.form-grid,.toolbar{grid-template-columns:1fr}
+.full{grid-column:auto}
 }
-
-header {
-    background: #263b80;
-    color: white;
-    text-align: center;
-    padding: 22px;
-}
-
-nav {
-    background: #192957;
-    padding: 14px;
-    text-align: center;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin: 8px;
-}
-
-.container {
-    max-width: 1100px;
-    margin: 25px auto;
-    padding: 15px;
-}
-
-.card {
-    background: white;
-    padding: 22px;
-    margin-bottom: 22px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px #0001;
-    overflow-x: auto;
-}
-
-h2 { color: #263b80; }
-
-label {
-    display: block;
-    margin-top: 12px;
-    font-weight: bold;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 11px;
-    margin-top: 6px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    background: #263b80;
-    color: white;
-    padding: 10px 16px;
-    margin-top: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover { background: #4059b2; }
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-}
-
-.stat-box {
-    background: #e6eaff;
-    padding: 22px;
-    text-align: center;
-    border-radius: 8px;
-}
-
-.stat-box h3 { margin-top: 0; }
-
-.stat-number {
-    font-size: 30px;
-    color: #263b80;
-    font-weight: bold;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 550px;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-}
-
-th { background: #e6eaff; }
-
-.notice {
-    background: #eef2ff;
-    border-left: 5px solid #263b80;
-    padding: 15px;
-    margin: 12px 0;
-    border-radius: 5px;
-}
-
-footer {
-    background: #192957;
-    color: white;
-    text-align: center;
-    padding: 14px;
-}
+@media(max-width:450px){.stats{grid-template-columns:1fr}.header h1{font-size:24px}}
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Notification & Reports</h1>
-    <p>Event Announcements, Updates and Statistics</p>
+<aside class="sidebar">
+    <h2>🎓 College Events</h2>
+    <p>Admin Control Panel</p>
+
+    <a href="admin-dashboard.html">Admin Dashboard</a>
+    <a href="event-management.html">Event Management</a>
+    <a href="student-management.html">Student Management</a>
+    <a href="stall-booking.html">Stall &amp; Booking</a>
+    <a href="organizer-module.html">Organizer Module</a>
+    <a href="competition-result.html">Competition &amp; Result</a>
+    <a href="feedback-module.html">Feedback Module</a>
+    <a href="notification-reports.html" class="active">Notification &amp; Reports</a>
+    <a href="login.html">Logout</a>
+</aside>
+
+<main class="main">
+
+<header class="header">
+    <h1>Notification &amp; Reports</h1>
+    <p>Manage announcements and view event statistics.</p>
 </header>
 
-<nav>
-    <a href="admin-dashboard.html">Admin</a>
-    <a href="event-management.html">Events</a>
-    <a href="student-management.html">Students</a>
-    <a href="organizer-module.html">Organizer</a>
-    <a href="competition-result.html">Results</a>
-    <a href="feedback-module.html">Feedback</a>
-</nav>
+<section class="stats">
+    <div class="stat-card">
+        <h3>Total Events</h3>
+        <h2 id="totalEvents">0</h2>
+    </div>
+    <div class="stat-card">
+        <h3>Total Students</h3>
+        <h2 id="totalStudents">0</h2>
+    </div>
+    <div class="stat-card">
+        <h3>Total Registrations</h3>
+        <h2 id="totalRegistrations">0</h2>
+    </div>
+    <div class="stat-card">
+        <h3>Announcements</h3>
+        <h2 id="totalAnnouncements">0</h2>
+    </div>
+</section>
 
-<div class="container">
+<section class="panel">
+    <h2>Create Announcement</h2>
 
-    <div class="card">
-        <h2>Event Statistics</h2>
+    <form id="notificationForm">
+        <div class="form-grid">
 
-        <div class="stats">
-            <div class="stat-box">
-                <h3>Total Events</h3>
-                <div class="stat-number" id="totalEvents">12</div>
+            <div class="form-group">
+                <label for="notificationTitle">Notification Title</label>
+                <input type="text" id="notificationTitle"
+                       maxlength="150"
+                       placeholder="Enter notification title" required>
             </div>
 
-            <div class="stat-box">
-                <h3>Total Registrations</h3>
-                <div class="stat-number" id="totalRegistrations">150</div>
+            <div class="form-group">
+                <label for="notificationType">Notification Type</label>
+                <select id="notificationType" required>
+                    <option value="">Select Type</option>
+                    <option value="Event Announcement">Event Announcement</option>
+                    <option value="Registration Update">Registration Update</option>
+                    <option value="Result Announcement">Result Announcement</option>
+                    <option value="General Notice">General Notice</option>
+                </select>
             </div>
 
-            <div class="stat-box">
-                <h3>Upcoming Events</h3>
-                <div class="stat-number" id="upcomingEvents">5</div>
+            <div class="form-group full">
+                <label for="notificationMessage">Notification Message</label>
+                <textarea id="notificationMessage"
+                          maxlength="2000"
+                          placeholder="Write your announcement here..."
+                          required></textarea>
             </div>
 
-            <div class="stat-box">
-                <h3>Present Participants</h3>
-                <div class="stat-number" id="presentParticipants">85</div>
+            <div class="form-group full">
+                <button type="submit" class="primary-btn">Publish Notification</button>
+                <p id="formMessage" role="status" aria-live="polite"></p>
             </div>
+
+        </div>
+    </form>
+</section>
+
+<section class="panel">
+    <h2>All Notifications</h2>
+
+    <div class="toolbar">
+        <div class="form-group">
+            <label for="searchNotification">Search Notifications</label>
+            <input type="search" id="searchNotification"
+                   placeholder="Search by title or message...">
+        </div>
+
+        <div class="form-group">
+            <label for="typeFilter">Filter by Type</label>
+            <select id="typeFilter">
+                <option value="All">All Types</option>
+                <option value="Event Announcement">Event Announcement</option>
+                <option value="Registration Update">Registration Update</option>
+                <option value="Result Announcement">Result Announcement</option>
+                <option value="General Notice">General Notice</option>
+            </select>
         </div>
     </div>
 
-    <div class="card">
-        <h2>Publish Event Announcement</h2>
-
-        <form id="announcementForm">
-            <label>Announcement Title</label>
-            <input type="text" id="announcementTitle"
-                   placeholder="Enter announcement title" required>
-
-            <label>Event Name</label>
-            <input type="text" id="announcementEvent"
-                   placeholder="Enter event name" required>
-
-            <label>Announcement Details</label>
-            <textarea id="announcementDetails" rows="3"
-                      placeholder="Write announcement details"
-                      required></textarea>
-
-            <button type="submit">Publish Announcement</button>
-        </form>
-
-        <h3>Event Announcements</h3>
-        <div id="announcementList">
-            <div class="notice">
-                <strong>Diwali Cultural Night</strong>
-                <p>Join us for cultural performances on 5 November 2026.</p>
-            </div>
-
-            <div class="notice">
-                <strong>Technical Workshop</strong>
-                <p>Registrations are open for the technical workshop.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="card">
-        <h2>Registration Status Updates</h2>
-
+    <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th>Student ID</th>
-                    <th>Student Name</th>
-                    <th>Event</th>
-                    <th>Registration Status</th>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                    <th>Action</th>
                 </tr>
             </thead>
-
-            <tbody id="registrationTable">
-                <tr>
-                    <td>ST101</td>
-                    <td>Rahul Sharma</td>
-                    <td>Programming Quiz</td>
-                    <td>
-                        <select>
-                            <option>Confirmed</option>
-                            <option>Pending</option>
-                            <option>Rejected</option>
-                        </select>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>ST102</td>
-                    <td>Priya Verma</td>
-                    <td>Technical Workshop</td>
-                    <td>
-                        <select>
-                            <option>Pending</option>
-                            <option>Confirmed</option>
-                            <option>Rejected</option>
-                        </select>
-                    </td>
-                </tr>
-            </tbody>
+            <tbody id="notificationTable"></tbody>
         </table>
+    </div>
 
-        <button onclick="updateRegistrationReport()">
-            Update Registration Report
+    <p id="emptyMessage" class="empty-message" hidden>No notifications found.</p>
+</section>
+
+<section class="panel">
+    <div class="report-actions">
+        <h2>Event Reports</h2>
+        <button type="button" id="downloadReport" class="download-btn">
+            Download Report (CSV)
         </button>
-        <p id="registrationMessage"></p>
     </div>
 
-    <div class="card">
-        <h2>Participation & Attendance Report</h2>
-
+    <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th>Event Name</th>
-                    <th>Registered Participants</th>
-                    <th>Present</th>
-                    <th>Absent</th>
+                    <th>Report Name</th>
+                    <th>Description</th>
+                    <th>Current Value</th>
                 </tr>
             </thead>
-
-            <tbody id="attendanceTable">
+            <tbody>
                 <tr>
-                    <td>Diwali Cultural Night</td>
-                    <td>60</td>
-                    <td>45</td>
-                    <td>15</td>
+                    <td>Event Report</td>
+                    <td>Total events in the demo</td>
+                    <td id="eventReportValue">0</td>
                 </tr>
-
                 <tr>
-                    <td>Technical Workshop</td>
-                    <td>40</td>
-                    <td>25</td>
-                    <td>15</td>
+                    <td>Student Report</td>
+                    <td>Total students in the demo</td>
+                    <td id="studentReportValue">0</td>
                 </tr>
-
                 <tr>
-                    <td>Programming Quiz</td>
-                    <td>50</td>
-                    <td>15</td>
-                    <td>35</td>
+                    <td>Registration Report</td>
+                    <td>Total event registrations in the demo</td>
+                    <td id="registrationReportValue">0</td>
+                </tr>
+                <tr>
+                    <td>Notification Report</td>
+                    <td>Total announcements created</td>
+                    <td id="notificationReportValue">0</td>
                 </tr>
             </tbody>
         </table>
-
-        <button onclick="window.print()">Print Reports</button>
     </div>
 
-</div>
+    <p class="report-note">
+        Note: Event, student and registration figures are sample values for this
+        frontend demo. They will be calculated from MySQL after Java/JDBC integration.
+    </p>
+</section>
 
-<footer>
-    <p>College Event Management System | Notification & Reports Module</p>
-</footer>
+</main>
 
 <script>
-document.getElementById("announcementForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+const STORAGE_KEY = "collegeEventManagementNotifications";
 
-    const title = document.getElementById("announcementTitle").value.trim();
-    const eventName = document.getElementById("announcementEvent").value.trim();
-    const details = document.getElementById("announcementDetails").value.trim();
+const reportData = {
+    events: 6,
+    students: 120,
+    registrations: 85
+};
 
-    const notice = document.createElement("div");
-    notice.className = "notice";
+const demoNotifications = [
+    {
+        id: 1,
+        title: "VGI Diwali Mela 2026",
+        type: "Event Announcement",
+        message: "VGI Diwali Mela will be held on 2 November 2026.",
+        date: "28 Oct 2026"
+    },
+    {
+        id: 2,
+        title: "Registration Reminder",
+        type: "Registration Update",
+        message: "Please check your event registration status.",
+        date: "28 Oct 2026"
+    }
+];
 
-    const heading = document.createElement("strong");
-    heading.textContent = title + " - " + eventName;
+function loadNotifications() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
 
-    const paragraph = document.createElement("p");
-    paragraph.textContent = details;
+        if (saved === null) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(demoNotifications));
+            return demoNotifications.map(item => ({ ...item }));
+        }
 
-    notice.append(heading, paragraph);
-    document.getElementById("announcementList").prepend(notice);
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
 
-    this.reset();
-});
+    } catch (error) {
+        console.error("Could not load notifications:", error);
+    }
 
-function updateRegistrationReport() {
-    const rows = document.querySelectorAll("#registrationTable tr");
-    let confirmed = 0;
-    let pending = 0;
-    let rejected = 0;
+    return demoNotifications.map(item => ({ ...item }));
+}
 
-    rows.forEach(function(row) {
-        const status = row.querySelector("select").value;
+let notifications = loadNotifications();
+let nextId = Math.max(0, ...notifications.map(item => Number(item.id) || 0)) + 1;
 
-        if (status === "Confirmed") confirmed++;
-        else if (status === "Pending") pending++;
-        else if (status === "Rejected") rejected++;
+const notificationForm = document.getElementById("notificationForm");
+const notificationTable = document.getElementById("notificationTable");
+const formMessage = document.getElementById("formMessage");
+
+function saveNotifications() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications));
+        return true;
+    } catch (error) {
+        alert("Notifications could not be saved in this browser.");
+        console.error(error);
+        return false;
+    }
+}
+
+function updateStatistics() {
+    document.getElementById("totalEvents").textContent = reportData.events;
+    document.getElementById("totalStudents").textContent = reportData.students;
+    document.getElementById("totalRegistrations").textContent = reportData.registrations;
+    document.getElementById("totalAnnouncements").textContent = notifications.length;
+
+    document.getElementById("eventReportValue").textContent = reportData.events;
+    document.getElementById("studentReportValue").textContent = reportData.students;
+    document.getElementById("registrationReportValue").textContent = reportData.registrations;
+    document.getElementById("notificationReportValue").textContent = notifications.length;
+}
+
+function renderNotifications() {
+    const query = document.getElementById("searchNotification")
+        .value.trim().toLowerCase();
+
+    const typeFilter = document.getElementById("typeFilter").value;
+
+    const filtered = notifications.filter(item => {
+        const matchesQuery = [item.title, item.message, item.type]
+            .some(value => String(value).toLowerCase().includes(query));
+
+        const matchesType = typeFilter === "All" || item.type === typeFilter;
+
+        return matchesQuery && matchesType;
     });
 
-    document.getElementById("registrationMessage").textContent =
-        "Demo report: Confirmed: " + confirmed +
-        ", Pending: " + pending +
-        ", Rejected: " + rejected + ".";
+    notificationTable.innerHTML = "";
+
+    filtered.forEach(item => {
+        const row = document.createElement("tr");
+
+        function addCell(value) {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+            return cell;
+        }
+
+        addCell(item.title);
+
+        const typeCell = addCell("");
+        const badge = document.createElement("span");
+        badge.className = "badge";
+        badge.textContent = item.type;
+        typeCell.appendChild(badge);
+
+        addCell(item.message);
+        addCell(item.date);
+
+        const actionCell = addCell("");
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "delete-btn";
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => deleteNotification(item.id));
+
+        actionCell.appendChild(deleteButton);
+        notificationTable.appendChild(row);
+    });
+
+    document.getElementById("emptyMessage").hidden = filtered.length !== 0;
+    updateStatistics();
 }
+
+function deleteNotification(id) {
+    const item = notifications.find(notification => notification.id === id);
+    if (!item) return;
+
+    if (!confirm("Delete this notification?")) return;
+
+    const previous = notifications;
+    notifications = notifications.filter(notification => notification.id !== id);
+
+    if (!saveNotifications()) {
+        notifications = previous;
+        return;
+    }
+
+    formMessage.textContent = "Notification deleted.";
+    renderNotifications();
+}
+
+notificationForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const title = document.getElementById("notificationTitle").value.trim();
+    const type = document.getElementById("notificationType").value;
+    const message = document.getElementById("notificationMessage").value.trim();
+
+    if (!title || !type || !message) {
+        formMessage.textContent = "Please fill in all fields.";
+        return;
+    }
+
+    const currentDate = new Date().toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+    });
+
+    const notification = {
+        id: nextId++,
+        title,
+        type,
+        message,
+        date: currentDate
+    };
+
+    notifications.unshift(notification);
+
+    if (!saveNotifications()) {
+        notifications = notifications.filter(item => item.id !== notification.id);
+        nextId--;
+        return;
+    }
+
+    notificationForm.reset();
+    formMessage.textContent = "Notification published successfully.";
+    renderNotifications();
+});
+
+document.getElementById("searchNotification")
+    .addEventListener("input", renderNotifications);
+
+document.getElementById("typeFilter")
+    .addEventListener("change", renderNotifications);
+
+function csvEscape(value) {
+    return '"' + String(value ?? "").replace(/"/g, '""') + '"';
+}
+
+document.getElementById("downloadReport").addEventListener("click", function() {
+    const rows = [
+        ["Report Name", "Description", "Current Value"],
+        ["Event Report", "Total events in demo", reportData.events],
+        ["Student Report", "Total students in demo", reportData.students],
+        ["Registration Report", "Total registrations in demo", reportData.registrations],
+        ["Notification Report", "Total notifications", notifications.length],
+        [],
+        ["Notification Title", "Type", "Message", "Date"]
+    ];
+
+    notifications.forEach(item => {
+        rows.push([item.title, item.type, item.message, item.date]);
+    });
+
+    const csv = "\uFEFF" + rows
+        .map(row => row.map(csvEscape).join(","))
+        .join("\r\n");
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "college-event-report.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+});
+
+renderNotifications();
 </script>
 
 </body>

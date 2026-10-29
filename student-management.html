@@ -1,457 +1,474 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Module | College Event Management</title>
+<title>Student Management | College Event Management</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    background: #f2f5fb;
-    color: #26324b;
-}
-
-nav {
-    background: #202b46;
-    padding: 20px;
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-}
-
-nav a:hover {
-    color: #8db4ff;
-}
-
-header {
-    padding: 28px;
-}
-
-header p {
-    color: #687386;
-    margin-top: 8px;
-}
-
-main {
-    padding: 0 28px 30px;
-}
-
-.panel {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 3px 12px #0000000b;
-}
-
-h2 {
-    margin-bottom: 20px;
-}
-
-h3 {
-    margin-bottom: 12px;
-}
-
-.auth-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
-}
-
-.auth-card {
-    border: 1px solid #e0e6f0;
-    padding: 22px;
-    border-radius: 10px;
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 7px;
-}
-
-input, select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 16px;
-    border: 1px solid #d4dce9;
-    border-radius: 6px;
-}
-
-button {
-    padding: 11px 16px;
-    border: none;
-    border-radius: 6px;
-    background: #4169e1;
-    color: white;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #304fba;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.card {
-    background: #f7f9ff;
-    padding: 20px;
-    border-radius: 10px;
-    border-left: 4px solid #5278e8;
-}
-
-.card p {
-    font-size: 27px;
-    font-weight: bold;
-    margin-top: 10px;
-    color: #4169e1;
-}
-
-.profile-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.events {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.event-card {
-    border: 1px solid #e0e6f0;
-    border-radius: 10px;
-    padding: 20px;
-}
-
-.event-card p {
-    color: #626d80;
-    margin: 12px 0;
-    line-height: 1.5;
-}
-
-.category {
-    display: inline-block;
-    background: #e2ebff;
-    color: #2857bd;
-    padding: 6px 10px;
-    border-radius: 15px;
-    font-size: 12px;
-    margin-bottom: 13px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 550px;
-}
-
-th, td {
-    padding: 14px;
-    text-align: left;
-    border-bottom: 1px solid #e8ebf1;
-}
-
-th {
-    background: #f1f4fa;
-}
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-.status {
-    display: inline-block;
-    padding: 6px 10px;
-    border-radius: 15px;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.registered {
-    background: #e2efff;
-    color: #1766c2;
-}
-
-.pending {
-    background: #fff0c9;
-    color: #946200;
-}
-
-.approved {
-    background: #dcf7e7;
-    color: #167444;
-}
-
-.completed {
-    background: #e9e9ed;
-    color: #555568;
-}
-
-footer {
-    text-align: center;
-    color: #687386;
-    padding: 20px;
-}
-
-@media (max-width: 800px) {
-    .cards, .events {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 550px) {
-    .auth-grid, .cards, .events, .profile-grid {
-        grid-template-columns: 1fr;
-    }
-
-    main {
-        padding: 0 14px 20px;
-    }
-
-    header {
-        padding: 22px 14px;
-    }
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f1f4f9;color:#26334d}
+.sidebar{position:fixed;top:0;left:0;width:250px;height:100vh;background:#202b46;padding:25px 15px;overflow-y:auto}
+.sidebar h2{text-align:center;color:#91b8ff;margin-bottom:30px}
+.sidebar a{display:block;color:white;text-decoration:none;padding:13px 12px;margin-bottom:7px;border-radius:6px;font-size:14px}
+.sidebar a:hover,.sidebar a.active{background:#405580}
+.main{margin-left:250px;padding:28px}
+header{margin-bottom:25px}
+header p{color:#718096;margin-top:7px}
+.panel{background:white;padding:23px;border-radius:10px;margin-bottom:24px;box-shadow:0 3px 12px #00000009}
+input,select{width:100%;padding:12px;border:1px solid #d7dfeb;border-radius:6px;margin:8px 0 15px;background:white}
+label{font-weight:bold;font-size:14px}
+button{padding:11px 16px;background:#4169e1;color:white;border:0;border-radius:6px;cursor:pointer}
+button:hover{background:#2e50ba}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:24px}
+.stat{background:white;padding:20px;border-radius:10px}
+.stat p{font-size:26px;color:#4169e1;font-weight:bold;margin-top:10px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th,td{padding:13px;text-align:left;border-bottom:1px solid #e5e9f0}
+th{background:#f3f6fb}
+.status{display:inline-block;padding:6px 9px;border-radius:15px;font-size:12px}
+.active-status{background:#dcf7e7;color:#167444}
+.pending-status{background:#fff0c9;color:#946200}
+.delete-btn{background:#c94444;padding:8px 10px}
+.delete-btn:hover{background:#a52f2f}
+.edit-btn{background:#16866b;padding:8px 10px}
+.edit-btn:hover{background:#106950}
+.form-buttons{display:flex;gap:10px;flex-wrap:wrap}
+.cancel-btn{background:#64748b}
+#message{margin-top:12px;line-height:1.5}
+footer{text-align:center;color:#778198;padding:20px}
+@media(max-width:1000px){.stats{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.sidebar{position:relative;width:100%;height:auto}.main{margin-left:0;padding:16px}}
 </style>
 </head>
 
 <body>
 
-<nav>
-    <a href="admin-dashboard.html">Admin Dashboard</a>
-    <a href="event-management.html">Event Management</a>
-    <a href="student-management.html">Student Module</a>
-</nav>
+<aside class="sidebar">
+<h2>EventPro Admin</h2>
+<a href="admin-dashboard.html">Admin Dashboard</a>
+<a href="event-management.html">Event Management</a>
+<a class="active" href="student-management.html">Student Management</a>
+<a href="stall-booking.html">Stall &amp; Booking</a>
+<a href="organizer-module.html">Organizer Module</a>
+<a href="competition-result.html">Competition &amp; Result</a>
+<a href="feedback-module.html">Feedback Module</a>
+<a href="notification-reports.html">Notification &amp; Reports</a>
+<a href="login.html">Logout</a>
+</aside>
+
+<main class="main">
 
 <header>
-    <h1>Student Dashboard</h1>
-    <p>College Event Management System</p>
+<h1>Student Management</h1>
+<p>Manage student records and registration details.</p>
 </header>
 
-<main>
+<section class="stats">
+<div class="stat">
+<h3>Total Students</h3>
+<p id="totalStudents">0</p>
+</div>
 
-<!-- Student Registration and Login -->
-<section class="panel">
-    <h2>Student Registration & Login</h2>
+<div class="stat">
+<h3>Active Students</h3>
+<p id="activeStudents">0</p>
+</div>
 
-    <div class="auth-grid">
-
-        <div class="auth-card">
-            <h3>Create Student Account</h3>
-
-            <form>
-                <label for="regname">Full Name</label>
-                <input id="regname" type="text"
-                       placeholder="Enter your name" required>
-
-                <label for="regemail">Email Address</label>
-                <input id="regemail" type="email"
-                       placeholder="Enter email" required>
-
-                <label for="regroll">Roll Number</label>
-                <input id="regroll" type="text"
-                       placeholder="Enter roll number" required>
-
-                <label for="regpassword">Password</label>
-                <input id="regpassword" type="password"
-                       placeholder="Create password" required>
-
-                <button type="button">Register</button>
-            </form>
-        </div>
-
-        <div class="auth-card">
-            <h3>Student Login</h3>
-
-            <form>
-                <label for="loginemail">Email Address</label>
-                <input id="loginemail" type="email"
-                       placeholder="Enter email" required>
-
-                <label for="loginpassword">Password</label>
-                <input id="loginpassword" type="password"
-                       placeholder="Enter password" required>
-
-                <button type="button">Login</button>
-            </form>
-        </div>
-
-    </div>
+<div class="stat">
+<h3>Pending Approval</h3>
+<p id="pendingStudents">0</p>
+</div>
 </section>
 
-<!-- Student Overview -->
-<section class="panel">
-    <h2>My Overview</h2>
+<section class="panel" id="formPanel">
+<h2 id="formHeading">Add Student</h2>
 
-    <div class="cards">
-        <div class="card">
-            <h3>Available Events</h3>
-            <p>08</p>
-        </div>
+<form id="studentForm">
+<div class="form-grid">
 
-        <div class="card">
-            <h3>My Registrations</h3>
-            <p>03</p>
-        </div>
+<div>
+<label for="studentName">Full Name</label>
+<input id="studentName" maxlength="100" required placeholder="Enter student name">
+</div>
 
-        <div class="card">
-            <h3>Approved Registrations</h3>
-            <p>02</p>
-        </div>
-    </div>
+<div>
+<label for="studentEmail">Email</label>
+<input id="studentEmail" type="email" maxlength="150" required placeholder="Enter email">
+</div>
+
+<div>
+<label for="studentRoll">Roll Number</label>
+<input id="studentRoll" maxlength="50" required placeholder="Enter roll number">
+</div>
+
+<div>
+<label for="studentCourse">Course</label>
+<select id="studentCourse" required>
+<option value="">Select course</option>
+<option>BCA</option>
+<option>B.Tech</option>
+<option>BBA</option>
+<option>MCA</option>
+<option>M.Tech</option>
+</select>
+</div>
+
+<div>
+<label for="studentYear">Year</label>
+<select id="studentYear" required>
+<option value="">Select year</option>
+<option>First Year</option>
+<option>Second Year</option>
+<option>Third Year</option>
+<option>Fourth Year</option>
+</select>
+</div>
+
+<div>
+<label for="studentStatus">Status</label>
+<select id="studentStatus" required>
+<option>Active</option>
+<option>Pending</option>
+</select>
+</div>
+
+</div>
+
+<div class="form-buttons">
+<button type="submit" id="submitBtn">Add Student</button>
+<button type="button" id="cancelBtn" class="cancel-btn" hidden>Cancel Edit</button>
+</div>
+
+<p id="message" role="status" aria-live="polite"></p>
+</form>
 </section>
 
-<!-- Profile Management -->
 <section class="panel">
-    <h2>My Profile</h2>
+<h2>Student Records</h2>
 
-    <form>
-        <div class="profile-grid">
-            <div>
-                <label for="profileName">Full Name</label>
-                <input id="profileName" type="text"
-                       value="Rahul Sharma">
-            </div>
+<label for="searchStudent">Search Students</label>
+<input id="searchStudent" type="search" placeholder="Search by name, roll number or email...">
 
-            <div>
-                <label for="profileEmail">Email</label>
-                <input id="profileEmail" type="email"
-                       value="rahul@example.com">
-            </div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Roll Number</th>
+<th>Course</th>
+<th>Year</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="studentTable"></tbody>
+</table>
+</div>
 
-            <div>
-                <label for="profileRoll">Roll Number</label>
-                <input id="profileRoll" type="text"
-                       value="CS101">
-            </div>
-
-            <div>
-                <label for="profileCourse">Course</label>
-                <input id="profileCourse" type="text"
-                       value="BCA">
-            </div>
-
-            <div>
-                <label for="profilePhone">Phone Number</label>
-                <input id="profilePhone" type="tel"
-                       placeholder="Enter phone number">
-            </div>
-
-            <div>
-                <label for="profileYear">Year</label>
-                <select id="profileYear">
-                    <option>First Year</option>
-                    <option>Second Year</option>
-                    <option selected>Third Year</option>
-                </select>
-            </div>
-        </div>
-
-        <button type="button">Update Profile</button>
-    </form>
+<p id="emptyMessage" style="display:none;margin-top:15px;color:#718096">
+No student records found.
+</p>
 </section>
 
-<!-- Available Events -->
-<section class="panel">
-    <h2>Available Events</h2>
-
-    <div class="events">
-
-        <article class="event-card">
-            <span class="category">College Festival</span>
-            <h3>Diwali Mela</h3>
-            <p><b>Date:</b> 25 October 2026</p>
-            <p><b>Venue:</b> College Ground</p>
-            <p>Enjoy cultural performances, festive stalls and activities.</p>
-            <button type="button">Register Now</button>
-        </article>
-
-        <article class="event-card">
-            <span class="category">Technical</span>
-            <h3>Coding Competition</h3>
-            <p><b>Date:</b> 28 October 2026</p>
-            <p><b>Venue:</b> Computer Lab</p>
-            <p>Show your programming and problem-solving skills.</p>
-            <button type="button">Register Now</button>
-        </article>
-
-        <article class="event-card">
-            <span class="category">Cultural</span>
-            <h3>Cultural Fest</h3>
-            <p><b>Date:</b> 30 October 2026</p>
-            <p><b>Venue:</b> Main Auditorium</p>
-            <p>Participate in music, dance and cultural activities.</p>
-            <button type="button">Register Now</button>
-        </article>
-
-    </div>
-</section>
-
-<!-- My Registrations -->
-<section class="panel">
-    <h2>My Event Registrations</h2>
-
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Registration ID</th>
-                    <th>Event Name</th>
-                    <th>Registration Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>R001</td>
-                    <td>Diwali Mela</td>
-                    <td>20 October 2026</td>
-                    <td><span class="status approved">Approved</span></td>
-                </tr>
-
-                <tr>
-                    <td>R002</td>
-                    <td>Coding Competition</td>
-                    <td>21 October 2026</td>
-                    <td><span class="status pending">Pending</span></td>
-                </tr>
-
-                <tr>
-                    <td>R003</td>
-                    <td>Cultural Fest</td>
-                    <td>22 October 2026</td>
-                    <td><span class="status registered">Registered</span></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
+<footer>© 2026 College Event Management System</footer>
 
 </main>
 
-<footer>
-    © 2026 College Event Management System
-</footer>
+<script>
+const STORAGE_KEY = "collegeEventManagementStudents";
+
+const defaultStudents = [
+{
+id:1,
+name:"Rahul Sharma",
+email:"rahul@example.com",
+roll:"CS101",
+course:"BCA",
+year:"Third Year",
+status:"Active"
+},
+{
+id:2,
+name:"Priya Verma",
+email:"priya@example.com",
+roll:"CS102",
+course:"BCA",
+year:"Second Year",
+status:"Active"
+},
+{
+id:3,
+name:"Aman Singh",
+email:"aman@example.com",
+roll:"CS103",
+course:"B.Tech",
+year:"First Year",
+status:"Pending"
+}
+];
+
+function loadStudents(){
+    try{
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if(saved === null){
+            localStorage.setItem(STORAGE_KEY,JSON.stringify(defaultStudents));
+            return defaultStudents.map(s=>({...s}));
+        }
+
+        const data = JSON.parse(saved);
+
+        if(Array.isArray(data)){
+            return data;
+        }
+    }catch(error){
+        console.error("Unable to load students:",error);
+    }
+
+    return defaultStudents.map(s=>({...s}));
+}
+
+let students = loadStudents();
+let editingId = null;
+let nextId = Math.max(0,...students.map(s=>Number(s.id)||0))+1;
+
+const form = document.getElementById("studentForm");
+const table = document.getElementById("studentTable");
+const search = document.getElementById("searchStudent");
+const message = document.getElementById("message");
+
+function saveStudents(){
+    try{
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(students));
+        return true;
+    }catch(error){
+        alert("Student records could not be saved in this browser.");
+        console.error(error);
+        return false;
+    }
+}
+
+function updateCounts(){
+    document.getElementById("totalStudents").textContent = students.length;
+
+    document.getElementById("activeStudents").textContent =
+        students.filter(s=>s.status==="Active").length;
+
+    document.getElementById("pendingStudents").textContent =
+        students.filter(s=>s.status==="Pending").length;
+}
+
+function renderStudents(){
+    const query = search.value.trim().toLowerCase();
+
+    const filtered = students.filter(s=>
+        [s.name,s.email,s.roll,s.course,s.year,s.status]
+        .some(value=>String(value).toLowerCase().includes(query))
+    );
+
+    table.innerHTML = "";
+
+    filtered.forEach(student=>{
+        const row = document.createElement("tr");
+
+        function addCell(value){
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+            return cell;
+        }
+
+        addCell(student.name);
+        addCell(student.email);
+        addCell(student.roll);
+        addCell(student.course);
+        addCell(student.year);
+
+        const statusCell = addCell("");
+
+        const statusSelect = document.createElement("select");
+        statusSelect.setAttribute("aria-label","Student status");
+
+        ["Active","Pending"].forEach(status=>{
+            const option = document.createElement("option");
+            option.value = status;
+            option.textContent = status;
+            statusSelect.appendChild(option);
+        });
+
+        statusSelect.value = student.status;
+
+        statusSelect.addEventListener("change",()=>{
+            changeStatus(student.id,statusSelect.value);
+        });
+
+        statusCell.appendChild(statusSelect);
+
+        const actionCell = addCell("");
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "edit-btn";
+        editButton.textContent = "Edit";
+        editButton.addEventListener("click",()=>editStudent(student.id));
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "delete-btn";
+        deleteButton.textContent = "Delete";
+        deleteButton.style.marginLeft = "6px";
+        deleteButton.addEventListener("click",()=>deleteStudent(student.id));
+
+        actionCell.append(editButton,deleteButton);
+        table.appendChild(row);
+    });
+
+    document.getElementById("emptyMessage").style.display =
+        filtered.length ? "none" : "block";
+
+    updateCounts();
+}
+
+function changeStatus(id,newStatus){
+    const student = students.find(s=>s.id===id);
+    if(!student) return;
+
+    const oldStatus = student.status;
+    student.status = newStatus;
+
+    if(!saveStudents()){
+        student.status = oldStatus;
+    }
+
+    renderStudents();
+}
+
+function editStudent(id){
+    const student = students.find(s=>s.id===id);
+    if(!student) return;
+
+    editingId = id;
+
+    document.getElementById("studentName").value = student.name;
+    document.getElementById("studentEmail").value = student.email;
+    document.getElementById("studentRoll").value = student.roll;
+    document.getElementById("studentCourse").value = student.course;
+    document.getElementById("studentYear").value = student.year;
+    document.getElementById("studentStatus").value = student.status;
+
+    document.getElementById("formHeading").textContent = "Edit Student";
+    document.getElementById("submitBtn").textContent = "Update Student";
+    document.getElementById("cancelBtn").hidden = false;
+
+    message.textContent = "Update the details and click Update Student.";
+
+    document.getElementById("formPanel").scrollIntoView({
+        behavior:"smooth"
+    });
+}
+
+function deleteStudent(id){
+    const student = students.find(s=>s.id===id);
+    if(!student) return;
+
+    if(!confirm("Delete student "+student.name+"?")) return;
+
+    const oldStudents = students;
+    students = students.filter(s=>s.id!==id);
+
+    if(!saveStudents()){
+        students = oldStudents;
+        return;
+    }
+
+    if(editingId===id) resetForm();
+
+    message.textContent = "Student deleted successfully.";
+    renderStudents();
+}
+
+function resetForm(){
+    form.reset();
+    editingId = null;
+
+    document.getElementById("formHeading").textContent = "Add Student";
+    document.getElementById("submitBtn").textContent = "Add Student";
+    document.getElementById("cancelBtn").hidden = true;
+    message.textContent = "";
+}
+
+document.getElementById("cancelBtn").addEventListener("click",resetForm);
+
+form.addEventListener("submit",function(e){
+    e.preventDefault();
+
+    const student = {
+        name:document.getElementById("studentName").value.trim(),
+        email:document.getElementById("studentEmail").value.trim(),
+        roll:document.getElementById("studentRoll").value.trim(),
+        course:document.getElementById("studentCourse").value,
+        year:document.getElementById("studentYear").value,
+        status:document.getElementById("studentStatus").value
+    };
+
+    const duplicate = students.some(s=>
+        s.id!==editingId &&
+        (
+            s.email.toLowerCase()===student.email.toLowerCase() ||
+            s.roll.toLowerCase()===student.roll.toLowerCase()
+        )
+    );
+
+    if(duplicate){
+        message.textContent = "This email or roll number already exists.";
+        return;
+    }
+
+    if(editingId!==null){
+        const index = students.findIndex(s=>s.id===editingId);
+
+        if(index===-1){
+            message.textContent = "Student record not found.";
+            resetForm();
+            return;
+        }
+
+        const oldStudent = students[index];
+
+        students[index] = {...student,id:editingId};
+
+        if(!saveStudents()){
+            students[index] = oldStudent;
+            return;
+        }
+
+        resetForm();
+        message.textContent = "Student updated successfully. Saved in this browser.";
+    }else{
+        const newStudent = {...student,id:nextId++};
+        students.push(newStudent);
+
+        if(!saveStudents()){
+            students = students.filter(s=>s.id!==newStudent.id);
+            nextId--;
+            return;
+        }
+
+        resetForm();
+        message.textContent = "Student added successfully. Saved in this browser.";
+    }
+
+    renderStudents();
+});
+
+search.addEventListener("input",renderStudents);
+
+renderStudents();
+</script>
 
 </body>
 </html>

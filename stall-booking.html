@@ -3,511 +3,497 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stall & Booking Module</title>
+<title>Stall & Booking | College Event Management</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    background: #f3f5fb;
-    color: #26324b;
-}
-
-nav {
-    background: #202b46;
-    padding: 20px;
-    display: flex;
-    gap: 22px;
-    flex-wrap: wrap;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-}
-
-nav a:hover {
-    color: #8db4ff;
-}
-
-header {
-    padding: 28px;
-}
-
-header p {
-    color: #687386;
-    margin-top: 8px;
-}
-
-main {
-    padding: 0 28px 30px;
-}
-
-.panel {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 3px 12px #0000000b;
-}
-
-h2 {
-    margin-bottom: 20px;
-}
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 25px;
-}
-
-.stat-card {
-    background: white;
-    padding: 22px;
-    border-radius: 10px;
-    border-left: 5px solid #5278e8;
-}
-
-.stat-card h3 {
-    color: #687386;
-    font-size: 14px;
-    margin-bottom: 12px;
-}
-
-.stat-card p {
-    font-size: 28px;
-    font-weight: bold;
-    color: #4169e1;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #d4dce9;
-    border-radius: 6px;
-    margin-bottom: 16px;
-    background: white;
-}
-
-textarea {
-    min-height: 90px;
-    resize: vertical;
-}
-
-button {
-    border: none;
-    padding: 10px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    color: white;
-    margin: 2px;
-}
-
-.apply-btn {
-    background: #4169e1;
-}
-
-.approve-btn {
-    background: #198754;
-}
-
-.reject-btn {
-    background: #dc4444;
-}
-
-.allot-btn {
-    background: #7952c8;
-}
-
-.available {
-    color: #168348;
-    background: #dcf7e7;
-}
-
-.booked {
-    color: #b42318;
-    background: #fee4e2;
-}
-
-.pending {
-    color: #946200;
-    background: #fff0c9;
-}
-
-.approved {
-    color: #167444;
-    background: #dcf7e7;
-}
-
-.rejected {
-    color: #b42318;
-    background: #fee4e2;
-}
-
-.status {
-    display: inline-block;
-    padding: 6px 10px;
-    border-radius: 15px;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.stall-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.stall-card {
-    border: 1px solid #e1e6ef;
-    border-radius: 10px;
-    padding: 20px;
-}
-
-.stall-card h3 {
-    margin-bottom: 12px;
-}
-
-.page-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.page-heading img {
-    width: 180px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.stall-card p {
-    margin: 10px 0;
-    color: #626d80;
-}
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 750px;
-}
-
-th, td {
-    text-align: left;
-    padding: 13px;
-    border-bottom: 1px solid #e7eaf0;
-}
-
-th {
-    background: #f1f4fa;
-}
-
-footer {
-    text-align: center;
-    color: #687386;
-    padding: 20px;
-}
-
-@media (max-width: 900px) {
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .stall-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .stats, .stall-grid, .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    main {
-        padding: 0 14px 20px;
-    }
-
-    header {
-        padding: 22px 14px;
-    }
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f1f4f9;color:#26334d}
+.sidebar{position:fixed;top:0;left:0;width:250px;height:100vh;background:#202b46;padding:25px 15px;overflow-y:auto}
+.sidebar h2{text-align:center;color:#91b8ff;margin-bottom:30px}
+.sidebar a{display:block;color:white;text-decoration:none;padding:13px 12px;margin-bottom:7px;border-radius:6px;font-size:14px}
+.sidebar a:hover,.sidebar a.active{background:#405580}
+.main{margin-left:250px;padding:28px}
+header{margin-bottom:25px}
+header p{color:#718096;margin-top:7px}
+.panel{background:white;padding:23px;border-radius:10px;margin-bottom:24px;box-shadow:0 3px 12px #00000009}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+label{font-weight:bold;font-size:14px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #d7dfeb;border-radius:6px;margin:8px 0 15px;background:white}
+button{padding:11px 16px;background:#4169e1;color:white;border:0;border-radius:6px;cursor:pointer}
+button:hover{background:#2e50ba}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th,td{padding:13px;text-align:left;border-bottom:1px solid #e5e9f0}
+th{background:#f3f6fb}
+.badge{display:inline-block;padding:6px 10px;border-radius:16px;font-size:12px;background:#fff0c9;color:#946200}
+.approved{background:#dcf7e7;color:#167444}
+.rejected{background:#ffe1e1;color:#a52f2f}
+.small{padding:7px 9px;margin:2px;font-size:12px}
+.reject-btn,.delete-btn{background:#c94444}
+.reject-btn:hover,.delete-btn:hover{background:#a52f2f}
+.edit-btn{background:#16866b}
+.cancel-btn{background:#64748b}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+#message{margin-top:12px;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:24px}
+.stat{background:white;padding:20px;border-radius:10px}
+.stat p{font-size:25px;font-weight:bold;color:#4169e1;margin-top:10px}
+footer{text-align:center;color:#778198;padding:20px}
+@media(max-width:1000px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+.sidebar{position:relative;width:100%;height:auto}
+.main{margin-left:0;padding:16px}
+.form-grid,.stats{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<nav>
-    <a href="admin-dashboard.html">Admin Dashboard</a>
-    <a href="event-management.html">Event Management</a>
-    <a href="student-management.html">Student Module</a>
-    <a href="stall-booking.html">Stall & Booking</a>
-</nav>
+<aside class="sidebar">
+<h2>EventPro Admin</h2>
+<a href="admin-dashboard.html">Admin Dashboard</a>
+<a href="event-management.html">Event Management</a>
+<a href="student-management.html">Student Management</a>
+<a class="active" href="stall-booking.html">Stall &amp; Booking</a>
+<a href="organizer-module.html">Organizer Module</a>
+<a href="competition-result.html">Competition &amp; Result</a>
+<a href="feedback-module.html">Feedback Module</a>
+<a href="notification-reports.html">Notification &amp; Reports</a>
+<a href="login.html">Logout</a>
+</aside>
+
+<main class="main">
 
 <header>
-    <div class="page-heading">
-    <h1>Stall & Booking Management</h1>
-    <img src="stall.jpg" alt="Stall Booking Management">
-</div>
-    <p>College Fest Stall Applications, Availability and Allotment</p>
+<h1>Stall &amp; Booking Management</h1>
+<p>Manage stall applications, allotment and approval status.</p>
 </header>
 
-<main>
-
-<!-- Dashboard Statistics -->
 <section class="stats">
-    <div class="stat-card">
-        <h3>Total Stalls</h3>
-        <p>30</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>Available Stalls</h3>
-        <p>12</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>Applications</h3>
-        <p>24</p>
-    </div>
-
-    <div class="stat-card">
-        <h3>Approved Applications</h3>
-        <p>16</p>
-    </div>
+<div class="stat">
+<h3>Total Applications</h3>
+<p id="totalCount">0</p>
+</div>
+<div class="stat">
+<h3>Pending</h3>
+<p id="pendingCount">0</p>
+</div>
+<div class="stat">
+<h3>Approved</h3>
+<p id="approvedCount">0</p>
+</div>
+<div class="stat">
+<h3>Rejected</h3>
+<p id="rejectedCount">0</p>
+</div>
 </section>
 
-<!-- Stall Application Form -->
+<section class="panel" id="formPanel">
+<h2 id="formHeading">New Stall Application</h2>
+
+<form id="stallForm">
+
+<div class="form-grid">
+
+<div>
+<label for="owner">Applicant Name</label>
+<input id="owner" maxlength="100" required placeholder="Enter applicant name">
+</div>
+
+<div>
+<label for="stallName">Stall Name</label>
+<input id="stallName" maxlength="100" required placeholder="Enter stall name">
+</div>
+
+<div>
+<label for="stallCategory">Stall Category</label>
+<select id="stallCategory" required>
+<option value="">Select category</option>
+<option>Food &amp; Beverages</option>
+<option>Handmade Products</option>
+<option>Herbal Products</option>
+<option>Clothing &amp; Accessories</option>
+<option>Other</option>
+</select>
+</div>
+
+<div>
+<label for="stallSize">Stall Size</label>
+<select id="stallSize" required>
+<option value="">Select size</option>
+<option>Small</option>
+<option>Medium</option>
+<option>Large</option>
+</select>
+</div>
+
+<div>
+<label for="stallDate">Event Date</label>
+<input id="stallDate" type="date" required>
+</div>
+
+<div>
+<label for="stallContact">Contact Number</label>
+<input id="stallContact" type="tel" maxlength="15" required
+pattern="[0-9+\-\s]{10,15}"
+title="Enter a valid contact number"
+placeholder="Enter contact number">
+</div>
+
+<div>
+<label for="stallStatus">Application Status</label>
+<select id="stallStatus" required>
+<option>Pending</option>
+<option>Approved</option>
+<option>Rejected</option>
+</select>
+</div>
+
+</div>
+
+<div class="actions">
+<button type="submit" id="submitBtn">Submit Application</button>
+<button type="button" id="cancelBtn" class="cancel-btn" hidden>Cancel Edit</button>
+</div>
+
+<p id="message" role="status" aria-live="polite"></p>
+</form>
+</section>
+
 <section class="panel">
-    <h2>Apply for a Stall</h2>
+<h2>Stall Applications</h2>
 
-    <form>
-        <div class="form-grid">
-            <div>
-                <label for="applicant">Applicant Name</label>
-                <input type="text" id="applicant"
-                       placeholder="Enter your full name" required>
-            </div>
+<div class="form-grid" style="margin-top:15px">
+<div>
+<label for="searchStall">Search Applications</label>
+<input id="searchStall" type="search"
+placeholder="Search applicant, stall or contact...">
+</div>
 
-            <div>
-                <label for="college">Department / Organization</label>
-                <input type="text" id="college"
-                       placeholder="Enter department or organization" required>
-            </div>
+<div>
+<label for="statusFilter">Filter by Status</label>
+<select id="statusFilter">
+<option value="All">All Applications</option>
+<option>Pending</option>
+<option>Approved</option>
+<option>Rejected</option>
+</select>
+</div>
+</div>
 
-            <div>
-                <label for="email">Email Address</label>
-                <input type="email" id="email"
-                       placeholder="Enter email" required>
-            </div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Applicant</th>
+<th>Stall Name</th>
+<th>Category</th>
+<th>Size</th>
+<th>Date</th>
+<th>Contact</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="stallTable"></tbody>
+</table>
+</div>
 
-            <div>
-                <label for="phone">Contact Number</label>
-                <input type="tel" id="phone"
-                       placeholder="Enter contact number" required>
-            </div>
-
-            <div>
-                <label for="category">Stall Category</label>
-                <select id="category" required>
-                    <option value="">Select Category</option>
-                    <option>Food & Beverages</option>
-                    <option>Handmade Products</option>
-                    <option>Clothing & Accessories</option>
-                    <option>Games & Entertainment</option>
-                    <option>Other</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="stall">Preferred Stall</label>
-                <select id="stall" required>
-                    <option value="">Select Stall</option>
-                    <option>Stall S01</option>
-                    <option>Stall S02</option>
-                    <option>Stall S03</option>
-                    <option>Stall S04</option>
-                    <option>Any Available Stall</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="event">College Fest</label>
-                <select id="event" required>
-                    <option>Diwali Mela</option>
-                    <option>Annual College Fest</option>
-                    <option>Cultural Fest</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="size">Stall Size</label>
-                <select id="size">
-                    <option>Small</option>
-                    <option>Medium</option>
-                    <option>Large</option>
-                </select>
-            </div>
-        </div>
-
-        <label for="details">Products / Stall Details</label>
-        <textarea id="details"
-                  placeholder="Describe the products or services you want to offer"></textarea>
-
-        <button type="button" class="apply-btn">
-            Submit Application
-        </button>
-    </form>
+<p id="emptyMessage" style="display:none;margin-top:15px;color:#718096">
+No applications found.
+</p>
 </section>
 
-<!-- Stall Availability -->
-<section class="panel">
-    <h2>Stall Availability</h2>
-
-    <div class="stall-grid">
-
-        <article class="stall-card">
-            <h3>Stall S01</h3>
-            <p><b>Category:</b> Food & Beverages</p>
-            <p><b>Location:</b> Ground Floor</p>
-            <p><b>Fee:</b> ₹1,500</p>
-            <span class="status available">Available</span>
-        </article>
-
-        <article class="stall-card">
-            <h3>Stall S02</h3>
-            <p><b>Category:</b> Handmade Products</p>
-            <p><b>Location:</b> Ground Floor</p>
-            <p><b>Fee:</b> ₹1,000</p>
-            <span class="status booked">Allotted</span>
-        </article>
-
-        <article class="stall-card">
-            <h3>Stall S03</h3>
-            <p><b>Category:</b> Games & Entertainment</p>
-            <p><b>Location:</b> Open Ground</p>
-            <p><b>Fee:</b> ₹1,200</p>
-            <span class="status available">Available</span>
-        </article>
-
-        <article class="stall-card">
-            <h3>Stall S04</h3>
-            <p><b>Category:</b> Clothing & Accessories</p>
-            <p><b>Location:</b> Main Corridor</p>
-            <p><b>Fee:</b> ₹1,300</p>
-            <span class="status available">Available</span>
-        </article>
-
-        <article class="stall-card">
-            <h3>Stall S05</h3>
-            <p><b>Category:</b> Food & Beverages</p>
-            <p><b>Location:</b> Open Ground</p>
-            <p><b>Fee:</b> ₹1,500</p>
-            <span class="status booked">Allotted</span>
-        </article>
-
-        <article class="stall-card">
-            <h3>Stall S06</h3>
-            <p><b>Category:</b> Other</p>
-            <p><b>Location:</b> Main Corridor</p>
-            <p><b>Fee:</b> ₹1,000</p>
-            <span class="status available">Available</span>
-        </article>
-
-    </div>
-</section>
-
-<!-- Application Approval Status -->
-<section class="panel">
-    <h2>Stall Applications & Approval Status</h2>
-
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Application ID</th>
-                    <th>Applicant</th>
-                    <th>Category</th>
-                    <th>Stall</th>
-                    <th>Application Status</th>
-                    <th>Allotment</th>
-                    <th>Admin Action</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>A001</td>
-                    <td>Rahul Sharma</td>
-                    <td>Food</td>
-                    <td>S01</td>
-                    <td><span class="status approved">Approved</span></td>
-                    <td>Allotted</td>
-                    <td><button type="button" class="allot-btn">View</button></td>
-                </tr>
-
-                <tr>
-                    <td>A002</td>
-                    <td>Priya Verma</td>
-                    <td>Handmade Products</td>
-                    <td>S02</td>
-                    <td><span class="status pending">Pending</span></td>
-                    <td>Not Allotted</td>
-                    <td><button type="button" class="approve-btn">Approve</button>
-                    <button type="button" class="reject-btn">Reject</button></td>
-                </tr>
-
-                <tr>
-                    <td>A003</td>
-                    <td>Aman Singh</td>
-                    <td>Games</td>
-                    <td>S03</td>
-                    <td><span class="status approved">Approved</span></td>
-                    <td>Allotted</td>
-                    <td><button type="button" class="allot-btn">View</button></td>
-                </tr>
-
-                <tr>
-                    <td>A004</td>
-                    <td>Neha Gupta</td>
-                    <td>Clothing</td>
-                    <td>S04</td>
-                    <td><span class="status rejected">Rejected</span></td>
-                    <td>Not Allotted</td>
-                    <td><button type="button" class="allot-btn">View</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
-
+<footer>© 2026 College Event Management System</footer>
 </main>
 
-<footer>
-    © 2026 College Event Management System
-</footer>
+<script>
+const STORAGE_KEY = "collegeEventManagementStalls";
+
+const defaultStalls = [
+{
+id:1,
+owner:"Riya Sharma",
+stallName:"Riya Food Corner",
+category:"Food & Beverages",
+size:"Medium",
+date:"2026-11-02",
+contact:"9876543210",
+status:"Pending"
+},
+{
+id:2,
+owner:"Aman Verma",
+stallName:"Handmade Gifts",
+category:"Handmade Products",
+size:"Small",
+date:"2026-11-02",
+contact:"9876501234",
+status:"Approved"
+}
+];
+
+function loadStalls(){
+    try{
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if(saved === null){
+            localStorage.setItem(STORAGE_KEY,JSON.stringify(defaultStalls));
+            return defaultStalls.map(s=>({...s}));
+        }
+
+        const data = JSON.parse(saved);
+        if(Array.isArray(data)) return data;
+
+    }catch(error){
+        console.error("Could not load stall applications:",error);
+    }
+
+    return defaultStalls.map(s=>({...s}));
+}
+
+let stalls = loadStalls();
+let editingId = null;
+let nextId = Math.max(0,...stalls.map(s=>Number(s.id)||0))+1;
+
+const form = document.getElementById("stallForm");
+const table = document.getElementById("stallTable");
+const message = document.getElementById("message");
+const search = document.getElementById("searchStall");
+const statusFilter = document.getElementById("statusFilter");
+
+function saveStalls(){
+    try{
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(stalls));
+        return true;
+    }catch(error){
+        alert("Applications could not be saved in this browser.");
+        console.error(error);
+        return false;
+    }
+}
+
+function updateCounts(){
+    document.getElementById("totalCount").textContent = stalls.length;
+
+    document.getElementById("pendingCount").textContent =
+        stalls.filter(s=>s.status==="Pending").length;
+
+    document.getElementById("approvedCount").textContent =
+        stalls.filter(s=>s.status==="Approved").length;
+
+    document.getElementById("rejectedCount").textContent =
+        stalls.filter(s=>s.status==="Rejected").length;
+}
+
+function renderStalls(){
+    const query = search.value.trim().toLowerCase();
+    const filter = statusFilter.value;
+
+    const filtered = stalls.filter(s=>{
+        const matchesSearch =
+            [s.owner,s.stallName,s.category,s.size,s.date,s.contact]
+            .some(v=>String(v).toLowerCase().includes(query));
+
+        const matchesStatus = filter==="All" || s.status===filter;
+
+        return matchesSearch && matchesStatus;
+    });
+
+    table.innerHTML = "";
+
+    filtered.forEach(stall=>{
+        const row = document.createElement("tr");
+
+        function addCell(value){
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+            return cell;
+        }
+
+        addCell(stall.owner);
+        addCell(stall.stallName);
+        addCell(stall.category);
+        addCell(stall.size);
+        addCell(stall.date);
+        addCell(stall.contact);
+
+        const statusCell = addCell("");
+        const badge = document.createElement("span");
+        badge.className = "badge " + stall.status.toLowerCase();
+        badge.textContent = stall.status;
+        statusCell.appendChild(badge);
+
+        const actionCell = addCell("");
+
+        if(stall.status==="Pending"){
+            const approveButton = document.createElement("button");
+            approveButton.type = "button";
+            approveButton.className = "small";
+            approveButton.textContent = "Approve";
+            approveButton.addEventListener("click",()=>changeStatus(stall.id,"Approved"));
+            actionCell.appendChild(approveButton);
+
+            const rejectButton = document.createElement("button");
+            rejectButton.type = "button";
+            rejectButton.className = "small reject-btn";
+            rejectButton.textContent = "Reject";
+            rejectButton.addEventListener("click",()=>changeStatus(stall.id,"Rejected"));
+            actionCell.appendChild(rejectButton);
+        }
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "small edit-btn";
+        editButton.textContent = "Edit";
+        editButton.addEventListener("click",()=>editStall(stall.id));
+        actionCell.appendChild(editButton);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "small delete-btn";
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click",()=>deleteStall(stall.id));
+        actionCell.appendChild(deleteButton);
+
+        table.appendChild(row);
+    });
+
+    document.getElementById("emptyMessage").style.display =
+        filtered.length ? "none" : "block";
+
+    updateCounts();
+}
+
+function changeStatus(id,newStatus){
+    const stall = stalls.find(s=>s.id===id);
+    if(!stall) return;
+
+    const oldStatus = stall.status;
+    stall.status = newStatus;
+
+    if(!saveStalls()){
+        stall.status = oldStatus;
+        return;
+    }
+
+    message.textContent = "Application status updated to "+newStatus+".";
+    renderStalls();
+}
+
+function editStall(id){
+    const stall = stalls.find(s=>s.id===id);
+    if(!stall) return;
+
+    editingId = id;
+
+    document.getElementById("owner").value = stall.owner;
+    document.getElementById("stallName").value = stall.stallName;
+    document.getElementById("stallCategory").value = stall.category;
+    document.getElementById("stallSize").value = stall.size;
+    document.getElementById("stallDate").value = stall.date;
+    document.getElementById("stallContact").value = stall.contact;
+    document.getElementById("stallStatus").value = stall.status;
+
+    document.getElementById("formHeading").textContent = "Edit Stall Application";
+    document.getElementById("submitBtn").textContent = "Update Application";
+    document.getElementById("cancelBtn").hidden = false;
+
+    message.textContent = "Update the details and save your changes.";
+
+    document.getElementById("formPanel").scrollIntoView({
+        behavior:"smooth"
+    });
+}
+
+function deleteStall(id){
+    const stall = stalls.find(s=>s.id===id);
+    if(!stall) return;
+
+    if(!confirm("Delete the application for "+stall.stallName+"?")) return;
+
+    const oldStalls = stalls;
+    stalls = stalls.filter(s=>s.id!==id);
+
+    if(!saveStalls()){
+        stalls = oldStalls;
+        return;
+    }
+
+    if(editingId===id) resetForm();
+
+    message.textContent = "Stall application deleted.";
+    renderStalls();
+}
+
+function resetForm(){
+    form.reset();
+    editingId = null;
+
+    document.getElementById("formHeading").textContent = "New Stall Application";
+    document.getElementById("submitBtn").textContent = "Submit Application";
+    document.getElementById("cancelBtn").hidden = true;
+    message.textContent = "";
+}
+
+document.getElementById("cancelBtn").addEventListener("click",resetForm);
+
+form.addEventListener("submit",function(e){
+    e.preventDefault();
+
+    const stallData = {
+        owner:document.getElementById("owner").value.trim(),
+        stallName:document.getElementById("stallName").value.trim(),
+        category:document.getElementById("stallCategory").value,
+        size:document.getElementById("stallSize").value,
+        date:document.getElementById("stallDate").value,
+        contact:document.getElementById("stallContact").value.trim(),
+        status:document.getElementById("stallStatus").value
+    };
+
+    if(editingId!==null){
+        const index = stalls.findIndex(s=>s.id===editingId);
+        if(index===-1){
+            message.textContent = "Application not found.";
+            resetForm();
+            return;
+        }
+
+        const oldStall = stalls[index];
+        stalls[index] = {...stallData,id:editingId};
+
+        if(!saveStalls()){
+            stalls[index] = oldStall;
+            return;
+        }
+
+        resetForm();
+        message.textContent = "Stall application updated successfully.";
+
+    }else{
+        const newStall = {...stallData,id:nextId++};
+        stalls.push(newStall);
+
+        if(!saveStalls()){
+            stalls = stalls.filter(s=>s.id!==newStall.id);
+            nextId--;
+            return;
+        }
+
+        resetForm();
+        message.textContent = "Stall application added successfully.";
+    }
+
+    renderStalls();
+});
+
+search.addEventListener("input",renderStalls);
+statusFilter.addEventListener("change",renderStalls);
+
+renderStalls();
+</script>
 
 </body>
 </html>

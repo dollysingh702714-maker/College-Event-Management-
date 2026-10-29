@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Event Management</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        header h1 {
+            margin-bottom: 12px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: white;
+            color: #172554;
+            padding: 10px 14px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .container {
+            padding: 25px;
+        }
+
+        .intro {
+            margin-bottom: 22px;
+        }
+
+        .intro p {
+            margin-top: 8px;
+            color: #64748b;
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 22px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px #0000000d;
+        }
+
+        .event-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .event-info {
+            padding: 18px;
+        }
+
+        .event-info h3 {
+            color: #172554;
+            margin-bottom: 12px;
+        }
+
+        .event-info p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 11px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 14px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .section {
+            margin-top: 35px;
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        .section h2 {
+            margin-bottom: 18px;
+            color: #172554;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 480px;
+        }
+
+        th, td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #eff6ff;
+        }
+
+        .status {
+            color: #166534;
+            background: #dcfce7;
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 22px;
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            header {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎉 Event Management</h1>
+    <p style="margin-bottom: 15px;">
+        Explore events and register to participate.
+    </p>
+
+    <a href="student-dashboard.html" class="back-btn">
+        ← Back to Student Dashboard
+    </a>
+</header>
+
+<main class="container">
+
+    <section class="intro">
+        <h2>Available College Events</h2>
+        <p>View event details and register for events you want to attend.</p>
+    </section>
+
+    <div class="filters">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search events..."
+            oninput="displayEvents()"
+        >
+
+        <select id="categoryFilter" onchange="displayEvents()">
+            <option value="All">All Categories</option>
+            <option value="Cultural">Cultural</option>
+            <option value="Technical">Technical</option>
+            <option value="Sports">Sports</option>
+            <option value="Workshop">Workshop</option>
+            <option value="Competition">Competition</option>
+        </select>
+    </div>
+
+    <div class="event-grid" id="eventGrid"></div>
+
+    <section class="section" id="my-registrations">
+        <h2>📝 My Registrations</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Event Date</th>
+                    <th>Registration Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="registrationTable"></tbody>
+        </table>
+    </section>
+
+</main>
+
+<footer>
+    College Event Management System | Student Panel
+</footer>
+
+<script>
+    const events = [
+        {
+            name: "VGI Diwali Mela 2026",
+            category: "Cultural",
+            date: "2026-11-02",
+            time: "11:00 AM - 4:00 PM",
+            venue: "Sports Ground, VGI",
+            image: "cultural.jpg"
+        },
+        {
+            name: "Coding Competition",
+            category: "Technical",
+            date: "2026-11-15",
+            time: "10:00 AM",
+            venue: "Computer Lab",
+            image: "coding.jpg"
+        },
+        {
+            name: "Annual Sports Meet",
+            category: "Sports",
+            date: "2026-10-17",
+            time: "9:00 AM",
+            venue: "College Playground",
+            image: "sports.jpg"
+        },
+        {
+            name: "Web Development Workshop",
+            category: "Workshop",
+            date: "2026-12-05",
+            time: "11:00 AM",
+            venue: "Seminar Hall",
+            image: "workshop.jpg"
+        },
+        {
+            name: "Inter-College Competition",
+            category: "Competition",
+            date: "2026-11-20",
+            time: "10:00 AM",
+            venue: "Main Auditorium",
+            image: "competition.jpg"
+        }
+    ];
+
+    // Demo registrations
+    let registrations = JSON.parse(
+        localStorage.getItem("studentEventRegistrations") || "[]"
+    );
+
+    function formatDate(date) {
+        return new Date(date + "T00:00:00").toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+    }
+
+    function displayEvents() {
+        const grid = document.getElementById("eventGrid");
+        const search = document.getElementById("searchInput")
+            .value.toLowerCase().trim();
+        const category = document.getElementById("categoryFilter").value;
+
+        grid.innerHTML = "";
+
+        const filteredEvents = events.filter(function(event) {
+            return (
+                event.name.toLowerCase().includes(search) &&
+                (category === "All" || event.category === category)
+            );
+        });
+
+        if (filteredEvents.length === 0) {
+            grid.innerHTML = "<p>No matching events found.</p>";
+            return;
+        }
+
+        filteredEvents.forEach(function(event) {
+            const alreadyRegistered = registrations.some(function(registration) {
+                return registration.name === event.name;
+            });
+
+            const card = document.createElement("article");
+            card.className = "event-card";
+
+            const img = document.createElement("img");
+            img.src = event.image;
+            img.alt = event.name;
+
+            const info = document.createElement("div");
+            info.className = "event-info";
+
+            const title = document.createElement("h3");
+            title.textContent = event.name;
+
+            const details = document.createElement("p");
+            details.textContent =
+                "Category: " + event.category +
+                " | Date: " + formatDate(event.date) +
+                " | Time: " + event.time +
+                " | Venue: " + event.venue;
+
+            const button = document.createElement("button");
+            button.textContent = alreadyRegistered
+                ? "Already Registered"
+                : "Register Now";
+
+            button.disabled = alreadyRegistered;
+
+            button.addEventListener("click", function() {
+                registerEvent(event);
+            });
+
+            info.appendChild(title);
+            info.appendChild(details);
+            info.appendChild(button);
+
+            card.appendChild(img);
+            card.appendChild(info);
+
+            grid.appendChild(card);
+        });
+    }
+
+    function registerEvent(event) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const eventDate = new Date(event.date + "T00:00:00");
+
+        if (eventDate < today) {
+            alert("Registration is unavailable because this event has passed.");
+            return;
+        }
+
+        const alreadyRegistered = registrations.some(function(registration) {
+            return registration.name === event.name;
+        });
+
+        if (alreadyRegistered) {
+            alert("You have already registered for this event.");
+            return;
+        }
+
+        registrations.push({
+            name: event.name,
+            date: event.date,
+            status: "Registered"
+        });
+
+        localStorage.setItem(
+            "studentEventRegistrations",
+            JSON.stringify(registrations)
+        );
+
+        displayEvents();
+        displayRegistrations();
+
+        alert("Successfully registered for " + event.name + "!");
+    }
+
+    function displayRegistrations() {
+        const table = document.getElementById("registrationTable");
+        table.innerHTML = "";
+
+        if (registrations.length === 0) {
+            table.innerHTML =
+                '<tr><td colspan="3">You have not registered for any events yet.</td></tr>';
+            return;
+        }
+
+        registrations.forEach(function(registration) {
+            const row = document.createElement("tr");
+
+            const nameCell = document.createElement("td");
+            nameCell.textContent = registration.name;
+
+            const dateCell = document.createElement("td");
+            dateCell.textContent = formatDate(registration.date);
+
+            const statusCell = document.createElement("td");
+            const badge = document.createElement("span");
+            badge.className = "status";
+            badge.textContent = registration.status;
+
+            statusCell.appendChild(badge);
+
+            row.appendChild(nameCell);
+            row.appendChild(dateCell);
+            row.appendChild(statusCell);
+
+            table.appendChild(row);
+        });
+    }
+
+    displayEvents();
+    displayRegistrations();
+</script>
+
+</body>
+</html>

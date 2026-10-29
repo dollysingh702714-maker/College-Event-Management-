@@ -3,267 +3,468 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feedback Module</title>
+<title>Feedback Module | College Event Management</title>
 
 <style>
-* { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f3f4f8;
-    color: #252b42;
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f2f5fb;color:#263247}
+.sidebar{width:250px;height:100vh;background:#172554;color:white;position:fixed;padding:25px 15px;overflow-y:auto}
+.sidebar h2{text-align:center;margin-bottom:30px;font-size:21px}
+.sidebar a{display:block;color:white;text-decoration:none;padding:13px 12px;margin-bottom:7px;border-radius:7px;font-size:14px}
+.sidebar a:hover,.sidebar a.active{background:#2563eb}
+.main{margin-left:250px;padding:30px}
+.header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;margin-bottom:25px}
+.header h1{color:#172554;font-size:28px}
+.header p{color:#64748b;margin-top:7px}
+.card-container{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:25px}
+.card{background:white;padding:22px;border-radius:12px;box-shadow:0 3px 12px #0000000d}
+.card h3{font-size:15px;color:#64748b;margin-bottom:12px}
+.card h2{font-size:28px;color:#1d4ed8}
+.panel{background:white;padding:25px;border-radius:12px;box-shadow:0 3px 12px #0000000d;margin-bottom:25px}
+.panel h2{margin-bottom:20px;color:#172554;font-size:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-group.full{grid-column:1/-1}
+label{font-weight:bold;font-size:14px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;font-size:14px;background:white}
+textarea{resize:vertical;min-height:100px}
+button{border:none;padding:11px 16px;border-radius:7px;cursor:pointer;font-size:14px}
+.primary-btn{background:#2563eb;color:white}
+.primary-btn:hover{background:#1d4ed8}
+.delete-btn{background:#fee2e2;color:#b91c1c}
+.delete-btn:hover{background:#fecaca}
+.table-wrapper{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:750px}
+th,td{text-align:left;padding:14px 12px;border-bottom:1px solid #e2e8f0;font-size:14px;vertical-align:top}
+th{background:#eff6ff;color:#1e3a8a}
+.rating{color:#d97706;font-weight:bold;white-space:nowrap}
+.empty-message{text-align:center;color:#64748b;padding:25px}
+.filters{display:grid;grid-template-columns:2fr 1fr;gap:15px;margin-bottom:20px}
+#message{margin-top:12px;line-height:1.5}
+@media(max-width:900px){
+.sidebar{position:relative;width:100%;height:auto}
+.sidebar a{display:inline-block}
+.main{margin-left:0;padding:18px}
 }
-
-header {
-    background: #263b80;
-    color: white;
-    text-align: center;
-    padding: 22px;
-}
-
-nav {
-    background: #192957;
-    padding: 14px;
-    text-align: center;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin: 8px;
-}
-
-.container {
-    max-width: 1000px;
-    margin: 25px auto;
-    padding: 15px;
-}
-
-.card {
-    background: white;
-    padding: 22px;
-    margin-bottom: 22px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px #0001;
-    overflow-x: auto;
-}
-
-h2 { color: #263b80; }
-
-label {
-    display: block;
-    margin-top: 14px;
-    font-weight: bold;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 11px;
-    margin-top: 6px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    background: #263b80;
-    color: white;
-    padding: 11px 18px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover { background: #4059b2; }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 550px;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-}
-
-th { background: #e6eaff; }
-
-.stars {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    width: fit-content;
-    margin-top: 8px;
-}
-
-.stars input { display: none; }
-
-.stars label {
-    margin: 0;
-    padding: 2px;
-    font-size: 32px;
-    color: #bbb;
-    cursor: pointer;
-}
-
-.stars label:hover,
-.stars label:hover ~ label,
-.stars input:checked ~ label {
-    color: #f5ad18;
-}
-
-footer {
-    background: #192957;
-    color: white;
-    text-align: center;
-    padding: 14px;
+@media(max-width:600px){
+.form-grid,.card-container,.filters{grid-template-columns:1fr}
+.form-group.full{grid-column:auto}
+.header h1{font-size:23px}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Student Feedback Module</h1>
-    <p>Share Your Experience and Help Us Improve</p>
-</header>
+<aside class="sidebar">
+<h2>🎓 College Events</h2>
 
-<nav>
-    <a href="admin-dashboard.html">Admin</a>
-    <a href="event-management.html">Events</a>
-    <a href="student-management.html">Students</a>
-    <a href="organizer-module.html">Organizer</a>
-    <a href="competition-result.html">Results</a>
-    <a href="notification-reports.html">Notifications & Reports</a>
-</nav>
+<a href="admin-dashboard.html">Admin Dashboard</a>
+<a href="event-management.html">Event Management</a>
+<a href="student-management.html">Student Management</a>
+<a href="stall-booking.html">Stall &amp; Booking</a>
+<a href="organizer-module.html">Organizer Module</a>
+<a href="competition-result.html">Competition &amp; Result</a>
+<a href="feedback-module.html" class="active">Feedback Module</a>
+<a href="notification-reports.html">Notification &amp; Reports</a>
+<a href="login.html">Logout</a>
+</aside>
 
-<div class="container">
+<main class="main">
 
-    <div class="card">
-        <h2>Submit Event Feedback</h2>
-
-        <form id="feedbackForm">
-            <label>Student Name</label>
-            <input type="text" id="studentName"
-                   placeholder="Enter your name" required>
-
-            <label>Select Event</label>
-            <select id="eventName" required>
-                <option value="">Select Event</option>
-                <option>Diwali Cultural Night</option>
-                <option>Technical Workshop</option>
-                <option>Singing Competition</option>
-                <option>Programming Quiz</option>
-            </select>
-
-            <label>Rate the Event (1 to 5 Stars)</label>
-            <div class="stars">
-                <input type="radio" id="star5" name="rating" value="5" required>
-                <label for="star5">&#9733;</label>
-
-                <input type="radio" id="star4" name="rating" value="4">
-                <label for="star4">&#9733;</label>
-
-                <input type="radio" id="star3" name="rating" value="3">
-                <label for="star3">&#9733;</label>
-
-                <input type="radio" id="star2" name="rating" value="2">
-                <label for="star2">&#9733;</label>
-
-                <input type="radio" id="star1" name="rating" value="1">
-                <label for="star1">&#9733;</label>
-            </div>
-
-            <label>Comments</label>
-            <textarea id="comments" rows="4"
-                      placeholder="Write your feedback..."
-                      required></textarea>
-
-            <button type="submit">Submit Feedback</button>
-        </form>
-
-        <p id="feedbackMessage"></p>
-    </div>
-
-    <div class="card">
-        <h2>Feedback Reports</h2>
-
-        <p>Total Feedback: <strong id="totalFeedback">2</strong></p>
-        <p>Average Rating: <strong id="averageRating">4.5 / 5</strong></p>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Student</th>
-                    <th>Event</th>
-                    <th>Rating</th>
-                    <th>Comments</th>
-                </tr>
-            </thead>
-
-            <tbody id="feedbackTable">
-                <tr>
-                    <td>Rahul Sharma</td>
-                    <td>Programming Quiz</td>
-                    <td>5 / 5</td>
-                    <td>Very interesting event.</td>
-                </tr>
-                <tr>
-                    <td>Priya Verma</td>
-                    <td>Technical Workshop</td>
-                    <td>4 / 5</td>
-                    <td>Good learning experience.</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
+<div class="header">
+<div>
+<h1>Feedback Management</h1>
+<p>View and manage student feedback for college events.</p>
+</div>
 </div>
 
-<footer>
-    <p>College Event Management System | Feedback Module</p>
-</footer>
+<section class="card-container">
+<div class="card">
+<h3>Total Feedback</h3>
+<h2 id="totalFeedback">0</h2>
+</div>
+
+<div class="card">
+<h3>Average Rating</h3>
+<h2 id="averageRating">0.0 ⭐</h2>
+</div>
+
+<div class="card">
+<h3>Positive Feedback</h3>
+<h2 id="positiveFeedback">0</h2>
+</div>
+</section>
+
+<section class="panel">
+<h2 id="formTitle">Submit Feedback</h2>
+
+<form id="feedbackForm">
+<div class="form-grid">
+
+<div class="form-group">
+<label for="studentName">Student Name</label>
+<input type="text" id="studentName" maxlength="100"
+placeholder="Enter student name" required>
+</div>
+
+<div class="form-group">
+<label for="eventName">Select Event</label>
+<select id="eventName" required>
+<option value="">Choose Event</option>
+<option value="VGI Diwali Mela 2026">VGI Diwali Mela 2026</option>
+<option value="Coding Competition">Coding Competition</option>
+<option value="Annual Sports Meet">Annual Sports Meet</option>
+<option value="Web Development Workshop">Web Development Workshop</option>
+<option value="College Stall Festival">College Stall Festival</option>
+</select>
+</div>
+
+<div class="form-group">
+<label for="rating">Rating</label>
+<select id="rating" required>
+<option value="">Select Rating</option>
+<option value="5">5 - Excellent</option>
+<option value="4">4 - Very Good</option>
+<option value="3">3 - Good</option>
+<option value="2">2 - Average</option>
+<option value="1">1 - Poor</option>
+</select>
+</div>
+
+<div class="form-group full">
+<label for="comments">Comments</label>
+<textarea id="comments" maxlength="1000"
+placeholder="Write your feedback here..." required></textarea>
+</div>
+
+<div class="form-group full">
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button type="submit" class="primary-btn" id="submitBtn">
+Submit Feedback
+</button>
+<button type="button" id="cancelEdit" hidden>
+Cancel Edit
+</button>
+</div>
+<p id="message" role="status" aria-live="polite"></p>
+</div>
+
+</div>
+</form>
+</section>
+
+<section class="panel">
+<h2>Student Feedback Records</h2>
+
+<div class="filters">
+<div>
+<label for="searchFeedback">Search Feedback</label>
+<input type="search" id="searchFeedback"
+placeholder="Search student, event or comment...">
+</div>
+
+<div>
+<label for="ratingFilter">Filter by Rating</label>
+<select id="ratingFilter">
+<option value="All">All Ratings</option>
+<option value="5">5 Stars</option>
+<option value="4">4 Stars</option>
+<option value="3">3 Stars</option>
+<option value="2">2 Stars</option>
+<option value="1">1 Star</option>
+</select>
+</div>
+</div>
+
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>Student Name</th>
+<th>Event Name</th>
+<th>Rating</th>
+<th>Comments</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="feedbackTable"></tbody>
+</table>
+</div>
+
+<p id="emptyMessage" class="empty-message" hidden>
+No feedback records found.
+</p>
+</section>
+
+</main>
 
 <script>
-let feedbackCount = 2;
-let totalRating = 9;
+const STORAGE_KEY = "collegeEventManagementFeedback";
 
-document.getElementById("feedbackForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+const demoFeedback = [
+{
+id:1,
+student:"Aarav Sharma",
+event:"Coding Competition",
+rating:5,
+comments:"Excellent event and great organization."
+},
+{
+id:2,
+student:"Priya Verma",
+event:"Annual Sports Meet",
+rating:4,
+comments:"Very enjoyable and well managed."
+},
+{
+id:3,
+student:"Rahul Singh",
+event:"Web Development Workshop",
+rating:5,
+comments:"Learned many useful things."
+}
+];
 
-    const name = document.getElementById("studentName").value.trim();
-    const event = document.getElementById("eventName").value;
-    const ratingInput = document.querySelector('input[name="rating"]:checked');
-    const comments = document.getElementById("comments").value.trim();
+function loadFeedback(){
+    try{
+        const saved = localStorage.getItem(STORAGE_KEY);
 
-    if (!ratingInput) {
-        alert("Please select a star rating.");
+        if(saved === null){
+            localStorage.setItem(STORAGE_KEY,JSON.stringify(demoFeedback));
+            return demoFeedback.map(item=>({...item}));
+        }
+
+        const data = JSON.parse(saved);
+
+        if(Array.isArray(data)) return data;
+
+    }catch(error){
+        console.error("Unable to load feedback:",error);
+    }
+
+    return demoFeedback.map(item=>({...item}));
+}
+
+let feedbackList = loadFeedback();
+let editingId = null;
+let nextId = Math.max(0,...feedbackList.map(item=>Number(item.id)||0))+1;
+
+const feedbackForm = document.getElementById("feedbackForm");
+const feedbackTable = document.getElementById("feedbackTable");
+const message = document.getElementById("message");
+
+function saveFeedback(){
+    try{
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(feedbackList));
+        return true;
+    }catch(error){
+        alert("Unable to save feedback in this browser.");
+        console.error(error);
+        return false;
+    }
+}
+
+function renderFeedback(){
+    const query = document.getElementById("searchFeedback")
+        .value.trim().toLowerCase();
+
+    const ratingFilter = document.getElementById("ratingFilter").value;
+
+    const filtered = feedbackList.filter(item=>{
+        const matchesSearch =
+            [item.student,item.event,item.comments]
+            .some(value=>String(value).toLowerCase().includes(query));
+
+        const matchesRating =
+            ratingFilter==="All" ||
+            Number(item.rating)===Number(ratingFilter);
+
+        return matchesSearch && matchesRating;
+    });
+
+    feedbackTable.innerHTML = "";
+
+    filtered.forEach(item=>{
+        const row = document.createElement("tr");
+
+        function addCell(value){
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+            return cell;
+        }
+
+        addCell(item.student);
+        addCell(item.event);
+
+        const ratingCell = addCell(
+            "⭐".repeat(Number(item.rating))+" ("+item.rating+"/5)"
+        );
+        ratingCell.className = "rating";
+
+        addCell(item.comments);
+
+        const actionCell = addCell("");
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.textContent = "Edit";
+        editButton.className = "primary-btn";
+        editButton.style.marginRight = "6px";
+        editButton.addEventListener("click",()=>editFeedback(item.id));
+        actionCell.appendChild(editButton);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "delete-btn";
+        deleteButton.addEventListener("click",()=>deleteFeedback(item.id));
+        actionCell.appendChild(deleteButton);
+
+        feedbackTable.appendChild(row);
+    });
+
+    document.getElementById("emptyMessage").hidden = filtered.length!==0;
+
+    document.getElementById("totalFeedback").textContent =
+        feedbackList.length;
+
+    const totalRating = feedbackList.reduce(
+        (sum,item)=>sum+Number(item.rating),0
+    );
+
+    const average = feedbackList.length
+        ? (totalRating/feedbackList.length).toFixed(1)
+        : "0.0";
+
+    document.getElementById("averageRating").textContent = average+" ⭐";
+
+    document.getElementById("positiveFeedback").textContent =
+        feedbackList.filter(item=>Number(item.rating)>=4).length;
+}
+
+function editFeedback(id){
+    const item = feedbackList.find(feedback=>feedback.id===id);
+    if(!item) return;
+
+    editingId = id;
+
+    document.getElementById("studentName").value = item.student;
+    document.getElementById("eventName").value = item.event;
+    document.getElementById("rating").value = String(item.rating);
+    document.getElementById("comments").value = item.comments;
+
+    document.getElementById("formTitle").textContent = "Edit Feedback";
+    document.getElementById("submitBtn").textContent = "Update Feedback";
+    document.getElementById("cancelEdit").hidden = false;
+
+    message.textContent = "Edit the details and click Update Feedback.";
+
+    document.getElementById("formTitle").scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
+}
+
+function resetForm(){
+    feedbackForm.reset();
+    editingId = null;
+
+    document.getElementById("formTitle").textContent = "Submit Feedback";
+    document.getElementById("submitBtn").textContent = "Submit Feedback";
+    document.getElementById("cancelEdit").hidden = true;
+}
+
+function deleteFeedback(id){
+    const item = feedbackList.find(feedback=>feedback.id===id);
+    if(!item) return;
+
+    if(!confirm("Delete feedback from "+item.student+"?")) return;
+
+    const oldList = feedbackList;
+    feedbackList = feedbackList.filter(feedback=>feedback.id!==id);
+
+    if(!saveFeedback()){
+        feedbackList = oldList;
         return;
     }
 
-    const rating = Number(ratingInput.value);
-    const row = document.getElementById("feedbackTable").insertRow();
+    if(editingId===id) resetForm();
 
-    [name, event, rating + " / 5", comments].forEach(function(value) {
-        const cell = row.insertCell();
-        cell.textContent = value;
-    });
+    message.textContent = "Feedback deleted successfully.";
+    renderFeedback();
+}
 
-    feedbackCount++;
-    totalRating += rating;
-
-    document.getElementById("totalFeedback").textContent = feedbackCount;
-    document.getElementById("averageRating").textContent =
-        (totalRating / feedbackCount).toFixed(1) + " / 5";
-
-    document.getElementById("feedbackMessage").textContent =
-        "Feedback submitted successfully!";
-
-    this.reset();
+document.getElementById("cancelEdit").addEventListener("click",()=>{
+    resetForm();
+    message.textContent = "Edit cancelled.";
 });
+
+feedbackForm.addEventListener("submit",function(event){
+    event.preventDefault();
+
+    const newFeedback = {
+        student:document.getElementById("studentName").value.trim(),
+        event:document.getElementById("eventName").value,
+        rating:Number(document.getElementById("rating").value),
+        comments:document.getElementById("comments").value.trim()
+    };
+
+    if(!newFeedback.student ||
+       !newFeedback.event ||
+       !Number.isInteger(newFeedback.rating) ||
+       newFeedback.rating<1 ||
+       newFeedback.rating>5 ||
+       !newFeedback.comments){
+        message.textContent = "Please fill in all fields correctly.";
+        return;
+    }
+
+    if(editingId!==null){
+        const index = feedbackList.findIndex(item=>item.id===editingId);
+
+        if(index===-1){
+            resetForm();
+            message.textContent = "Feedback record not found.";
+            return;
+        }
+
+        const oldItem = feedbackList[index];
+        feedbackList[index] = {...newFeedback,id:editingId};
+
+        if(!saveFeedback()){
+            feedbackList[index] = oldItem;
+            return;
+        }
+
+        resetForm();
+        message.textContent = "Feedback updated successfully.";
+
+    }else{
+        const newItem = {...newFeedback,id:nextId++};
+        feedbackList.unshift(newItem);
+
+        if(!saveFeedback()){
+            feedbackList = feedbackList.filter(item=>item.id!==newItem.id);
+            nextId--;
+            return;
+        }
+
+        resetForm();
+        message.textContent = "Feedback submitted successfully.";
+    }
+
+    renderFeedback();
+});
+
+document.getElementById("searchFeedback")
+    .addEventListener("input",renderFeedback);
+
+document.getElementById("ratingFilter")
+    .addEventListener("change",renderFeedback);
+
+renderFeedback();
 </script>
 
 </body>

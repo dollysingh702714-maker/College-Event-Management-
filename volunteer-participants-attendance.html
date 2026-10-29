@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Volunteer - Participants & Attendance</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    background: #172554;
+    color: white;
+    padding: 25px 15px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sidebar p {
+    text-align: center;
+    color: #cbd5e1;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 13px;
+    margin-bottom: 8px;
+    border-radius: 7px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #2563eb;
+}
+
+.main {
+    margin-left: 240px;
+    padding: 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    color: #172554;
+    font-size: 27px;
+}
+
+.header p {
+    color: #64748b;
+    margin-top: 8px;
+}
+
+.badge {
+    background: #dbeafe;
+    color: #1d4ed8;
+    padding: 11px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.card,
+.section {
+    background: white;
+    padding: 23px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px #0000000d;
+}
+
+.card p {
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.card h2 {
+    color: #2563eb;
+    font-size: 30px;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section h2 {
+    color: #172554;
+    margin-bottom: 20px;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: white;
+    font-size: 14px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+th,
+td {
+    padding: 13px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+}
+
+th {
+    background: #eff6ff;
+    color: #1e3a8a;
+}
+
+button {
+    border: none;
+    padding: 9px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 2px;
+}
+
+.present-btn {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.absent-btn {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status {
+    padding: 6px 9px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.present {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.absent {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.not-marked {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.empty {
+    text-align: center;
+    color: #64748b;
+    padding: 20px;
+}
+
+footer {
+    text-align: center;
+    color: #64748b;
+    padding: 20px;
+    font-size: 13px;
+}
+
+@media (max-width: 850px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .sidebar a {
+        display: inline-block;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 18px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+
+<aside class="sidebar">
+
+    <h2>VGI Events</h2>
+    <p>Volunteer Panel</p>
+
+    <a href="volunteer-dashboard.html">Dashboard</a>
+
+    <a href="volunteer-assigned-events.html">Assigned Events</a>
+
+    <a href="volunteer-participants-attendance.html" class="active">
+        Participants & Attendance
+    </a>
+
+    <a href="volunteer-event-status.html">Event Status</a>
+
+    <a href="login.html">Logout</a>
+
+</aside>
+
+<!-- Main Content -->
+
+<main class="main">
+
+    <header class="header">
+        <div>
+            <h1>Participants & Attendance</h1>
+            <p>View registered participants and mark their attendance.</p>
+        </div>
+
+        <span class="badge">Volunteer Panel</span>
+    </header>
+
+    <!-- Statistics -->
+
+    <section class="stats">
+
+        <div class="card">
+            <p>Total Participants</p>
+            <h2 id="totalParticipants">0</h2>
+        </div>
+
+        <div class="card">
+            <p>Present</p>
+            <h2 id="presentCount">0</h2>
+        </div>
+
+        <div class="card">
+            <p>Absent</p>
+            <h2 id="absentCount">0</h2>
+        </div>
+
+    </section>
+
+    <!-- Attendance Table -->
+
+    <section class="section">
+
+        <h2>Participant Attendance</h2>
+
+        <div class="filters">
+
+            <div>
+                <label for="eventSelect">Select Event</label>
+
+                <select id="eventSelect">
+                    <option value="all">All Events</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="search">Search Participant</label>
+
+                <input
+                    type="search"
+                    id="search"
+                    placeholder="Enter student name..."
+                >
+            </div>
+
+        </div>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Event Name</th>
+                        <th>Attendance</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="participantTable"></tbody>
+
+            </table>
+
+        </div>
+
+        <p id="emptyMessage" class="empty" hidden>
+            No participants found.
+        </p>
+
+    </section>
+
+    <footer>
+        College Event Management System | Volunteer Module
+    </footer>
+
+</main>
+
+<script>
+const PARTICIPANT_KEY =
+    "collegeEventManagementVolunteerParticipants";
+
+const EVENT_KEY =
+    "collegeEventManagementVolunteerEvents";
+
+const demoEvents = [
+    {
+        id: 1,
+        name: "VGI Diwali Mela 2026"
+    },
+    {
+        id: 2,
+        name: "Coding Competition"
+    },
+    {
+        id: 3,
+        name: "Singing Competition"
+    }
+];
+
+const demoParticipants = [
+    {
+        id: 101,
+        studentName: "Aarav Sharma",
+        eventId: 1,
+        attendance: "Not Marked"
+    },
+    {
+        id: 102,
+        studentName: "Priya Verma",
+        eventId: 1,
+        attendance: "Not Marked"
+    },
+    {
+        id: 103,
+        studentName: "Rahul Singh",
+        eventId: 2,
+        attendance: "Present"
+    },
+    {
+        id: 104,
+        studentName: "Ananya Gupta",
+        eventId: 2,
+        attendance: "Absent"
+    },
+    {
+        id: 105,
+        studentName: "Rohan Kumar",
+        eventId: 3,
+        attendance: "Not Marked"
+    }
+];
+
+function loadArray(key, defaultData) {
+    try {
+        const saved = localStorage.getItem(key);
+
+        if (saved === null) {
+            localStorage.setItem(key, JSON.stringify(defaultData));
+            return defaultData.map(item => ({ ...item }));
+        }
+
+        const parsed = JSON.parse(saved);
+
+        if (Array.isArray(parsed)) {
+            return parsed;
+        }
+    } catch (error) {
+        console.error(error);
+    }
+
+    return defaultData.map(item => ({ ...item }));
+}
+
+let events = loadArray(EVENT_KEY, demoEvents);
+let participants = loadArray(PARTICIPANT_KEY, demoParticipants);
+
+function getEventId(participant) {
+    return Number(
+        participant.eventId ??
+        participant.event_id ??
+        0
+    );
+}
+
+function getParticipantName(participant) {
+    return participant.studentName ||
+           participant.name ||
+           "Unknown Student";
+}
+
+function getAttendance(participant) {
+    const value = String(
+        participant.attendance || "Not Marked"
+    ).toLowerCase();
+
+    if (value === "present") return "Present";
+    if (value === "absent") return "Absent";
+
+    return "Not Marked";
+}
+
+function saveParticipants() {
+    try {
+        localStorage.setItem(
+            PARTICIPANT_KEY,
+            JSON.stringify(participants)
+        );
+        return true;
+    } catch (error) {
+        alert("Unable to save attendance.");
+        return false;
+    }
+}
+
+function renderEventOptions() {
+    const select = document.getElementById("eventSelect");
+    const previousValue = select.value;
+
+    select.innerHTML = "";
+
+    const allOption = document.createElement("option");
+    allOption.value = "all";
+    allOption.textContent = "All Events";
+    select.appendChild(allOption);
+
+    events.forEach(event => {
+        const option = document.createElement("option");
+        option.value = String(event.id);
+        option.textContent =
+            event.name || event.event_name || "Unnamed Event";
+
+        select.appendChild(option);
+    });
+
+    if (
+        Array.from(select.options)
+            .some(option => option.value === previousValue)
+    ) {
+        select.value = previousValue;
+    }
+}
+
+function getEventName(id) {
+    const event = events.find(item => Number(item.id) === id);
+
+    return event
+        ? event.name || event.event_name || "Unnamed Event"
+        : "Unknown Event";
+}
+
+function renderStatistics() {
+    const present = participants.filter(
+        item => getAttendance(item) === "Present"
+    ).length;
+
+    const absent = participants.filter(
+        item => getAttendance(item) === "Absent"
+    ).length;
+
+    document.getElementById("totalParticipants").textContent =
+        participants.length;
+
+    document.getElementById("presentCount").textContent = present;
+
+    document.getElementById("absentCount").textContent = absent;
+}
+
+function renderParticipants() {
+    const selectedEvent = document.getElementById("eventSelect").value;
+    const query = document.getElementById("search")
+        .value.trim().toLowerCase();
+
+    const filtered = participants.filter(participant => {
+        const eventId = getEventId(participant);
+
+        const matchesEvent =
+            selectedEvent === "all" ||
+            eventId === Number(selectedEvent);
+
+        const matchesSearch =
+            getParticipantName(participant)
+                .toLowerCase()
+                .includes(query);
+
+        return matchesEvent && matchesSearch;
+    });
+
+    const table = document.getElementById("participantTable");
+    table.innerHTML = "";
+
+    filtered.forEach(participant => {
+        const row = document.createElement("tr");
+
+        function addCell(value) {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+            return cell;
+        }
+
+        addCell(participant.studentId || participant.id);
+        addCell(getParticipantName(participant));
+        addCell(getEventName(getEventId(participant)));
+
+        const statusCell = addCell("");
+        const badge = document.createElement("span");
+
+        const attendance = getAttendance(participant);
+
+        badge.className = "status " +
+            attendance.toLowerCase().replace(" ", "-");
+
+        badge.textContent = attendance;
+        statusCell.appendChild(badge);
+
+        const actionCell = addCell("");
+
+        ["Present", "Absent"].forEach(value => {
+            const button = document.createElement("button");
+
+            button.textContent = value;
+            button.className =
+                value === "Present" ? "present-btn" : "absent-btn";
+
+            button.addEventListener("click", () => {
+                markAttendance(participant.id, value);
+            });
+
+            actionCell.appendChild(button);
+        });
+
+        table.appendChild(row);
+    });
+
+    document.getElementById("emptyMessage").hidden =
+        filtered.length > 0;
+
+    renderStatistics();
+}
+
+function markAttendance(id, value) {
+    const participant = participants.find(
+        item => String(item.id) === String(id)
+    );
+
+    if (!participant) return;
+
+    const oldValue = participant.attendance;
+    participant.attendance = value;
+
+    if (!saveParticipants()) {
+        participant.attendance = oldValue;
+        return;
+    }
+
+    renderParticipants();
+}
+
+document.getElementById("eventSelect")
+    .addEventListener("change", renderParticipants);
+
+document.getElementById("search")
+    .addEventListener("input", renderParticipants);
+
+renderEventOptions();
+renderParticipants();
+</script>
+
+</body>
+</html>

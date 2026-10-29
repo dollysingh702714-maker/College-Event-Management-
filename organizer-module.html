@@ -3,259 +3,538 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Organizer Module</title>
+<title>Organizer Module | College Event Management</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f3f6fc;color:#263247}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:250px;background:#172554;color:white;padding:25px 15px;flex-shrink:0}
+.sidebar h2{text-align:center;margin-bottom:8px}
+.sidebar p{text-align:center;color:#cbd5e1;font-size:13px;margin-bottom:25px}
+.sidebar a{display:block;color:#e2e8f0;text-decoration:none;padding:12px;margin:5px 0;border-radius:7px;font-size:14px}
+.sidebar a:hover,.sidebar a.active{background:#2563eb;color:white}
+.main{flex:1;min-width:0;padding:30px}
+.header{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:25px}
+.header h1{font-size:28px}
+.header p{color:#64748b;margin-top:7px}
+.badge{background:#dbeafe;color:#1d4ed8;padding:10px 15px;border-radius:20px;font-weight:bold}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-bottom:25px}
+.stat-card,.panel{background:white;padding:22px;border-radius:12px;box-shadow:0 3px 12px #0000000a}
+.stat-card h3{font-size:14px;color:#64748b;margin-bottom:12px}
+.stat-card h2{font-size:30px;color:#1d4ed8}
+.panel{margin-bottom:25px}
+.panel h2{margin-bottom:20px;font-size:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.form-group label{display:block;font-weight:bold;font-size:14px;margin-bottom:7px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:7px;font-size:14px;background:white}
+textarea{resize:vertical;min-height:80px}
+.full{grid-column:1/-1}
+button{border:none;border-radius:7px;padding:11px 15px;cursor:pointer;font-weight:bold}
+.primary{background:#2563eb;color:white}
+.primary:hover{background:#1d4ed8}
+.green{background:#dcfce7;color:#166534}
+.red{background:#fee2e2;color:#991b1b}
+.blue{background:#dbeafe;color:#1d4ed8}
+.gray{background:#e2e8f0;color:#334155}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1000px}
+th,td{padding:13px;border-bottom:1px solid #e2e8f0;text-align:left;font-size:14px}
+th{background:#f8fafc;color:#475569}
+.status{display:inline-block;padding:6px 9px;border-radius:15px;font-size:12px;font-weight:bold}
+.status.Assigned{background:#dbeafe;color:#1d4ed8}
+.status.Ongoing{background:#fef3c7;color:#92400e}
+.status.Completed{background:#dcfce7;color:#166534}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.actions button{padding:8px 10px;font-size:12px}
+.filters{display:grid;grid-template-columns:2fr 1fr;gap:15px;margin-bottom:20px}
+.empty{text-align:center;color:#64748b;padding:25px}
+#message{margin-top:12px;line-height:1.5}
+footer{text-align:center;color:#64748b;font-size:13px;padding:10px}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){
+.layout{flex-direction:column}
+.sidebar{width:100%}
+.sidebar a{display:inline-block}
+.main{padding:18px}
 }
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f3f4f8;
-    color: #252b42;
-}
-
-header {
-    background: #263b80;
-    color: white;
-    text-align: center;
-    padding: 22px;
-}
-
-nav {
-    background: #192957;
-    padding: 14px;
-    text-align: center;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin: 8px;
-}
-
-.container {
-    max-width: 1100px;
-    margin: 25px auto;
-    padding: 15px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    margin-bottom: 22px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px #0001;
-    overflow-x: auto;
-}
-
-h2 {
-    color: #263b80;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 650px;
-}
-
-th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-th {
-    background: #e6eaff;
-}
-
-select, button {
-    padding: 9px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-button {
-    background: #263b80;
-    color: white;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #4059b2;
-}
-
-footer {
-    background: #192957;
-    color: white;
-    text-align: center;
-    padding: 14px;
+@media(max-width:600px){
+.stats,.form-grid,.filters{grid-template-columns:1fr}
+.full{grid-column:auto}
+.header h1{font-size:23px}
 }
 </style>
 </head>
 
 <body>
+<div class="layout">
 
-<header>
-<h1>Organizer Dashboard</h1>
-<p>Manage Events, Participants and Attendance</p>   
+<aside class="sidebar">
+<h2>VGI Events</h2>
+<p>Admin Control Panel</p>
 
-</header>
+<a href="admin-dashboard.html">Admin Dashboard</a>
+<a href="event-management.html">Event Management</a>
+<a href="student-management.html">Student Management</a>
+<a href="stall-booking.html">Stall &amp; Booking</a>
+<a class="active" href="organizer-module.html">Organizer Module</a>
+<a href="competition-result.html">Competition &amp; Result</a>
+<a href="feedback-module.html">Feedback Module</a>
+<a href="notification-reports.html">Notification &amp; Reports</a>
+<a href="login.html">Logout</a>
+</aside>
 
-<nav>
-    <a href="admin-dashboard.html">Admin</a>
-    <a href="event-management.html">Events</a>
-    <a href="student-management.html">Students</a>
-    <a href="stall-booking.html">Stalls</a>
-    <a href="competition-result.html">Competition & Results</a>
-</nav>
+<main class="main">
 
-<div class="container">
-
-    <div class="card">
-        <h2>Assigned Events</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Event ID</th>
-                    <th>Event Name</th>
-                    <th>Date</th>
-                    <th>Venue</th>
-                    <th>Event Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-
-            <tbody id="eventTable">
-                <tr>
-                    <td>EV101</td>
-                    <td>Diwali Cultural Night</td>
-                    <td>05-11-2026</td>
-                    <td>Main Auditorium</td>
-                    <td class="status">Upcoming</td>
-                    <td>
-                        <select class="eventStatus">
-                            <option>Upcoming</option>
-                            <option>Ongoing</option>
-                            <option>Completed</option>
-                            <option>Cancelled</option>
-                        </select>
-                        <button onclick="updateStatus(this)">Update</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>EV102</td>
-                    <td>Technical Workshop</td>
-                    <td>08-11-2026</td>
-                    <td>Computer Lab</td>
-                    <td class="status">Upcoming</td>
-                    <td>
-                        <select class="eventStatus">
-                            <option>Upcoming</option>
-                            <option>Ongoing</option>
-                            <option>Completed</option>
-                            <option>Cancelled</option>
-                        </select>
-                        <button onclick="updateStatus(this)">Update</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="card">
-        <h2>Participants List & Attendance</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Participant ID</th>
-                    <th>Participant Name</th>
-                    <th>Assigned Event</th>
-                    <th>Attendance</th>
-                </tr>
-            </thead>
-
-            <tbody id="participantTable">
-                <tr>
-                    <td>ST101</td>
-                    <td>Rahul Sharma</td>
-                    <td>Diwali Cultural Night</td>
-                    <td>
-                        <select class="attendance">
-                            <option>Not Marked</option>
-                            <option>Present</option>
-                            <option>Absent</option>
-                        </select>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>ST102</td>
-                    <td>Priya Verma</td>
-                    <td>Technical Workshop</td>
-                    <td>
-                        <select class="attendance">
-                            <option>Not Marked</option>
-                            <option>Present</option>
-                            <option>Absent</option>
-                        </select>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>ST103</td>
-                    <td>Aman Kumar</td>
-                    <td>Diwali Cultural Night</td>
-                    <td>
-                        <select class="attendance">
-                            <option>Not Marked</option>
-                            <option>Present</option>
-                            <option>Absent</option>
-                        </select>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <button onclick="saveAttendance()">Save Attendance</button>
-        <p id="attendanceMessage"></p>
-    </div>
-
+<div class="header">
+<div>
+<h1>Organizer Module</h1>
+<p>Manage assigned events, participants and attendance.</p>
+</div>
+<span class="badge">Organizer Panel</span>
 </div>
 
-<footer>
-    <p>College Event Management System | Organizer Module</p>
-</footer>
+<section class="stats">
+<div class="stat-card">
+<h3>Total Assigned Events</h3>
+<h2 id="totalEvents">0</h2>
+</div>
+<div class="stat-card">
+<h3>Assigned Events</h3>
+<h2 id="assignedEvents">0</h2>
+</div>
+<div class="stat-card">
+<h3>Ongoing Events</h3>
+<h2 id="ongoingEvents">0</h2>
+</div>
+<div class="stat-card">
+<h3>Completed Events</h3>
+<h2 id="completedEvents">0</h2>
+</div>
+</section>
+
+<section class="panel" id="formPanel">
+<h2 id="formTitle">Add Assigned Event</h2>
+
+<form id="eventForm" class="form-grid">
+
+<div class="form-group">
+<label for="eventName">Event Name</label>
+<input type="text" id="eventName" maxlength="150" required placeholder="Enter event name">
+</div>
+
+<div class="form-group">
+<label for="organizerName">Organizer Name</label>
+<input type="text" id="organizerName" maxlength="100" required placeholder="Enter organizer name">
+</div>
+
+<div class="form-group">
+<label for="eventDate">Event Date</label>
+<input type="date" id="eventDate" required>
+</div>
+
+<div class="form-group">
+<label for="participants">Expected Participants</label>
+<input type="number" id="participants" min="0" step="1" value="0" required>
+</div>
+
+<div class="form-group">
+<label for="eventStatus">Event Status</label>
+<select id="eventStatus" required>
+<option>Assigned</option>
+<option>Ongoing</option>
+<option>Completed</option>
+</select>
+</div>
+
+<div class="form-group">
+<label for="attendance">Attendance Count</label>
+<input type="number" id="attendance" min="0" step="1" value="0" required>
+</div>
+
+<div class="form-group full">
+<label for="eventDescription">Event Description</label>
+<textarea id="eventDescription" maxlength="1000" placeholder="Enter event details"></textarea>
+</div>
+
+<div class="form-group full">
+<div class="actions">
+<button type="submit" class="primary" id="submitBtn">Add Assigned Event</button>
+<button type="button" class="gray" id="cancelBtn" hidden>Cancel Edit</button>
+</div>
+<p id="message" role="status" aria-live="polite"></p>
+</div>
+
+</form>
+</section>
+
+<section class="panel">
+<h2>Assigned Events</h2>
+
+<div class="filters">
+<div>
+<label for="searchEvent">Search Events</label>
+<input type="search" id="searchEvent" placeholder="Search event or organizer...">
+</div>
+<div>
+<label for="statusFilter">Filter by Status</label>
+<select id="statusFilter">
+<option value="All">All Statuses</option>
+<option>Assigned</option>
+<option>Ongoing</option>
+<option>Completed</option>
+</select>
+</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Organizer</th>
+<th>Date</th>
+<th>Participants</th>
+<th>Attendance</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="eventTable"></tbody>
+</table>
+</div>
+
+<p id="emptyMessage" class="empty" hidden>No events found.</p>
+</section>
+
+<footer>College Event Management System | Organizer Module</footer>
+
+</main>
+</div>
 
 <script>
-function updateStatus(button) {
-    const row = button.closest("tr");
-    const selectedStatus = row.querySelector(".eventStatus").value;
+const STORAGE_KEY = "collegeEventManagementAssignedEvents";
 
-    row.querySelector(".status").textContent = selectedStatus;
+const demoEvents = [
+{
+id:1,
+name:"VGI Diwali Mela 2026",
+organizer:"Event Team",
+date:"2026-11-02",
+participants:120,
+attendance:0,
+status:"Assigned",
+description:"Manage the college Diwali Mela."
+},
+{
+id:2,
+name:"Coding Competition",
+organizer:"Technical Team",
+date:"2026-11-15",
+participants:45,
+attendance:0,
+status:"Assigned",
+description:"Coordinate the coding competition."
+},
+{
+id:3,
+name:"Annual Sports Meet",
+organizer:"Sports Team",
+date:"2026-10-17",
+participants:80,
+attendance:75,
+status:"Completed",
+description:"Manage sports activities."
+}
+];
 
-    alert("Event status updated to: " + selectedStatus);
+function loadEvents(){
+    try{
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if(saved === null){
+            localStorage.setItem(STORAGE_KEY,JSON.stringify(demoEvents));
+            return demoEvents.map(e=>({...e}));
+        }
+
+        const data = JSON.parse(saved);
+
+        if(Array.isArray(data)) return data;
+
+    }catch(error){
+        console.error("Unable to load events:",error);
+    }
+
+    return demoEvents.map(e=>({...e}));
 }
 
-function saveAttendance() {
-    const attendanceList = document.querySelectorAll(".attendance");
-    let markedCount = 0;
+let assignedEvents = loadEvents();
+let editingId = null;
+let nextId = Math.max(0,...assignedEvents.map(e=>Number(e.id)||0))+1;
 
-    attendanceList.forEach(function(item) {
-        if (item.value !== "Not Marked") {
-            markedCount++;
-        }
+const form = document.getElementById("eventForm");
+const table = document.getElementById("eventTable");
+const message = document.getElementById("message");
+const searchInput = document.getElementById("searchEvent");
+const statusFilter = document.getElementById("statusFilter");
+
+function saveEvents(){
+    try{
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(assignedEvents));
+        return true;
+    }catch(error){
+        alert("Unable to save events in this browser.");
+        console.error(error);
+        return false;
+    }
+}
+
+function renderEvents(){
+    const query = searchInput.value.trim().toLowerCase();
+    const filter = statusFilter.value;
+
+    const filtered = assignedEvents.filter(event=>{
+        const matchesSearch =
+            [event.name,event.organizer,event.date,event.description]
+            .some(value=>String(value).toLowerCase().includes(query));
+
+        const matchesStatus = filter==="All" || event.status===filter;
+
+        return matchesSearch && matchesStatus;
     });
 
-    document.getElementById("attendanceMessage").textContent =
-        "Demo: Attendance marked for " + markedCount +
-        " participant(s).";
+    table.innerHTML = "";
+
+    filtered.forEach(event=>{
+        const row = document.createElement("tr");
+
+        function addCell(value){
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+            return cell;
+        }
+
+        addCell(event.name);
+        addCell(event.organizer);
+        addCell(event.date);
+        addCell(event.participants);
+        addCell(event.attendance);
+
+        const statusCell = addCell("");
+        const badge = document.createElement("span");
+        badge.className = "status "+event.status;
+        badge.textContent = event.status;
+        statusCell.appendChild(badge);
+
+        const actionCell = addCell("");
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        const statusButton = document.createElement("button");
+        statusButton.type = "button";
+        statusButton.className = "blue";
+        statusButton.textContent = "Next Status";
+        statusButton.addEventListener("click",()=>changeStatus(event.id));
+        actions.appendChild(statusButton);
+
+        const attendanceButton = document.createElement("button");
+        attendanceButton.type = "button";
+        attendanceButton.className = "green";
+        attendanceButton.textContent = "Attendance";
+        attendanceButton.addEventListener("click",()=>editAttendance(event.id));
+        actions.appendChild(attendanceButton);
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "gray";
+        editButton.textContent = "Edit";
+        editButton.addEventListener("click",()=>editEvent(event.id));
+        actions.appendChild(editButton);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "red";
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click",()=>deleteEvent(event.id));
+        actions.appendChild(deleteButton);
+
+        actionCell.appendChild(actions);
+        table.appendChild(row);
+    });
+
+    document.getElementById("emptyMessage").hidden = filtered.length!==0;
+
+    document.getElementById("totalEvents").textContent = assignedEvents.length;
+
+    document.getElementById("assignedEvents").textContent =
+        assignedEvents.filter(e=>e.status==="Assigned").length;
+
+    document.getElementById("ongoingEvents").textContent =
+        assignedEvents.filter(e=>e.status==="Ongoing").length;
+
+    document.getElementById("completedEvents").textContent =
+        assignedEvents.filter(e=>e.status==="Completed").length;
 }
+
+function resetForm(){
+    form.reset();
+    editingId = null;
+
+    document.getElementById("formTitle").textContent = "Add Assigned Event";
+    document.getElementById("submitBtn").textContent = "Add Assigned Event";
+    document.getElementById("cancelBtn").hidden = true;
+    document.getElementById("participants").value = 0;
+    document.getElementById("attendance").value = 0;
+}
+
+function editEvent(id){
+    const event = assignedEvents.find(e=>e.id===id);
+    if(!event) return;
+
+    editingId = id;
+
+    document.getElementById("eventName").value = event.name;
+    document.getElementById("organizerName").value = event.organizer;
+    document.getElementById("eventDate").value = event.date;
+    document.getElementById("participants").value = event.participants;
+    document.getElementById("attendance").value = event.attendance;
+    document.getElementById("eventStatus").value = event.status;
+    document.getElementById("eventDescription").value = event.description;
+
+    document.getElementById("formTitle").textContent = "Edit Assigned Event";
+    document.getElementById("submitBtn").textContent = "Update Event";
+    document.getElementById("cancelBtn").hidden = false;
+
+    message.textContent = "Edit the event details and save your changes.";
+
+    document.getElementById("formPanel").scrollIntoView({behavior:"smooth"});
+}
+
+function editAttendance(id){
+    const event = assignedEvents.find(e=>e.id===id);
+    if(!event) return;
+
+    editingId = id;
+    document.getElementById("attendance").focus();
+    editEvent(id);
+    document.getElementById("attendance").focus();
+
+    message.textContent = "Update attendance and click Update Event to save.";
+}
+
+function changeStatus(id){
+    const event = assignedEvents.find(e=>e.id===id);
+    if(!event) return;
+
+    const oldStatus = event.status;
+    const statuses = ["Assigned","Ongoing","Completed"];
+    const index = statuses.indexOf(event.status);
+
+    event.status = statuses[(index+1)%statuses.length];
+
+    if(!saveEvents()){
+        event.status = oldStatus;
+        return;
+    }
+
+    message.textContent = "Event status updated to "+event.status+".";
+    renderEvents();
+}
+
+function deleteEvent(id){
+    const event = assignedEvents.find(e=>e.id===id);
+    if(!event) return;
+
+    if(!confirm("Delete the event '"+event.name+"'?")) return;
+
+    const oldEvents = assignedEvents;
+    assignedEvents = assignedEvents.filter(e=>e.id!==id);
+
+    if(!saveEvents()){
+        assignedEvents = oldEvents;
+        return;
+    }
+
+    if(editingId===id) resetForm();
+
+    message.textContent = "Event deleted successfully.";
+    renderEvents();
+}
+
+form.addEventListener("submit",function(e){
+    e.preventDefault();
+
+    const eventData = {
+        name:document.getElementById("eventName").value.trim(),
+        organizer:document.getElementById("organizerName").value.trim(),
+        date:document.getElementById("eventDate").value,
+        participants:Number(document.getElementById("participants").value),
+        attendance:Number(document.getElementById("attendance").value),
+        status:document.getElementById("eventStatus").value,
+        description:document.getElementById("eventDescription").value.trim()
+    };
+
+    if(!eventData.name || !eventData.organizer || !eventData.date){
+        message.textContent = "Please complete all required fields.";
+        return;
+    }
+
+    if(!Number.isInteger(eventData.participants) ||
+       eventData.participants<0 ||
+       !Number.isInteger(eventData.attendance) ||
+       eventData.attendance<0 ||
+       eventData.attendance>eventData.participants){
+        message.textContent = "Attendance must be between zero and the expected participant count.";
+        return;
+    }
+
+    if(editingId!==null){
+        const index = assignedEvents.findIndex(e=>e.id===editingId);
+
+        if(index===-1){
+            resetForm();
+            message.textContent = "Event not found. Please try again.";
+            return;
+        }
+
+        const oldEvent = assignedEvents[index];
+        assignedEvents[index] = {...eventData,id:editingId};
+
+        if(!saveEvents()){
+            assignedEvents[index] = oldEvent;
+            return;
+        }
+
+        resetForm();
+        message.textContent = "Event updated successfully.";
+
+    }else{
+        const newEvent = {...eventData,id:nextId++};
+        assignedEvents.push(newEvent);
+
+        if(!saveEvents()){
+            assignedEvents = assignedEvents.filter(e=>e.id!==newEvent.id);
+            nextId--;
+            return;
+        }
+
+        resetForm();
+        message.textContent = "Assigned event added successfully.";
+    }
+
+    renderEvents();
+});
+
+document.getElementById("cancelBtn").addEventListener("click",()=>{
+    resetForm();
+    message.textContent = "Edit cancelled.";
+});
+
+searchInput.addEventListener("input",renderEvents);
+statusFilter.addEventListener("change",renderEvents);
+
+renderEvents();
 </script>
 
 </body>

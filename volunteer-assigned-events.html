@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Volunteer Assigned Events</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #172554;
+    color: white;
+    padding: 25px 15px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sidebar p {
+    text-align: center;
+    color: #cbd5e1;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 13px;
+    border-radius: 7px;
+    margin-bottom: 8px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #2563eb;
+}
+
+.main {
+    margin-left: 240px;
+    padding: 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    color: #172554;
+    font-size: 28px;
+}
+
+.header p {
+    margin-top: 8px;
+    color: #64748b;
+}
+
+.profile {
+    background: #dbeafe;
+    color: #1d4ed8;
+    padding: 12px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px #0000000d;
+}
+
+.card p {
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+.card h2 {
+    color: #2563eb;
+    font-size: 30px;
+}
+
+.section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px #0000000d;
+}
+
+.section h2 {
+    color: #172554;
+    margin-bottom: 20px;
+}
+
+.filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+input,
+select {
+    padding: 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+input {
+    flex: 1;
+    min-width: 150px;
+}
+
+button {
+    padding: 10px 13px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.primary {
+    background: #2563eb;
+    color: white;
+}
+
+.green {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th,
+td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+}
+
+th {
+    background: #eff6ff;
+    color: #1e3a8a;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 9px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.upcoming {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.ongoing {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.completed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.empty {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+@media (max-width: 850px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .sidebar a {
+        display: inline-block;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 18px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+
+<aside class="sidebar">
+
+    <h2>VGI Events</h2>
+    <p>Volunteer Panel</p>
+
+    <a href="volunteer-dashboard.html">
+        Dashboard
+    </a>
+
+    <a href="volunteer-assigned-events.html" class="active">
+        Assigned Events
+    </a>
+
+    <a href="volunteer-dashboard.html#participants">
+        Participants & Attendance
+    </a>
+
+    <a href="login.html">
+        Logout
+    </a>
+
+</aside>
+
+<!-- Main Content -->
+
+<main class="main">
+
+    <header class="header">
+        <div>
+            <h1>Assigned Events</h1>
+            <p>View and manage your assigned college events.</p>
+        </div>
+
+        <span class="profile">Volunteer Panel</span>
+    </header>
+
+    <!-- Statistics -->
+
+    <section class="stats">
+
+        <div class="card">
+            <p>Total Assigned Events</p>
+            <h2 id="totalEvents">0</h2>
+        </div>
+
+        <div class="card">
+            <p>Upcoming Events</p>
+            <h2 id="upcomingEvents">0</h2>
+        </div>
+
+        <div class="card">
+            <p>Completed Events</p>
+            <h2 id="completedEvents">0</h2>
+        </div>
+
+    </section>
+
+    <!-- Events Table -->
+
+    <section class="section">
+
+        <h2>My Assigned Events</h2>
+
+        <div class="filters">
+
+            <input
+                type="search"
+                id="search"
+                placeholder="Search event name or venue..."
+            >
+
+            <select id="statusFilter">
+                <option value="All">All Statuses</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Ongoing">Ongoing</option>
+                <option value="Completed">Completed</option>
+            </select>
+
+        </div>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Date</th>
+                        <th>Venue</th>
+                        <th>Participants</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="eventTable"></tbody>
+
+            </table>
+
+        </div>
+
+        <p id="emptyMessage" class="empty" hidden>
+            No events found.
+        </p>
+
+    </section>
+
+    <footer>
+        College Event Management System | Volunteer Module
+    </footer>
+
+</main>
+
+<script>
+const STORAGE_KEY = "collegeEventManagementVolunteerEvents";
+
+const demoEvents = [
+    {
+        id: 1,
+        name: "VGI Diwali Mela 2026",
+        date: "2026-11-02",
+        venue: "Sports Ground, VGI",
+        participants: 50,
+        status: "Upcoming"
+    },
+    {
+        id: 2,
+        name: "Coding Competition",
+        date: "2026-11-15",
+        venue: "Computer Lab",
+        participants: 30,
+        status: "Upcoming"
+    },
+    {
+        id: 3,
+        name: "Singing Competition",
+        date: "2026-10-20",
+        venue: "College Auditorium",
+        participants: 25,
+        status: "Completed"
+    }
+];
+
+function loadEvents() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (saved === null) {
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(demoEvents)
+            );
+
+            return demoEvents.map(event => ({ ...event }));
+        }
+
+        const parsed = JSON.parse(saved);
+
+        if (Array.isArray(parsed)) {
+            return parsed.map(event => ({
+                ...event,
+                name: event.name || event.event_name || "Unnamed Event",
+                date: event.date || event.event_date || "",
+                venue: event.venue || "Not specified",
+                participants: Number(event.participants || 0),
+                status: normalizeStatus(event.status)
+            }));
+        }
+    } catch (error) {
+        console.error("Unable to load events:", error);
+    }
+
+    return demoEvents.map(event => ({ ...event }));
+}
+
+function normalizeStatus(status) {
+    const value = String(status || "Upcoming").toLowerCase();
+
+    if (value === "ongoing") return "Ongoing";
+    if (value === "completed") return "Completed";
+
+    return "Upcoming";
+}
+
+let events = loadEvents();
+
+function saveEvents() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+        return true;
+    } catch (error) {
+        alert("Unable to save changes in this browser.");
+        return false;
+    }
+}
+
+function updateStatistics() {
+    document.getElementById("totalEvents").textContent =
+        events.length;
+
+    document.getElementById("upcomingEvents").textContent =
+        events.filter(event => event.status === "Upcoming").length;
+
+    document.getElementById("completedEvents").textContent =
+        events.filter(event => event.status === "Completed").length;
+}
+
+function renderEvents() {
+    const query = document.getElementById("search")
+        .value.trim().toLowerCase();
+
+    const filter = document.getElementById("statusFilter").value;
+
+    const filtered = events.filter(event => {
+        const matchesSearch =
+            event.name.toLowerCase().includes(query) ||
+            event.venue.toLowerCase().includes(query);
+
+        const matchesStatus =
+            filter === "All" || event.status === filter;
+
+        return matchesSearch && matchesStatus;
+    });
+
+    const table = document.getElementById("eventTable");
+    table.innerHTML = "";
+
+    filtered.forEach(event => {
+        const row = document.createElement("tr");
+
+        function addCell(value) {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+            return cell;
+        }
+
+        addCell(event.name);
+        addCell(event.date);
+        addCell(event.venue);
+        addCell(event.participants);
+
+        const statusCell = addCell("");
+        const badge = document.createElement("span");
+
+        badge.className = "status " + event.status.toLowerCase();
+        badge.textContent = event.status;
+
+        statusCell.appendChild(badge);
+
+        const actionCell = addCell("");
+        const button = document.createElement("button");
+
+        button.className = "primary";
+        button.textContent = "Update Status";
+
+        button.addEventListener("click", () => {
+            updateStatus(event.id);
+        });
+
+        actionCell.appendChild(button);
+        table.appendChild(row);
+    });
+
+    document.getElementById("emptyMessage").hidden =
+        filtered.length > 0;
+
+    updateStatistics();
+}
+
+function updateStatus(id) {
+    const event = events.find(item => item.id === id);
+
+    if (!event) return;
+
+    const statuses = ["Upcoming", "Ongoing", "Completed"];
+    const oldStatus = event.status;
+
+    const currentIndex = statuses.indexOf(event.status);
+
+    event.status = statuses[(currentIndex + 1) % statuses.length];
+
+    if (!saveEvents()) {
+        event.status = oldStatus;
+        return;
+    }
+
+    renderEvents();
+}
+
+document.getElementById("search")
+    .addEventListener("input", renderEvents);
+
+document.getElementById("statusFilter")
+    .addEventListener("change", renderEvents);
+
+renderEvents();
+</script>
+
+</body>
+</html>

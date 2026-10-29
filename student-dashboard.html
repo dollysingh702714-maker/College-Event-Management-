@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #172554;
+            color: white;
+            position: fixed;
+            padding: 25px 15px;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 21px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px 12px;
+            margin-bottom: 8px;
+            border-radius: 7px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #2563eb;
+        }
+
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .header,
+        .welcome,
+        .card {
+            border-radius: 12px;
+            margin-bottom: 22px;
+        }
+
+        .header {
+            background: white;
+            padding: 22px;
+        }
+
+        .header h1 {
+            color: #172554;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #64748b;
+        }
+
+        .welcome {
+            background: #2563eb;
+            color: white;
+            padding: 28px;
+        }
+
+        .welcome h2 {
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            line-height: 1.6;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            box-shadow: 0 3px 12px #0000000d;
+        }
+
+        .card h3 {
+            color: #172554;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .section {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 25px;
+        }
+
+        .section h2 {
+            color: #172554;
+            margin-bottom: 12px;
+        }
+
+        .section p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Student Sidebar -->
+    <aside class="sidebar">
+
+        <h2>🎓 Student Panel</h2>
+
+        <a href="#dashboard" class="active">🏠 Dashboard</a>
+
+        <a href="student-events.html">🎉 Event Management</a>
+
+        <a href="#registrations">📝 My Registrations</a>
+
+        <a href="student-stall-registration.html">🏪 Stall Registration</a>
+
+        <a href="student-feedback.html">⭐ Feedback Module</a>
+
+        <a href="student-notifications.html">🔔 Notifications</a>
+
+        <a href="login.html">🚪 Logout</a>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <header class="header" id="dashboard">
+            <h1>Student Dashboard</h1>
+            <p>College Event Management System</p>
+        </header>
+
+        <section class="welcome">
+            <h2>Welcome, Student! 👋</h2>
+
+            <p>
+                Explore college events, register for your favourite events,
+                apply for stalls and share your feedback.
+            </p>
+        </section>
+
+        <!-- Student Modules -->
+        <section class="cards">
+
+            <div class="card">
+                <h3>🎉 Event Management</h3>
+                <p>
+                    View upcoming events, dates, venues and event details.
+                    Register for events you want to attend.
+                </p>
+                <a class="btn" href="student-events.html">
+                    Explore Events
+                </a>
+            </div>
+
+            <div class="card" id="registrations">
+                <h3>📝 My Registrations</h3>
+                <p>
+                    Check your event registration details and application status.
+                </p>
+                <a class="btn" href="student-events.html#my-registrations">
+                    View Registrations
+                </a>
+            </div>
+
+            <div class="card">
+                <h3>🏪 Stall Registration</h3>
+                <p>
+                    Apply for a college fest stall and check your application status.
+                </p>
+                <a class="btn" href="student-stall-registration.html">
+                    Apply for Stall
+                </a>
+            </div>
+
+            <div class="card">
+                <h3>⭐ Feedback Module</h3>
+                <p>
+                    Share your experience and submit feedback about college events.
+                </p>
+                <a class="btn" href="student-feedback.html">
+                    Submit Feedback
+                </a>
+            </div>
+
+            <div class="card">
+                <h3>🔔 Notifications</h3>
+                <p>
+                    Read college event announcements and important updates.
+                </p>
+                <a class="btn" href="student-notifications.html">
+                    View Notifications
+                </a>
+            </div>
+
+        </section>
+
+        <section class="section">
+            <h2>📌 Important Note</h2>
+            <p>
+                Students can view events, register for events, apply for stalls
+                and submit feedback. Only administrators can add, edit or delete
+                events and manage other students.
+            </p>
+        </section>
+
+    </main>
+
+</body>
+</html>
